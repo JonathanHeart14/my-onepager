@@ -1,0 +1,74 @@
+/* =========================
+   Base
+========================= */
+* { box-sizing: border-box }
+html, body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.5 system-ui, Segoe UI, Roboto;
+}
+
+:root { --bg:#0b0b0b; --fg:#ececec; --muted:#bdbdbd; --accent:#e63946; }
+
+.wrap { max-width:1600px; margin:auto; padding:24px }
+header { padding:56px 24px 24px }
+h1 { font-size:42px; margin:0 0 8px }
+h2 { margin:24px 0 12px }
+nav a { margin-right:16px; color:var(--muted); text-decoration:none }
+nav a:hover { color:var(--fg) }
+.small { color:var(--muted); font-size:14px }
+
+/* =========================
+   EMBEDS
+========================= */
+.embed {
+  margin:16px 0;
+  --radius:12px;
+  --player-height:380px; /* Default für fixe Player */
+  position:relative;
+}
+
+/* Iframe-Grundstil */
+.embed iframe {
+  width:100%;
+  height:100%;
+  border:0;
+  border-radius:var(--radius);
+  display:block;
+}
+
+/* ---- Größen-Profile ---- */
+.embed.xs { height:152px;  --player-height:152px; }
+.embed.s  { height:352px;  --player-height:352px; }
+.embed.m  { height:380px;  --player-height:380px; }
+.embed.l  { height:500px;  --player-height:500px; }
+
+/* ---- Defaults (wenn keine Größe gesetzt) ---- */
+/* Videos bleiben 16:9 */
+:where(.embed.youtube, .embed.vimeo):not(.s,.m,.l) {
+  aspect-ratio:16/9;
+}
+/* Spotify & Co. nutzen fixe Höhe */
+:where(.embed.spotify, .embed.soundcloud, .embed.bandcamp):not(.s,.m,.l) iframe {
+  height:var(--player-height);
+}
+
+/* =========================
+   GRID
+========================= */
+#work .grid {
+  display:grid;
+  gap:16px;
+  align-items:stretch;
+}
+@media (min-width:900px) {
+  #work .grid { grid-template-columns:1fr 1fr; }
+}
+
+/* =========================
+   Responsive Tweaks
+========================= */
+@media (max-width:600px) {
+  .embed { --player-height:320px; }
+}

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>Jonathan Heart – Producer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Music Producer · Mixing · Sound Design" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="wrap">
+    <h1>Jonathan Heart</h1>
+    <p>Music Producer · Mixing · Sound Design</p>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section id="work" class="wrap">
+    <h2>Selected Work</h2>
+
+    <div class="grid">
+      <!-- YouTube Playlist (responsiv 16:9 via CSS) -->
+      <div class="embed youtube m">
+        <iframe
+          src="https://www.youtube.com/embed/videoseries?list=PLZ9_bYvqaX1mE9yNeDKvtmUSBcP1xUmkL"
+          title="YouTube Playlist"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <!-- Spotify Playlist (fixe Höhe via CSS-Variable; Größe mit .s/.m/.l steuerbar) -->
+      <div class="embed spotify xs">
+        <iframe
+          src="https://open.spotify.com/embed/playlist/3Dx1Mv3YxzqyDBACvLPxs4?utm_source=generator"
+          loading="lazy"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="wrap">
+    <h2>About</h2>
+    <p>Kurzbeschreibung deiner Musik, Genres, Credits usw. bester Mann</p>
+  </section>
+
+  <section id="contact" class="wrap">
+    <h2>Contact</h2>
+    <p>Mail: <a href="mailto:booking@deinedomain.com">booking@deinedomain.com</a></p>
+  </section>
+
+  <footer class="wrap small">
+    © <span id="y"></span> Jonathan Heart
+  </footer>
+  <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
+</body>
+</html>
