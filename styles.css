@@ -7,6 +7,13 @@ html, body {
   background: var(--bg);
   color: var(--fg);
   font: 16px/1.5 system-ui, Segoe UI, Roboto;
+
+  /* Hintergrundbild-Einstellungen */
+  background-image: url("assets/img/Background.png");
+  background-repeat: no-repeat;
+  background-size: cover;                 /* füllt den gesamten Bildschirm */
+  background-attachment: fixed;           /* bleibt beim Scrollen stehen */
+  background-position: center;            /* zentriert das Bild */
 }
 
 :root { --bg:#0b0b0b; --fg:#ececec; --muted:#bdbdbd; --accent:#e63946; }
@@ -71,4 +78,48 @@ nav a:hover { color:var(--fg) }
 ========================= */
 @media (max-width:600px) {
   .embed { --player-height:320px; }
+}
+
+/* =========================
+   IMAGES
+   ========================= */
+
+   /* Universelle Bildklasse – responsive, passt sich an Container an */
+.content-img {
+  max-width: 300px;
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+/* Responsive Images – Bilder werden nie breiter als ihr Container */
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Media Images – gedacht für eingebettete Medienbilder, z.B. Logos oder Cover */
+.media-img {
+  max-width: 200px;
+  height: auto;
+  display: block;
+  margin: 0 auto; /* zentriert im Container */
+}
+
+/* Section Images – für Bilder, die zu ganzen Inhaltsabschnitten gehören */
+.section-img {
+  max-width: 600px;
+  width: 100%;
+  height: auto;
+  margin: 24px 0;
+  display: block;
+}
+
+/* Generic Image – neutrale Basis-Klasse, falls kein spezieller Style gebraucht wird */
+.image {
+  max-width: 100%;
+  height: auto;
+  display: inline-block;
 }
