@@ -12,12 +12,14 @@
     <!-- Fixed Top Navigation -->
     <header class="site-nav">
       <nav class="wrap">
+        <!-- Weißes Haus-Icon als SVG -->
         <a href="#top" class="home-link" aria-label="Home">
-          <!-- Weißes Haus-Icon als SVG -->
           <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
             <path d="M3 9.5l9-7 9 7V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
           </svg>
         </a>
+
+        <!-- Rechts: Navigation-->
         <ul class="nav-list">
           <li><a href="#about">About</a></li>
           <li><a href="#music">Music</a></li>
@@ -25,6 +27,9 @@
           <li><a href="#work">Work</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
+
+        <!-- Burger-Button (nur sichtbar auf Mobile) -->
+        <button class="burger" aria-label="Menu">☰</button>
       </nav>
     </header>
 
@@ -88,6 +93,16 @@
       © <span id="y"></span> Jonathan Heart
     </footer>
     <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
+
+<!-- Java Scripts-->
+    <script>
+      const burger = document.querySelector('.burger');
+      const nav = document.querySelector('.nav-list');
+
+      burger.addEventListener('click', () => {
+        nav.classList.toggle('show');
+      });
+    </script>
 
 
   </body>

@@ -12,6 +12,7 @@ html {
   --muted:#bdbdbd;
   --accent:#e63946;
   --header-h: 64px;
+  --burgerbg: #0e1b23;
 }
 
 html, body {
@@ -58,27 +59,65 @@ nav a:hover { color:var(--fg) }
   height: var(--header-h);
   display: flex; align-items: center;
   padding: 0 24px;
-  background: color-mix(in oklab, var(--bg) 70%, transparent);
+  background: color-mix(in oklab, var(--bg) 50%, transparent);
   backdrop-filter: blur(6px);
   z-index: 50;
   border-bottom: 1px solid color-mix(in oklab, var(--fg) 12%, transparent);
 }
+
 .site-nav .wrap{
   max-width: none;
   width: 100%;
   margin: 0;
   padding: 0;
   display:flex;
-  justify-content:flex-end;
   align-items:center;
 }
+
 .nav-list{
-  display:flex; gap:20px; list-style:none; margin:0; padding:0;
+  display:flex;
+  gap:20px;
+  list-style:none;
+  margin:0;
+  padding:0;
 }
 .nav-list a{
   color: var(--muted); text-decoration:none; font-weight:500;
 }
+
 .nav-list a:hover{ color: var(--fg); }
+
+.burger {
+  display: none;       /* wird erst auf Mobile sichtbar */
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: var(--fg);
+}
+
+@media (max-width: 768px) {
+  .nav-list {
+    display: none;            /* normale Links verstecken */
+    position: absolute;
+    top: var(--header-h);
+    right: 0;
+    background: var(--burgerbg);
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 24px;
+    border: 1px solid color-mix(in oklab, var(--fg) 15%, transparent);
+  }
+
+  .nav-list.show {
+    display: flex;            /* sichtbar, wenn per JS getoggelt */
+  }
+
+  .burger {
+    display: block;           /* Burger sichtbar machen */
+  }
+
+}
 
 /* Sektionen sollen beim Ankern nicht unter die fixe Nav rutschen */
 .section { scroll-margin-top: calc(var(--header-h) + 16px); }
@@ -88,10 +127,12 @@ nav a:hover { color:var(--fg) }
 ========================= */
 .hero.landing{
   min-height: calc(100dvh - var(--header-h)); /* volle Höhe unter Topbar */
-  display: grid; place-items: center;
+  display: grid;
+  place-items: center;
   text-align: center;
   padding: 24px;
-  background: var(--bg); /* neutral – optional unten Bild aktivieren */
+  background: url("assets/img/Background.png") no-repeat center/cover;
+  /* background: var(--bg); /* neutral – optional unten Bild aktivieren */
 }
 .hero-inner{ margin-top: calc(var(--header-h) * 0.5); }
 .hero-title{
