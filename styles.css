@@ -2,14 +2,24 @@
    Base
 ========================= */
 * { box-sizing: border-box }
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --bg:#0b0b0b;
+  --fg:#ececec;
+  --muted:#bdbdbd;
+  --accent:#e63946;
+  --header-h: 64px;
+}
+
 html, body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
   font: 16px/1.5 system-ui, Segoe UI, Roboto;
 }
-
-:root { --bg:#0b0b0b; --fg:#ececec; --muted:#bdbdbd; --accent:#e63946; }
 
 .wrap { max-width:1600px; margin:auto; padding:24px }
 header { padding:56px 24px 24px }
@@ -18,6 +28,96 @@ h2 { margin:24px 0 12px }
 nav a { margin-right:16px; color:var(--muted); text-decoration:none }
 nav a:hover { color:var(--fg) }
 .small { color:var(--muted); font-size:14px }
+
+/* =========================
+   Fixed Top Navigation (rechtsbündig)
+   – neue Klassen für deine gewünschte Topbar
+========================= */
+/* Home-Link (links in der Leiste) */
+.home-link {
+  margin-right: auto;             /* alles rechts vom Haus wird nach rechts geschoben */
+  display: flex;
+  align-items: center;
+  padding: 0 0px;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.home-link:hover {
+  color: var(--accent);            /* Farbe beim Hovern (rot z.B.) */
+}
+
+.home-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.site-nav{
+  position: fixed; inset: 0 0 auto 0;
+  height: var(--header-h);
+  display: flex; align-items: center;
+  padding: 0 24px;
+  background: color-mix(in oklab, var(--bg) 70%, transparent);
+  backdrop-filter: blur(6px);
+  z-index: 50;
+  border-bottom: 1px solid color-mix(in oklab, var(--fg) 12%, transparent);
+}
+.site-nav .wrap{
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+}
+.nav-list{
+  display:flex; gap:20px; list-style:none; margin:0; padding:0;
+}
+.nav-list a{
+  color: var(--muted); text-decoration:none; font-weight:500;
+}
+.nav-list a:hover{ color: var(--fg); }
+
+/* Sektionen sollen beim Ankern nicht unter die fixe Nav rutschen */
+.section { scroll-margin-top: calc(var(--header-h) + 16px); }
+
+/* =========================
+   Landing Hero (zentrierter Name + Subtitle)
+========================= */
+.hero.landing{
+  min-height: calc(100dvh - var(--header-h)); /* volle Höhe unter Topbar */
+  display: grid; place-items: center;
+  text-align: center;
+  padding: 24px;
+  background: var(--bg); /* neutral – optional unten Bild aktivieren */
+}
+.hero-inner{ margin-top: calc(var(--header-h) * 0.5); }
+.hero-title{
+  font-size: clamp(42px, 8vw, 96px);
+  line-height: 1.05;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.5px;
+}
+.hero-subtitle{
+  color: var(--muted);
+  font-size: clamp(16px, 2.5vw, 22px);
+  margin: 0;
+}
+
+/* Optional: Hintergrundbild für Hero aktivieren (Desktop/Mobile getrennt) */
+/*
+.hero.landing{
+  background: url("assets/img/header-desktop.jpg") no-repeat center/cover;
+}
+@media (max-width: 768px){
+  .hero.landing{
+    background-image: url("assets/img/header-mobile.jpg");
+    background-position: center top;
+  }
+}
+*/
 
 /* =========================
    Hero Section
