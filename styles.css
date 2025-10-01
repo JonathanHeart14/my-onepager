@@ -7,10 +7,10 @@ html {
 }
 
 :root {
-  --bg:#0b0b0b;
+  --bg:#041419;
   --fg:#ececec;
   --muted:#bdbdbd;
-  --accent:#e63946;
+  --accent:#235ac0;
   --header-h: 64px;
   --burgerbg: #0e1b23;
 }
@@ -96,13 +96,17 @@ nav a:hover { color:var(--fg) }
   color: var(--fg);
 }
 
+.burger:hover {
+  color: var(--accent);            /* Farbe beim Hovern (rot z.B.) */
+}
+
 @media (max-width: 768px) {
   .nav-list {
     display: none;            /* normale Links verstecken */
     position: absolute;
     top: var(--header-h);
     right: 0;
-    background: var(--burgerbg);
+    background: var(--bg);
     flex-direction: column;
     gap: 16px;
     padding: 16px 24px;
@@ -131,7 +135,7 @@ nav a:hover { color:var(--fg) }
   place-items: center;
   text-align: center;
   padding: 24px;
-  background: url("assets/img/Background.png") no-repeat center/cover;
+  background: url("assets/img/Background_blended.png") no-repeat center/cover;
   /* background: var(--bg); /* neutral – optional unten Bild aktivieren */
 }
 .hero-inner{ margin-top: calc(var(--header-h) * 0.5); }
@@ -145,6 +149,33 @@ nav a:hover { color:var(--fg) }
   color: var(--muted);
   font-size: clamp(16px, 2.5vw, 22px);
   margin: 0;
+}
+
+.social-links {
+  margin-top: 24px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.social-links a {
+  color: var(--fg); /* Standard: Weiß */
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.icon-mask {
+  --icon: none;
+  width: 28px;
+  height: 28px;
+  background-color: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+.social-links a:hover {
+  color: var(--accent); /* Hover: Rot (deine Akzentfarbe) */
 }
 
 /* Optional: Hintergrundbild für Hero aktivieren (Desktop/Mobile getrennt) */
