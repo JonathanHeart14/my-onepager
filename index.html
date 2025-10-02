@@ -430,12 +430,38 @@
       lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
 
       // Keyboard: ESC, ← →
-      document.addEventListener('keydown', (e) => {
+      // document.addEventListener('keydown', (e) => {
+      //  if (lb.hidden) return;
+      //  if (e.key === 'Escape') closeLightbox();
+      //  if (e.key === 'ArrowLeft') show(idx - 1);
+      //  if (e.key === 'ArrowRight') show(idx + 1);
+      // });
+
+      function onLightboxKeydown(e) {
         if (lb.hidden) return;
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowLeft') show(idx - 1);
-        if (e.key === 'ArrowRight') show(idx + 1);
-      });
+
+        // Harte Blockade für Safari/macOS, damit ESC nicht das App-Vollbild verlässt
+        if (e.key === 'Escape' || e.key === 'Esc') {
+          e.preventDefault();
+          e.stopPropagation();
+          if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+          closeLightbox();
+          return;
+        }
+
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          e.stopPropagation();
+          show(idx - 1);
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          e.stopPropagation();
+          show(idx + 1);
+        }
+      }
+
+      // WICHTIG: capture:true, damit wir vor anderen Listenern/Browserevents drankommen
+      window.addEventListener('keydown', onLightboxKeydown, { capture: true });
 
       // Touch-Swipe
       lb.addEventListener('touchstart', (e) => {
