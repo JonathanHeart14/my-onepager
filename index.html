@@ -199,13 +199,20 @@
     <section id="studio" class="wrap section">
       <h2>Studio</h2>
 
-      <div id="gallery" class="grid gallery-grid"></div>
-      <button id="gallery-more" class="btn-more" hidden>Load more</button>
+      <div class="gallery-layout">
+        <div id="gallery" class="gallery-grid"></div>
+          <aside class="gallery-footer">
+            <button id="gallery-more" class="btn-more" hidden>Load more</button>
+          </aside>
+        </div>
 
-      <!-- Lightbox -->
+      <!-- Lightbox mit Navigation -->
       <div id="lightbox" class="lightbox" hidden>
         <button class="lb-close" aria-label="Close">×</button>
+        <button class="lb-nav lb-prev" aria-label="Previous">‹</button>
         <img id="lightbox-img" alt="">
+        <button class="lb-nav lb-next" aria-label="Next">›</button>
+        <div class="lb-counter"><span id="lb-i">1</span>/<span id="lb-n">1</span></div>
       </div>
         <!-- Leistungen/Referenzen -->
     </section>
@@ -304,11 +311,14 @@
       const grid = document.querySelector('#gallery');
       const btn  = document.querySelector('#gallery-more');
 
-      const PAGE = 9;
-      const BASE = 'assets/img/gallery/Studio%20Bilder/'; // Leerzeichen → %20
+      const PAGE = 3; // initial 3 Bilder, bleibt wie bei dir
+      const BASE = 'assets/img/gallery/Studio%20Bilder/';
       const EXT  = 'jpg';
 
       let items = [], i = 0;
+      let anchors = [];   // <a.photo>-Liste
+      let idx = 0;        // aktueller Index in Lightbox
+      let touchStartX = null;
 
       try {
         const res = await fetch(`${BASE}manifest.json`);
@@ -317,35 +327,130 @@
         console.warn('No gallery manifest', e);
       }
 
-      const fullPath = (id) => `${BASE}full/${id}.${EXT}`;
+      const fullPath = id => `${BASE}full/${id}.${EXT}`;
+
+      function refreshAnchors(){
+        anchors = Array.from(grid.querySelectorAll('a.photo'));
+        anchors.forEach((a, k) => a.dataset.index = String(k)); // k == Index in items für bisher gerenderte
+        // lbN NICHT hier setzen
+      }
+
+      grid.addEventListener('click', (e) => {
+        const a = e.target.closest('a.photo');
+        if (!a) return;
+        e.preventDefault();
+        openLightbox(parseInt(a.dataset.index || '0', 10)); // <- dieser Index gilt jetzt global in items
+      });
 
       function renderNext(n = PAGE) {
         const slice = items.slice(i, i + n);
-        slice.forEach((it, idx) => {
-          const id = it.id || it.file?.replace(/\.\w+$/, '');
+        slice.forEach((it) => {
+          const id  = it.id || it.file?.replace(/\.\w+$/, '');
           const alt = it.alt || '';
           const a = document.createElement('a');
           a.className = 'photo';
           a.href = fullPath(id);
           a.dataset.full = a.href;
-          // Nur FULL-Bild, aber lazy:
           a.innerHTML = `<img loading="lazy" decoding="async" src="${fullPath(id)}" alt="${alt}">`;
           grid.appendChild(a);
         });
         i += slice.length;
         btn.hidden = i >= items.length;
+        refreshAnchors();
       }
 
-      // Lightbox
-      const lb = document.getElementById('lightbox');
+      // --- Lightbox Logik ---
+      const lb    = document.getElementById('lightbox');
       const lbImg = document.getElementById('lightbox-img');
-      document.querySelector('.lb-close').addEventListener('click', () => { lb.hidden = true; lbImg.src=''; });
-      lb.addEventListener('click', (e) => { if (e.target === lb) { lb.hidden = true; lbImg.src=''; }});
+      const lbClose = document.querySelector('.lb-close');
+      const lbPrev  = document.querySelector('.lb-prev');
+      const lbNext  = document.querySelector('.lb-next');
+      const lbI     = document.getElementById('lb-i');
+      const lbN     = document.getElementById('lb-n');
+      if (lbN) lbN.textContent = String(items.length);
+
+      function show(index){
+        if (!items.length) return;
+
+        // wrap-around über die *gesamte* Anzahl
+        if (index < 0) index = items.length - 1;
+        if (index >= items.length) index = 0;
+        idx = index;
+
+        // aktuellen Eintrag aus items holen
+        const it = items[idx];
+        const id  = it.id || it.file?.replace(/\.\w+$/, '');
+        const alt = it.alt || '';
+
+        const src = fullPath(id);
+
+        lbImg.src = '';
+        lbImg.alt = alt;
+        lbImg.src = src;
+
+        // Counter: aktuelle Position / Gesamt
+        lbI.textContent = String(idx + 1);
+        lbN.textContent = String(items.length);
+
+        // Preload next/prev (ebenfalls über items, nicht anchors)
+        const nextIdx = (idx + 1) % items.length;
+        const prevIdx = (idx - 1 + items.length) % items.length;
+        const nextId  = items[nextIdx].id || items[nextIdx].file?.replace(/\.\w+$/, '');
+        const prevId  = items[prevIdx].id || items[prevIdx].file?.replace(/\.\w+$/, '');
+        new Image().src = fullPath(nextId);
+        new Image().src = fullPath(prevId);
+      }
+
+      function openLightbox(index){
+        document.body.classList.add('lb-open');
+        lb.hidden = false;
+        show(index);
+      }
+
+      function closeLightbox(){
+        lb.hidden = true;
+        lbImg.src = '';
+        document.body.classList.remove('lb-open');
+      }
+
+      // Klick auf Thumbnail -> Lightbox öffnen
       grid.addEventListener('click', (e) => {
-        const a = e.target.closest('a.photo'); if (!a) return;
-        e.preventDefault(); lb.hidden = false; lbImg.src = a.dataset.full;
+        const a = e.target.closest('a.photo');
+        if (!a) return;
+        e.preventDefault();
+        openLightbox(parseInt(a.dataset.index || '0', 10));
       });
 
+      // Buttons
+      lbClose.addEventListener('click', closeLightbox);
+      lbPrev.addEventListener('click', () => show(idx - 1));
+      lbNext.addEventListener('click', () => show(idx + 1));
+
+      // Overlay-Klick schließt
+      lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
+
+      // Keyboard: ESC, ← →
+      document.addEventListener('keydown', (e) => {
+        if (lb.hidden) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') show(idx - 1);
+        if (e.key === 'ArrowRight') show(idx + 1);
+      });
+
+      // Touch-Swipe
+      lb.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+      }, {passive:true});
+      lb.addEventListener('touchend', (e) => {
+        if (touchStartX == null) return;
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        touchStartX = null;
+        if (Math.abs(dx) > 40) {
+          if (dx > 0) show(idx - 1); else show(idx + 1);
+        }
+      });
+
+      // Initial
       renderNext();
       btn.hidden = items.length <= PAGE;
       btn.addEventListener('click', () => renderNext());
