@@ -7,6 +7,7 @@ html {
 }
 
 :root {
+  --black:#000;
   --bg:#041419;
   --fg:#ececec;
   --muted:#bdbdbd;
@@ -25,7 +26,7 @@ html, body {
 .wrap { max-width:1600px; margin:auto; padding:24px }
 header { padding:56px 24px 24px }
 h1 { font-size:42px; margin:0 0 8px }
-h2 { margin:24px 0 12px }
+h2 { font-size:35px; margin:24px 0 12px }
 nav a { margin-right:16px; color:var(--muted); text-decoration:none }
 nav a:hover { color:var(--fg) }
 .small { color:var(--muted); font-size:14px }
@@ -70,16 +71,16 @@ nav a:hover { color:var(--fg) }
   width: 100%;
   margin: 0;
   padding: 0;
-  display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
 }
 
 .nav-list{
-  display:flex;
-  gap:20px;
-  list-style:none;
-  margin:0;
-  padding:0;
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 .nav-list a{
   color: var(--muted); text-decoration:none; font-weight:500;
@@ -123,8 +124,6 @@ nav a:hover { color:var(--fg) }
 
 }
 
-/* Sektionen sollen beim Ankern nicht unter die fixe Nav rutschen */
-.section { scroll-margin-top: calc(var(--header-h) + 16px); }
 
 /* =========================
    Landing Hero (zentrierter Name + Subtitle)
@@ -140,14 +139,15 @@ nav a:hover { color:var(--fg) }
 }
 .hero-inner{ margin-top: calc(var(--header-h) * 0.5); }
 .hero-title{
+  color: var(--fg);
   font-size: clamp(42px, 8vw, 96px);
   line-height: 1.05;
   margin: 0 0 8px 0;
   letter-spacing: 0.5px;
 }
 .hero-subtitle{
-  color: var(--muted);
-  font-size: clamp(16px, 2.5vw, 22px);
+  color: var(--fg);
+  font-size: clamp(16px, 2.5vw, 26px);
   margin: 0;
 }
 
@@ -167,8 +167,8 @@ nav a:hover { color:var(--fg) }
 
 .icon-mask {
   --icon: none;
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   background-color: currentColor;
   -webkit-mask: var(--icon) center / contain no-repeat;
   mask: var(--icon) center / contain no-repeat;
@@ -200,6 +200,49 @@ nav a:hover { color:var(--fg) }
 }
 
 /* =========================
+   Sections
+========================= */
+
+/* Sektionen sollen beim Ankern nicht unter die fixe Nav rutschen */
+.section { scroll-margin-top: calc(var(--header-h) + 16px); }
+
+.slogan {
+  font-size:24px;
+  margin: 0 0 10px
+}
+
+/* Desktop/Tablet: zwei Spalten nebeneinander */
+.split{
+  display: grid;
+  grid-template-columns: max-content 1fr; /* Bild | Text */
+  gap: 40px;
+  align-items: center; /* oder center, wenn du vertikal mittig willst */
+}
+
+/* Bild bleibt deine content-img – keine globale Änderung nötig */
+.split .content-img{
+  margin-left: 0px;
+}
+
+/* Mobile: untereinander (Bild -> Slogan -> Text) */
+@media (max-width: 900px){
+  .split{
+    grid-template-columns: 1fr; /* eine Spalte */
+    gap: 0px;
+  }
+
+  .split .content-img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block; /* sorgt dafür, dass margin:auto wirkt */
+  }
+  
+  .split .slogan {
+    text-align: center;
+  }
+}
+
+/* =========================
    EMBEDS
 ========================= */
 .embed {
@@ -218,8 +261,25 @@ nav a:hover { color:var(--fg) }
   display:block;
 }
 
+.grid .embed.video {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.embed.video video {
+  width: auto;
+  height: 100%;
+  display: block;
+  border: 0;
+  border-radius: var(--radius);
+  object-fit: contain;        /* füllt schön; nutzt ggf. wenig Crop */
+  background: var(--black);
+}
+
 /* ---- Größen-Profile ---- */
-.embed.xs { height:152px;  --player-height:152px; }
+.embed.xxs { height:200px;  --player-height:200px; }
+.embed.xs { height:252px;  --player-height:252px; }
 .embed.s  { height:352px;  --player-height:352px; }
 .embed.m  { height:380px;  --player-height:380px; }
 .embed.l  { height:500px;  --player-height:500px; }
@@ -234,16 +294,26 @@ nav a:hover { color:var(--fg) }
   height:var(--player-height);
 }
 
+
+
 /* =========================
    GRID
 ========================= */
-#work .grid {
-  display:grid;
-  gap:16px;
-  align-items:stretch;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));  /* drei Spalten */
+  gap: 40px;
+  padding: 0 0px;
+  align-items: center;               /* keine Stretch-Höhen */
 }
-@media (min-width:900px) {
-  #work .grid { grid-template-columns:1fr 1fr; }
+
+/* Mobile: untereinander */
+@media (max-width: 600px) {
+.grid {
+    grid-template-columns: 1fr;    /* eine Spalte */
+    gap: 16px;
+    padding: 0 16px;
+  }
 }
 
 /* =========================
@@ -259,7 +329,7 @@ nav a:hover { color:var(--fg) }
 
    /* Universelle Bildklasse – responsive, passt sich an Container an */
 .content-img {
-  max-width: 300px;
+  max-width: 380px;
   width: 100%;
   border-radius: 12px;
   display: block;
@@ -296,3 +366,55 @@ nav a:hover { color:var(--fg) }
   height: auto;
   display: inline-block;
 }
+
+/* Galerie-Grid (fügt sich optisch in dein Layout) */
+/* Galerie-Grundlayout (falls noch nicht drin) */
+.gallery-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+  padding: 0 24px;
+}
+
+/* Karten & Bilder */
+.gallery-grid .photo{
+  display:block;
+  border-radius:12px;
+  overflow:hidden;
+  background:#071a21;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  aspect-ratio: 3 / 4;
+  /* Performance: rendere erst, wenn sichtbar */
+  content-visibility: auto;
+  contain-intrinsic-size: 300px 400px;
+}
+.gallery-grid .photo img{
+  width:100%; height:100%;
+  object-fit:cover; display:block;
+}
+
+/* Lightbox */
+.lightbox{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.9);
+  display:flex; align-items:center; justify-content:center;
+  padding:24px; z-index:999;
+}
+.lightbox[hidden]{ display:none; }
+.lightbox img{
+  max-width:90vw; max-height:90vh;
+  border-radius:12px;
+}
+.lb-close{
+  position:absolute; top:16px; right:16px;
+  background:transparent; border:0; color:#fff;
+  font-size:28px; line-height:1; cursor:pointer;
+}
+.btn-more{
+  display:block; margin:24px auto 0;
+  background:#0e1b23; color:#ececec; border:1px solid rgba(255,255,255,.12);
+  padding:10px 16px; border-radius:10px; cursor:pointer;
+}
+.btn-more:hover{ background:#12232b; }
+
+[hidden] { display: none !important; }
