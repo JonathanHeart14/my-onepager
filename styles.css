@@ -277,12 +277,30 @@ nav a:hover { color:var(--fg) }
   background: var(--black);
 }
 
+/* Music-Section: Thumbnails einheitlich */
+#music .embed.video video.thumb {
+  height: 80%;
+  width: 100% !important;
+  aspect-ratio: 16 / 9;   /* gleiche Thumbnail-Größe */
+  object-fit: cover;      /* füllt Kachel */
+  border-radius: var(--radius);
+  background: var(--black);
+}
+
+/* Wenn Video spielt -> natürliche Größe */
+#music .embed.video video.playing {
+  aspect-ratio: auto;     /* Seitenverhältnis freigeben */
+  width: var(--player-width);
+  height: auto;
+  object-fit: contain;    /* zeigt Originalformat */
+}
+
 /* ---- Größen-Profile ---- */
-.embed.xxs { height:200px;  --player-height:200px; }
-.embed.xs { height:252px;  --player-height:252px; }
-.embed.s  { height:352px;  --player-height:352px; }
-.embed.m  { height:380px;  --player-height:380px; }
-.embed.l  { height:500px;  --player-height:500px; }
+.embed.xxxs { width:200px;  --player-width:200px; }
+.embed.xxs  { width:252px;  --player-width:252px; }
+.embed.xs   { width:352px;  --player-width:352px; }
+.embed.s   { width:380px;  --player-width:380px; }
+.embed.m   { width:500px;  --player-width:500px; }
 
 /* ---- Defaults (wenn keine Größe gesetzt) ---- */
 /* Videos bleiben 16:9 */
@@ -290,8 +308,8 @@ nav a:hover { color:var(--fg) }
   aspect-ratio:16/9;
 }
 /* Spotify & Co. nutzen fixe Höhe */
-:where(.embed.spotify, .embed.soundcloud, .embed.bandcamp):not(.s,.m,.l) iframe {
-  height:var(--player-height);
+.embed.spotify, .embed.soundcloud, .embed.bandcamp iframe {
+  height: var(--player-width);
 }
 
 
@@ -301,9 +319,12 @@ nav a:hover { color:var(--fg) }
 ========================= */
 .grid {
   display: grid;
+  justify-content: center;
+  justify-items: center;
   grid-template-columns: repeat(3, minmax(0, 1fr));  /* drei Spalten */
   gap: 40px;
-  padding: 0 0px;
+  margin: 0 auto;
+  padding: 0 200px;
   align-items: center;               /* keine Stretch-Höhen */
 }
 
@@ -372,8 +393,8 @@ nav a:hover { color:var(--fg) }
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: 0 80px;
-  max-width: 1200px;
+  padding: 0 130px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -392,9 +413,9 @@ nav a:hover { color:var(--fg) }
   overflow: hidden;
   background: #071a21;
   box-shadow: 0 8px 24px rgba(0,0,0,.25);
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 4;
   content-visibility: auto;
-  contain-intrinsic-size: 300px 400px;
+  contain-intrinsic-size: 400px 400px;
 }
 .gallery-grid .photo img {
   width: 100%;
