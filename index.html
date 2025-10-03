@@ -328,7 +328,23 @@
       overlay.id = 'mobile-menu';
       overlay.className = 'nav-list nav-overlay';
       overlay.innerHTML = srcList.innerHTML;     // Inhalte klonen
-      document.body.appendChild(overlay);         // AUS dem Header herausziehen
+      document.body.appendChild(overlay);         // AUS dem Header herausziehen;
+
+
+    // Smooth toggle helper to ensure transition is applied
+    function _forceFrame() {
+      // force reflow
+      void overlay.offsetHeight;
+      // and one animation frame
+      return new Promise(requestAnimationFrame);
+    }
+
+    // compute scrollbar width for potential desktop lock (no-op on most mobiles)
+    (function computeSBW(){
+      const sbw = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.setProperty('--sbw', sbw + 'px');
+    })();
+
     }
 
     // Animations-Status, um Doppelklicks zu verhindern
@@ -344,7 +360,7 @@
     });
 
     // 3) Toggle-Logik
-    function toggleMenu(force) {
+    async function toggleMenu(force) {
       if (isAnimating) return; // blocken während der Animation
 
       const isOpen = overlay.classList.contains('show');
@@ -356,16 +372,23 @@
         overlay.style.pointerEvents = '';
 
         overlay.classList.remove('closing');
+        await _forceFrame();
         overlay.classList.add('show');
         document.body.classList.add('menu-open');
         burger.setAttribute('aria-expanded', 'true');
+        burger.classList.add('active');
         isAnimating = true;
+        burger.classList.add('active');   // Burger blau solange offen
       } else {
         overlay.classList.remove('show');   // löst die Slide-up Transition aus
         overlay.classList.add('closing');
         document.body.classList.remove('menu-open');
         burger.setAttribute('aria-expanded', 'false');
+        burger.classList.remove('active');
+        burger.blur();
         isAnimating = true;
+        burger.classList.remove('active');
+        burger.blur();                     // danach Fokus weg → nicht blau 
       }
     }
 
@@ -377,6 +400,39 @@
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') toggleMenu(false);    // ESC schließt
     });
+
+    // Home-Link sofort Fokus verlieren (nie blau hängenbleiben)
+document.querySelector('.home-link')?.addEventListener('click', (e) => {
+  e.currentTarget.blur();
+});
+
+// Home-Icon: kurzer iOS-Tap-Pulse, danach kein Blau kleben
+const home = document.querySelector('.home-link');
+if (home) {
+  let tapTimer = null;
+
+  const pulseOn = () => {
+    clearTimeout(tapTimer);
+    home.classList.add('tapped');
+    // nach ~180ms wieder normal
+    tapTimer = setTimeout(() => home.classList.remove('tapped'), 180);
+  };
+
+  // iOS/Touch: sofort beim Finger-Down pulsen
+  home.addEventListener('touchstart', pulseOn, {passive:true});
+  // Fallback für Maus/Sim: mousedown
+  home.addEventListener('mousedown', pulseOn);
+
+  // Beim Klick Fokus weg, damit nix hängenbleibt
+  home.addEventListener('click', (e) => {
+    // sichergehen, dass der Pulse nach dem Navigieren nicht klebt
+    setTimeout(() => {
+      home.classList.remove('tapped');
+      home.blur();
+    }, 0);
+  });
+}
+
 
     // 5) ARIA auf dem Button setzen
     if (!burger.hasAttribute('type')) burger.setAttribute('type', 'button');

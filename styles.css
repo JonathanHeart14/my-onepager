@@ -49,7 +49,6 @@ header { padding:56px 24px 24px }
 h1 { font-size:42px; margin:0 0 8px }
 h2 { font-size:35px; margin:0px 0 40px; text-align: center; }
 nav a { margin-right:16px; color:var(--muted); text-decoration:none }
-nav a:hover { color:var(--fg) }
 .small { color:var(--muted); font-size:14px }
 
 p { margin: 0; }
@@ -65,8 +64,11 @@ p + p { margin-top: 1em; }
   padding: 0 0px;
   color: var(--muted);
   text-decoration: none;
+  transition: color .15s ease; 
 }
-.home-link:hover { color: var(--accent); }
+
+.home-link.tapped { color: var(--accent); } /* erbt auf das SVG via currentColor */
+
 .home-icon { display:block; width:24px; height:24px; }
 
 .site-nav{
@@ -86,23 +88,46 @@ p + p { margin-top: 1em; }
 
 .nav-list{ display:flex; gap:20px; list-style:none; margin:0; padding:0; }
 .nav-list a{ color: var(--muted); text-decoration:none; font-weight:500; }
-.nav-list a:hover{ color: var(--accent); }
 
-.burger { display:none; background:none; border:none; font-size:28px; cursor:pointer; color:var(--fg); }
-.burger:hover { color: var(--accent); }
+.burger {
+  display:none;
+  background:none;
+  border:none;
+  font-size:28px;
+  cursor:pointer;
+  color:var(--fg);
+}
+
+/* Nur auf Geräten mit Maus greift :hover */
+@media (hover: hover) {
+  .home-link:hover { color: var(--accent); }
+  .nav-list a:hover { color: var(--accent); }
+  .burger:hover { color: var(--accent); }
+}
+
+/* Touch tweaks: active color + keine sticky Highlights auf iOS */
+.burger.active { color: var(--accent); }
+
+.home-link, .burger, .nav-overlay a {
+  -webkit-tap-highlight-color: transparent;
+}
+.home-link:focus, .burger:focus {
+  outline: none;
+}
 
 /* =========================
-   Mobile: Overlay fährt VON OBEN ein
+   Mobile Burger Menu Overlay
+   (Rein = 0.55s, Raus = 1.25s)
 ========================= */
 @media (max-width: 900px) {
   .burger { display: block; }
   .site-nav .nav-list { display: none; }
+  body.menu-open { overflow: hidden; }
 
-  .nav-overlay{
+  .nav-overlay {
     position: fixed;
     top: var(--header-h);
-    left: 0;
-    right: 0;
+    left: 0; right: 0; bottom: 0;
     z-index: 9999;
 
     display: flex;
@@ -112,42 +137,88 @@ p + p { margin-top: 1em; }
 
     --menu-bg: color-mix(in srgb, var(--bg) 90%, transparent);
     background: var(--menu-bg);
-    padding: 0;
-    margin: 0;
-    list-style: none;
+    padding: 0; margin: 0; list-style: none;
 
-    /* Smoothness + no flicker */
-    overflow: hidden;                       /* verhindert „Kontakt“-Blinker oben */
+    overflow: hidden;
     backface-visibility: hidden;
-    will-change: transform;
+    will-change: transform, opacity;
 
-    /* Start knapp über dem Viewport */
-    transform: translateY(calc(-100% + 0px));
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
     visibility: hidden;
     pointer-events: none;
 
-    /* sanfteres Easing */
-    transition: transform .36s cubic-bezier(.2,.7,.2,1);
+    /* Öffnen schnell */
+    transition:
+      transform .55s cubic-bezier(.25,.8,.25,1),
+      opacity   .55s cubic-bezier(.25,.8,.25,1);
   }
 
-  .nav-overlay.show{
-    transform: translateY(0);
+  .nav-overlay.show {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
     visibility: visible;
     pointer-events: auto;
   }
 
-  .nav-overlay.closing{
-    /* etwas weiter als -100%, damit nichts mehr durchblitzt */
-    transform: translateY(calc(-100% - 8px));
-    visibility: visible;   /* sichtbar bis Transition fertig */
+  .nav-overlay.closing {
+    transform: translate3d(0, calc(-100% - 12px), 0);
+    opacity: 0;
+    visibility: visible;
     pointer-events: none;
+
+    /* Schließen langsamer */
+    transition:
+      transform 1.25s cubic-bezier(.25,.8,.25,1),
+      opacity   1.25s cubic-bezier(.25,.8,.25,1);
+    transition-delay: 0s, .08s;
   }
 
-  /* Balken */
-  .nav-overlay li{ margin:0; padding:0; }
-  .nav-overlay a{
+  .nav-overlay li {
+    margin: 0; padding: 0;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity .55s ease, transform .55s ease;
+  }
+
+  .nav-overlay.show li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger forward (rein) */
+  .nav-overlay.show li:nth-child(1)  { transition-delay: .04s; }
+  .nav-overlay.show li:nth-child(2)  { transition-delay: .08s; }
+  .nav-overlay.show li:nth-child(3)  { transition-delay: .12s; }
+  .nav-overlay.show li:nth-child(4)  { transition-delay: .16s; }
+  .nav-overlay.show li:nth-child(5)  { transition-delay: .20s; }
+  .nav-overlay.show li:nth-child(6)  { transition-delay: .24s; }
+  .nav-overlay.show li:nth-child(7)  { transition-delay: .28s; }
+  .nav-overlay.show li:nth-child(8)  { transition-delay: .32s; }
+  .nav-overlay.show li:nth-child(9)  { transition-delay: .36s; }
+  .nav-overlay.show li:nth-child(10) { transition-delay: .40s; }
+
+  /* Reverse stagger out – langsamer (1.25s) */
+  .nav-overlay.closing li {
+    opacity: 0;
+    transform: translateY(-6px);
+    transition-duration: 1.25s !important;
+  }
+  .nav-overlay.closing li:nth-child(1)  { transition-delay: .40s; }
+  .nav-overlay.closing li:nth-child(2)  { transition-delay: .36s; }
+  .nav-overlay.closing li:nth-child(3)  { transition-delay: .32s; }
+  .nav-overlay.closing li:nth-child(4)  { transition-delay: .28s; }
+  .nav-overlay.closing li:nth-child(5)  { transition-delay: .24s; }
+  .nav-overlay.closing li:nth-child(6)  { transition-delay: .20s; }
+  .nav-overlay.closing li:nth-child(7)  { transition-delay: .16s; }
+  .nav-overlay.closing li:nth-child(8)  { transition-delay: .12s; }
+  .nav-overlay.closing li:nth-child(9)  { transition-delay: .08s; }
+  .nav-overlay.closing li:nth-child(10) { transition-delay: .04s; }
+
+  .nav-overlay a {
     display:flex; align-items:center; justify-content:center;
-    width:100%; padding:16px 24px; text-decoration:none; color:var(--fg);
+    width:100%; padding:16px 24px;
+    text-decoration:none; color:var(--fg);
     font-weight:600; background:var(--menu-bg);
     border:1px solid rgba(255,255,255,.2); border-radius:8px;
   }
@@ -156,9 +227,11 @@ p + p { margin-top: 1em; }
   .nav-overlay a:focus { filter: brightness(1.08); }
 }
 
-
-
-
+@media (prefers-reduced-motion: reduce){
+  .nav-overlay, .nav-overlay *{
+    transition: none !important;
+  }
+}
 
 /* =========================
    Landing Hero
@@ -284,7 +357,7 @@ p + p { margin-top: 1em; }
   font-size: 20px;
 }
 
-/* Image tile (keeps your rounded look & shadows like gallery) */
+/* Image tile */
 .service-img{
   display: block;
   width: 100%;
@@ -307,7 +380,7 @@ p + p { margin-top: 1em; }
   font-size: 14px;
 }
 
-/* Button – matches your existing button style */
+/* Button */
 .service-card .btn{
   display: inline-block;
   padding: 10px 16px;
@@ -319,7 +392,7 @@ p + p { margin-top: 1em; }
 .service-card .btn:hover{ background:#12232b; }
 
 /* =========================
-   CLIENTS GRID (3 Spalten)
+   CLIENTS GRID
 ========================= */
 .clients-grid{
   list-style: none;
@@ -334,19 +407,15 @@ p + p { margin-top: 1em; }
   max-width: var(--content-w);
   padding: 0 var(--tile-pad-x);
   margin: 0 auto;
-  justify-items: center;       /* Text mittig pro Spalte */
+  justify-items: center;
   text-align: center;
 }
 
-.client-item{
-  /* Optik bewusst minimal halten */
-  font-size: 16px;
-}
+.client-item{ font-size: 16px; }
 
-/* Breakpoints wie beim restlichen Layout */
 @media (max-width: 900px){
   .clients-grid{
-    grid-template-columns: 1fr 1fr;  /* 2 Spalten */
+    grid-template-columns: 1fr 1fr;
     max-width: var(--tile-w);
     padding: 0;
     row-gap: 8px;
@@ -362,62 +431,36 @@ p + p { margin-top: 1em; }
   margin: 0 auto;
 }
 
-.contact-info p {
-  margin: 12px 0;
-}
+.contact-info p { margin: 12px 0; }
 
-.contact-links {
-  margin-top: 12px;
-  font-size: 16px;
-}
+.contact-links { margin-top: 12px; font-size: 16px; }
 
 .contact-info a {
   color: var(--accent);
   text-decoration: none;
   font-weight: 500;
 }
-
-.contact-info a:hover {
-  text-decoration: underline;
-}
-
-
+.contact-info a:hover { text-decoration: underline; }
 
 /* =========================
    FOOTER
 ========================= */
-
 footer {
   text-align: center;
   padding-bottom: 40px;
 }
-
-footer p {
-  margin: 0 0 8px 0;
-}
-
-footer a {
-  color: var(--fg);
-  text-decoration: underline;
-}
-footer a:hover {
-  color: var(--accent);
-}
+footer p { margin: 0 0 8px 0; }
+footer a { color: var(--fg); text-decoration: underline; }
+footer a:hover { color: var(--accent); }
 
 /* =========================
    EMBEDS
 ========================= */
-
-/* Gemeinsame Kachel */
 .media-grid .tile{ width: 100%; max-width: var(--tile-w); }
-
-/* EMBED-Wrapper */
 .embed{ --radius:12px; position: relative; width: 100%; max-width: var(--tile-w); }
-
-/* YouTube/Vimeo Thumbnail-Frame */
 :where(.embed.youtube, .embed.vimeo){ aspect-ratio: var(--thumb-ar); }
 
-/* Spotify (Desktop) */
+/* Spotify */
 .embed.spotify{
   grid-column: 1 / -1;
   justify-self: center;
@@ -426,29 +469,24 @@ footer a:hover {
   aspect-ratio: 1;
   min-height: 352px; max-height: 370px; height: 100%;
 }
-
-/* Spotify (Mobile) – EXAKT gleiche Innenbreite */
 @media (max-width: 900px){
   .embed.spotify{
     width: 100%;
-    max-width: 100%;     /* folgt dem Parent, der auf var(--tile-w) begrenzt wird */
+    max-width: 100%;
     margin: 0 auto;
     max-height: 352px; height: auto;
   }
 }
+.embed iframe{ width:100%; height:100%; border:0; border-radius:var(--radius); display:block; }
 
-.embed iframe{
-  width:100%; height:100%; border:0; border-radius:var(--radius); display:block;
-}
-
-/* Native Video-Thumbnails */
+/* Native Video */
 .embed.video { aspect-ratio: var(--thumb-ar); background: var(--black); border-radius: var(--radius); display: block; }
 .embed.video video.thumb{ width:100%; height:100%; object-fit: cover; border-radius: var(--radius); }
 .embed.video video.playing{ aspect-ratio: auto; width:auto; height:auto; object-fit: contain; max-width: 100%; }
 .embed.video:has(video.playing){ aspect-ratio: auto; }
 .embed.video:has(video.playing) video{ width: 100%; height: auto; object-fit: contain; }
 
-/* Foto-Thumbnails (Gallery) */
+/* Fotos */
 .media-grid a.photo{
   display: block;
   width: 100%;
@@ -463,7 +501,6 @@ footer a:hover {
 /* =========================
    GRID
 ========================= */
-/* Einheitliches Grid */
 .media-grid{
   display: grid;
   justify-content: center;
@@ -475,18 +512,15 @@ footer a:hover {
   padding: 0 var(--tile-pad-x);
   align-items: start;
 }
-
-/* Mobile-ANGLEICH: Containerbreite vereinheitlichen + Kinder auf 100% */
 @media (max-width: 900px){
   .media-grid{
     grid-template-columns: 1fr;
     gap: var(--tile-gap);
-    padding-left: 0;       /* kein zusätzliches Padding gegenüber .wrap */
+    padding-left: 0;
     padding-right: 0;
     max-width: var(--tile-w);
     margin: 0 auto;
   }
-  /* Alle direkten Kinder exakt gleich breit */
   .media-grid > *,
   .media-grid :is(.embed, a.photo){
     width: 100%;
@@ -513,7 +547,6 @@ footer a:hover {
   .content-img { max-width: 100%; width: 100%; }
 }
 
-/* Responsive Images helpers */
 .img-responsive { max-width: 100%; height: auto; display: block; }
 .media-img { max-width: 200px; height: auto; display: block; margin: 0 auto; }
 .section-img { max-width: 600px; width: 100%; height: auto; margin: 24px 0; display: block; }
@@ -521,7 +554,6 @@ footer a:hover {
 
 /* --- Studio Gallery Layout --- */
 .gallery-layout { display:flex; flex-direction:column; gap:32px; margin:0 auto; }
-/* Mobile: KEIN zusätzliches Padding mehr – gleiche Breite wie media-grid */
 @media (max-width: 900px) {
   .gallery-layout {
     gap: 20px;
@@ -530,8 +562,6 @@ footer a:hover {
     max-width: var(--tile-w);
   }
 }
-
-/* Footer mit Button unten zentriert */
 .gallery-footer { display:flex; justify-content:center; padding-top:8px; }
 
 /* Lightbox */
@@ -551,16 +581,9 @@ body.lb-open{ overflow:hidden; }
 
 /* =========================================================
    FIX AT THE SOURCE: player widths on mobile
-   - YT/Vimeo/Spotify width = min(tile-w, viewport - 2*mobile-pad)
-   - Remove Spotify min-height floor so it can shrink
 ========================================================= */
 @media (max-width: 900px) {
-
-  /* Spotify */
-  .embed.spotify {
-    min-width: 0px;
-  }
-
+  .embed.spotify { min-width: 0px; }
   .section::after {
     width: calc(var(--tile-w)/1.5 - var(--mobile-pad));
   }
