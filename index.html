@@ -25,7 +25,8 @@
           <li><a href="#work">selected work</a></li>
           <li><a href="#music">music</a></li>
           <li><a href="#studio">studio</a></li>
-          <li><a href="#mixing">mixing</a></li>
+          <li><a href="#services">services</a></li>
+          <li><a href="#clients">clients</a></li>
           <li><a href="#contact">contact</a></li>
         </ul>
 
@@ -218,23 +219,94 @@
         <!-- Leistungen/Referenzen -->
     </section>
 
-    <section id="mixing" class="wrap section">
-      <h2>services.</h2>
-      <div class="media-grid">
+    <section id="services" class="wrap section">
+  <h2>services.</h2>
+
+  <div class="services-grid">
+    <!-- Mixing & Mastering -->
+    <article class="service-card">
+      <h3>Mixing & Mastering</h3>
+      <a class="service-img" href="#contact">
+        <img src="assets/img/services/mixing.jpg" alt="Mixing console">
+      </a>
+      <p class="service-desc">Single · EP · Album. Clean & punchy without losing the vibe.</p>
+    </article>
+
+    <!-- Recording & Producing -->
+    <article class="service-card">
+      <h3>Recording & Producing</h3>
+      <a class="service-img" href="#contact">
+        <img src="assets/img/services/recording.jpg" alt="Recording session">
+      </a>
+      <p class="service-desc">Vocals, guitars, bass. Mobile or studio — capture with intent.</p>
+    </article>
+
+    <!-- Session / Live Playing -->
+    <article class="service-card">
+      <h3>Session & Live</h3>
+      <a class="service-img" href="#contact">
+        <img src="assets/img/services/session.png" alt="Session & live playing">
+      </a>
+      <p class="service-desc">Bass & guitar for your track or stage — tight, musical, reliable.</p>
+    </article>
+  </div>
+    <!-- zentraler Booking-Button -->
+  <aside class="gallery-footer">
+<a class="btn-more" href="#contact">Contact / Booking</a>
+</section>
+
+<section id="clients" class="wrap section">
+  <h2>clients.</h2>
+  <ul class="clients-grid">
+    <li class="client-item">Artist / Band 1</li>
+    <li class="client-item">Artist / Band 2</li>
+    <li class="client-item">Artist / Band 3</li>
+    <li class="client-item">Artist / Band 4</li>
+    <li class="client-item">Artist / Band 5</li>
+    <li class="client-item">Artist / Band 6</li>
+    <li class="client-item">Artist / Band 7</li>
+    <li class="client-item">Artist / Band 8</li>
+    <li class="client-item">Artist / Band 9</li>
+    <!-- … beliebig erweitern … -->
+  </ul>
+</section>
+
+<section id="contact" class="wrap section">
+  <h2>contact.</h2>
+  <div class="contact-info">
+    <p><strong>Jonathan Heart</strong></p>
+    <p><a href="mailto:booking@deinedomain.com">booking@deinedomain.com</a></p>
+    <p>Telefon: +49 123 456789</p>
+  </div>
+</section>
 
 
-      </div>
-      <!-- Leistungen/Referenzen -->
-    </section>
+    <footer class="footer">
+      <p class="social-links">
+        <a href="https://instagram.com/deinprofil" target="_blank" aria-label="Instagram">
+          <span class="icon-mask" style="--icon: url('assets/icons/Instagram.svg'); width: 25px;"></span>
+        </a>
+        <a href="https://open.spotify.com/artist/deinid" target="_blank" aria-label="Spotify">
+          <span class="icon-mask" style="--icon: url('assets/icons/Spotify.svg'); width: 25px"></span>
+        </a>
+        <a href="https://youtube.com/@deinprofil" target="_blank" aria-label="YouTube">
+          <span class="icon-mask" style="--icon: url('assets/icons/Youtube.svg'); width: 28px;"></span>
+        </a>
+        <a href="mailto:deineadresse@email.com" target="_blank" aria-label="Email">
+          <span class="icon-mask" style="--icon: url('assets/icons/Mail.svg'); width: 28px;"></span>
+        </a>
+      </p>
 
-    <section id="contact" class="wrap section">
-      <h2>contact.</h2>
-      <p>Mail: <a href="mailto:booking@deinedomain.com">booking@deinedomain.com</a></p>
-    </section>
+      <p>
+        <a href="impressum.html">Impressum</a> | 
+        <a href="datenschutz.html">Datenschutzerklärung</a>
+      </p>
 
-    <footer class="wrap small">
-      © <span id="y"></span> Jonathan Heart
+      <p>© <span id="y"></span> Jonathan Heart
+      </p>
+
     </footer>
+
     <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
 
 <!-- Java Scripts-->
