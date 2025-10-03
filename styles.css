@@ -334,8 +334,8 @@ body.lb-open{ overflow:hidden; }
   .wrap:has(.split),
   .wrap:has(.embed),
   .wrap:has(.grid){
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 40px;
+    padding-right: 40px;
   }
 
   /* 2) Universelle Breiten-Klammer:
