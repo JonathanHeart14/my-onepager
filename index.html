@@ -31,7 +31,11 @@
         </ul>
 
         <!-- Burger-Button (nur sichtbar auf Mobilea) -->
-        <button class="burger" aria-label="Menu">☰</button>
+        <button class="burger" type="button"
+          aria-label="Menu"
+          aria-controls="mobile-menu"
+          aria-expanded="false">☰
+        </button>
       </nav>
     </header>
 
@@ -310,14 +314,81 @@
     <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
 
 <!-- Java Scripts-->
-    <script>
-      const burger = document.querySelector('.burger');
-      const nav = document.querySelector('.nav-list');
+<script>
+  // 1) Referenzen besorgen
+  const burger  = document.querySelector('.burger');
+  const srcList = document.querySelector('.site-nav .nav-list'); // Liste im Header
 
-      burger.addEventListener('click', () => {
-        nav.classList.toggle('show');
-      });
-    </script>
+  // Wenn etwas fehlt: abbrechen (schützt vor Fehlern)
+  if (burger && srcList) {
+    // 2) Overlay nur erzeugen, wenn es noch nicht existiert
+    let overlay = document.getElementById('mobile-menu');
+    if (!overlay) {
+      overlay = document.createElement('ul');
+      overlay.id = 'mobile-menu';
+      overlay.className = 'nav-list nav-overlay';
+      overlay.innerHTML = srcList.innerHTML;     // Inhalte klonen
+      document.body.appendChild(overlay);         // AUS dem Header herausziehen
+    }
+
+    // Animations-Status, um Doppelklicks zu verhindern
+    let isAnimating = false;
+
+    // Transition-Ende sauber behandeln (nur für unsere Slide-Animation)
+    overlay.addEventListener('transitionend', (e) => {
+      if (e.propertyName !== 'transform') return;
+      if (overlay.classList.contains('closing')) {
+        overlay.classList.remove('closing');     // zurück in den Basiszustand (unsichtbar)
+      }
+      isAnimating = false;
+    });
+
+    // 3) Toggle-Logik
+    function toggleMenu(force) {
+      if (isAnimating) return; // blocken während der Animation
+
+      const isOpen = overlay.classList.contains('show');
+      const open   = typeof force === 'boolean' ? force : !isOpen;
+
+      if (open) {
+        // Sicherheitsmaßnahme: evtl. frühere Inline-Styles entfernen
+        overlay.style.visibility = '';
+        overlay.style.pointerEvents = '';
+
+        overlay.classList.remove('closing');
+        overlay.classList.add('show');
+        document.body.classList.add('menu-open');
+        burger.setAttribute('aria-expanded', 'true');
+        isAnimating = true;
+      } else {
+        overlay.classList.remove('show');   // löst die Slide-up Transition aus
+        overlay.classList.add('closing');
+        document.body.classList.remove('menu-open');
+        burger.setAttribute('aria-expanded', 'false');
+        isAnimating = true;
+      }
+    }
+
+    // 4) Events
+    burger.addEventListener('click', () => toggleMenu());
+    overlay.addEventListener('click', (e) => {
+      if (e.target.closest('a')) toggleMenu(false); // Link-Klick schließt
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') toggleMenu(false);    // ESC schließt
+    });
+
+    // 5) ARIA auf dem Button setzen
+    if (!burger.hasAttribute('type')) burger.setAttribute('type', 'button');
+    burger.setAttribute('aria-controls', 'mobile-menu');
+    burger.setAttribute('aria-expanded', 'false');
+  }
+</script>
+
+
+
+
+
 
     <script>
     (() => {

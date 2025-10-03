@@ -74,10 +74,10 @@ p + p { margin-top: 1em; }
   height: var(--header-h);
   display: flex; align-items: center;
   padding: 0 24px;
-  background: color-mix(in oklab, var(--bg) 94%, transparent);
+  background: color-mix(in oklab, var(--bg) 85%, transparent);
   backdrop-filter: blur(6px);
   z-index: 50;
-  border-bottom: 1px solid color-mix(in oklab, var(--fg) 12%, transparent);
+  box-shadow: 0 0px 6px 8px rgba(0, 0, 0, 0.5);
 }
 .site-nav .wrap{
   max-width: none; width: 100%; margin: 0; padding: 0;
@@ -91,17 +91,74 @@ p + p { margin-top: 1em; }
 .burger { display:none; background:none; border:none; font-size:28px; cursor:pointer; color:var(--fg); }
 .burger:hover { color: var(--accent); }
 
-@media (max-width: 768px) {
-  .nav-list {
-    display: none;
-    position: absolute; top: var(--header-h); right: 0;
-    background: var(--bg);
-    flex-direction: column; gap: 16px; padding: 16px 24px;
-    border: 1px solid color-mix(in oklab, var(--fg) 15%, transparent);
-  }
-  .nav-list.show { display: flex; }
+/* =========================
+   Mobile: Overlay fährt VON OBEN ein
+========================= */
+@media (max-width: 900px) {
   .burger { display: block; }
+  .site-nav .nav-list { display: none; }
+
+  .nav-overlay{
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+
+    --menu-bg: color-mix(in srgb, var(--bg) 90%, transparent);
+    background: var(--menu-bg);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    /* Smoothness + no flicker */
+    overflow: hidden;                       /* verhindert „Kontakt“-Blinker oben */
+    backface-visibility: hidden;
+    will-change: transform;
+
+    /* Start knapp über dem Viewport */
+    transform: translateY(calc(-100% + 0px));
+    visibility: hidden;
+    pointer-events: none;
+
+    /* sanfteres Easing */
+    transition: transform .36s cubic-bezier(.2,.7,.2,1);
+  }
+
+  .nav-overlay.show{
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .nav-overlay.closing{
+    /* etwas weiter als -100%, damit nichts mehr durchblitzt */
+    transform: translateY(calc(-100% - 8px));
+    visibility: visible;   /* sichtbar bis Transition fertig */
+    pointer-events: none;
+  }
+
+  /* Balken */
+  .nav-overlay li{ margin:0; padding:0; }
+  .nav-overlay a{
+    display:flex; align-items:center; justify-content:center;
+    width:100%; padding:16px 24px; text-decoration:none; color:var(--fg);
+    font-weight:600; background:var(--menu-bg);
+    border:1px solid rgba(255,255,255,.2); border-radius:8px;
+  }
+  .nav-overlay a:hover,
+  .nav-overlay a:active,
+  .nav-overlay a:focus { filter: brightness(1.08); }
 }
+
+
+
+
 
 /* =========================
    Landing Hero
