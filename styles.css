@@ -19,7 +19,7 @@ html {
   --tile-pad-x: 200px;     /* seitliche Innenräume der Grids (Desktop) */
   --thumb-ar: 16/9;        /* Aspect-Ratio der THUMBNAILS (nicht der Player!) */
   --content-w: calc(var(--tile-w) * 3 + var(--tile-gap) * 2); /* 3 Tiles + 2 Gaps */
-  --mobile_pad: 140px;
+  --mobile_pad: 400px;
 }
 
 /* Stufen (einfach per data-size am <html> umschalten) */
