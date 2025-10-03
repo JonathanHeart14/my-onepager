@@ -41,8 +41,8 @@ html, body {
   .wrap {
     max-width: 100%;
     /* Einheits-Padding auf Mobile */
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: var(--mobile_pad);
+    padding-right: var(--mobile_pad);
   }
 }
 header { padding:56px 24px 24px }
@@ -322,67 +322,14 @@ body.lb-open{ overflow:hidden; }
 [hidden] { display: none !important; }
 
 /* =========================================================
-   MOBILE WIDTH EQUALIZER – gleiche Innenbreite für alle Medien
-   Fügt konsistente Breite für YouTube/Spotify/Videos/Bilder/About hinzu
-   -> einfach ans Ende der styles.css setzen
+   FIX AT THE SOURCE: player widths on mobile
+   - YT/Vimeo/Spotify width = min(tile-w, viewport - 2*mobile_pad)
+   - Remove Spotify min-height floor so it can shrink
 ========================================================= */
-@media (max-width: 900px){
+@media (max-width: 900px) {
 
-  /* 1) Wenn in einer .wrap Medien liegen, entferne Seiten-Padding dort,
-        damit überall dieselbe Referenzbreite gilt */
-  .wrap:has(.media-grid),
-  .wrap:has(.gallery-layout),
-  .wrap:has(.split),
-  .wrap:has(.embed),
-  .wrap:has(.grid){
-    padding-left: var(--mobile_pad);
-    padding-right: var(--mobile_pad);
-  }
-
-  /* 2) Universelle Breiten-Klammer:
-        Alles Relevante auf min(100%, var(--tile-w)) zentrieren */
-  .media-grid,
-  .gallery-layout,
-  .split,
-  .grid,
-  .embed,
-  .content-img,
-  .section .slogan {
-    width: min(100%, var(--tile-w));
-    max-width: var(--tile-w);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* 3) Sicherstellen, dass direkte Kinder die volle (gleiche) Innenbreite haben */
-  .media-grid > *,
-  .gallery-layout > *,
-  .grid > *,
-  .split > * {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  /* 4) Iframes/Video-Thumbs wirklich randlos füllen */
-  .embed iframe{
-    width: 100% !important;
-    height: 100%;
-    display: block;
-  }
-
-  /* 5) Bilder in der Studio-Gallery nicht kleiner werden lassen */
-  .media-grid a.photo,
-  .gallery-layout a.photo {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  /* 6) Falls einzelne Grids noch eigene Innenabstände haben, neutralisieren */
-  .media-grid,
-  .gallery-layout,
-  .grid,
-  .split {
-    padding-left: 0;
-    padding-right: 0;
+  /* Spotify */
+  .embed.spotify {
+    min-width: 0px;
   }
 }
