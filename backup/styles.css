@@ -36,14 +36,6 @@ html, body {
 }
 
 .wrap { max-width:1600px; margin:auto; padding:24px }
-@media (max-width: 900px){
-  .wrap {
-    max-width: 100%;
-    /* WICHTIG: Einheits-Padding auf Mobile, damit alle Sections gleich breit sind */
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-}
 header { padding:56px 24px 24px }
 h1 { font-size:42px; margin:0 0 8px }
 h2 { font-size:35px; margin:0px 0 40px; text-align: center; }
@@ -263,7 +255,7 @@ p + p {
 /* Desktop/Tablet: zwei Spalten nebeneinander */
 .split{
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: max-content 1fr; /* statt max-content 1fr */
   max-width: var(--content-w);
   padding: 0 var(--tile-pad-x);
   margin: auto;
@@ -278,8 +270,6 @@ p + p {
   .split{
     grid-template-columns: 1fr; /* eine Spalte */
     gap: 0px;
-    /* gleiche Innenränder wie alle anderen Mobile-Grids */
-    padding: 0;
   }
 
   .split .content-img {
@@ -327,13 +317,15 @@ p + p {
   min-height: 352px;
   max-height: 370px;
   height: 100%;
+  /*margin-bottom: calc(-1 * var(--tile-gap) - (var(--tile-gap)/1)); /* z.B. 16px netto */
+
 }
 
 @media (max-width: 900px){
   .embed.spotify{
     /* gleiche Breite-Logik wie die Tiles */
     width: 100%;
-    max-width: var(--tile-w);
+    max-width: var(--tile-w);    /* nicht größer als eine mittlere Kachel */
     margin: 0 auto;
 
     /* alte Begrenzungen neutralisieren */
@@ -437,21 +429,13 @@ p + p {
    IMAGES
    ========================= */
 
-/* Universelle Bildklasse – responsive, passt sich an Container an */
+   /* Universelle Bildklasse – responsive, passt sich an Container an */
 .content-img {
   max-width: calc(var(--tile-w) * 0.8);
   width: 100%;
   aspect-ratio: auto;
   border-radius: 12px;
   display: block;
-}
-
-/* Mobile: Bilder auf gleiche Breite wie andere Inhalte bringen */
-@media (max-width: 900px){
-  .content-img {
-    max-width: var(--tile-w); /* identisch zu Embeds/Gallery */
-    width: 100%;
-  }
 }
 
 /* Responsive Images – Bilder werden nie breiter als ihr Container */
