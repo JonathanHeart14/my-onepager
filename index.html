@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de" data-size="S">
+<html lang="de" data-size="M">
   <head>
     <meta charset="utf-8" />
     <title>Jonathan Heart</title>
@@ -47,10 +47,10 @@
             <span class="icon-mask" style="--icon: url('assets/icons/Spotify.svg')"></span>
           </a>
           <a href="https://youtube.com/@deinprofil" target="_blank" aria-label="YouTube">
-            <span class="icon-mask" style="--icon: url('assets/icons/Youtube.svg')"></span>
+            <span class="icon-mask" style="--icon: url('assets/icons/Youtube.svg'); width:42px; height:42px;"></span>
           </a>
           <a href="mailto:deineadresse@email.com" target="_blank" aria-label="Email">
-            <span class="icon-mask" style="--icon: url('assets/icons/E-Mail.svg')"></span>
+            <span class="icon-mask" style="--icon: url('assets/icons/E-Mail.svg'); width:45px; height:45px;"></span>
           </a>
         </div>
        
@@ -59,10 +59,11 @@
 
     <!-- Erste Content Section -->
     <section id="about" class="wrap section">
-      <h2>About</h2>
+      <h2>about.</h2>
+      <div>
+      </div>
       <div class="split">
         <img src="assets/img/Rose Guitar Square.jpg" alt="Jonathan Heart" class="content-img">
-
         <div>
           <p class="slogan">clarity through distortion.</p>
           <p>Jonathan Heart is a musician, producer and mixing engineer based in Berlin, Germany. His approach is shaped as much by instruments and live playing as by the technical craft of sound.</p>
@@ -74,7 +75,7 @@
     </section>
 
     <section id="work" class="wrap section">
-      <h2>Selected Work</h2>
+      <h2>selected work.</h2>
 
       <div class="media-grid">
 
@@ -154,7 +155,7 @@
     </section>
 
     <section id="music" class="wrap section">
-      <h2>Music</h2>
+      <h2>music.</h2>
       <div class="media-grid">
 
         <div class="embed video">
@@ -197,7 +198,7 @@
     </section>
 
     <section id="studio" class="wrap section">
-      <h2>Studio</h2>
+      <h2>studio.</h2>
 
       <div class="gallery-layout">
         <div id="gallery" class="media-grid"></div>
@@ -218,7 +219,7 @@
     </section>
 
     <section id="mixing" class="wrap section">
-      <h2>Mixing</h2>
+      <h2>services.</h2>
       <div class="media-grid">
 
 
@@ -227,7 +228,7 @@
     </section>
 
     <section id="contact" class="wrap section">
-      <h2>Contact</h2>
+      <h2>contact.</h2>
       <p>Mail: <a href="mailto:booking@deinedomain.com">booking@deinedomain.com</a></p>
     </section>
 
@@ -311,7 +312,7 @@
       const grid = document.querySelector('#gallery');
       const btn  = document.querySelector('#gallery-more');
 
-      const PAGE = 3; // initial 3 Bilder, bleibt wie bei dir
+      const PAGE = 6; // initial 6 Bilder, bleibt wie bei dir
       const BASE = 'assets/img/gallery/Studio%20Bilder/';
       const EXT  = 'jpg';
 
@@ -509,5 +510,47 @@ document.querySelectorAll('#music .embed.video video').forEach(v => {
 });
 </script>
 
-  </body>
+<script>
+(() => {
+  const vids = Array.from(document.querySelectorAll('#music .embed.video video'));
+
+  // Alle Videos bekommen initial die Thumb-Optik (füllt die 16:9-Kachel)
+  vids.forEach(v => v.classList.add('thumb'));
+
+  vids.forEach(v => {
+    v.addEventListener('play', () => {
+      // Nur ein Video "aktiv" halten
+      vids.forEach(o => { if (o !== v) o.pause(); });
+
+      v.classList.add('playing');   // echte Ratio
+      v.classList.remove('thumb');  // keine 16:9-Thumb-Optik mehr
+    });
+
+    v.addEventListener('pause', () => {
+      if (v.currentTime === 0) {
+        // Wenn direkt am Anfang gestoppt -> wieder Thumb/Poster zeigen
+        v.classList.remove('playing');
+        v.classList.add('thumb');
+      } else {
+        // Wichtig: playing NICHT entfernen -> Freeze-Frame bleibt sichtbar
+        v.classList.add('playing');
+        v.classList.remove('thumb');
+      }
+    });
+
+    v.addEventListener('ended', () => {
+      // Standard: auch am Ende den letzten Frame stehenlassen
+      v.classList.add('playing');
+      v.classList.remove('thumb');
+
+      // Falls du lieber zurück zum Poster möchtest, nimm stattdessen:
+      // v.classList.remove('playing');
+      // v.currentTime = 0;
+      // v.classList.add('thumb');
+    });
+  });
+})();
+</script>  
+
+</body>
 </html>

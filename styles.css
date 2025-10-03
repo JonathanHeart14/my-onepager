@@ -9,24 +9,24 @@ html {
 :root {
   --black:#000;
   --bg:#041419;
-  --fg:#ececec;
+  --fg:#eee1e1;
   --muted:#bdbdbd;
   --accent:#235ac0;
   --header-h: 64px;
   --burgerbg: #0e1b23;
   --tile-w: 460px;         /* Default-Fall, wird durch data-size überschrieben */
-  --tile-gap: 40px;
+  --tile-gap: 60px;
   --tile-pad-x: 200px;     /* seitliche Innenräume der Grids (Desktop) */
   --thumb-ar: 16/9;        /* Aspect-Ratio der THUMBNAILS (nicht der Player!) */
-  --cols-min: var(--tile-w);
+  --content-w: calc(var(--tile-w) * 3 + var(--tile-gap) * 2); /* 3 Tiles + 2 Gaps */
 }
 
 /* Stufen (einfach per data-size am <html> umschalten) */
-:root[data-size="XS"] { --tile-w: 320px; --tile-pad-x: 200px}
-:root[data-size="S"]  { --tile-w: 380px; --tile-pad-x: 15px}
-:root[data-size="M"]  { --tile-w: 460px; --tile-pad-x: 100px}
-:root[data-size="L"]  { --tile-w: 560px; --tile-pad-x: 50px}
-:root[data-size="XL"] { --tile-w: 680px; --tile-pad-x: 0px}
+:root[data-size="XS"] { --tile-w: 320px; --tile-pad-x: 200px; --tile-gap: 45px}
+:root[data-size="S"]  { --tile-w: 380px; --tile-pad-x: 150px; --tile-gap: 40px}
+:root[data-size="M"]  { --tile-w: 460px; --tile-pad-x: 100px; --tile-gap: 35px}
+:root[data-size="L"]  { --tile-w: 560px; --tile-pad-x: 50px; --tile-gap: 30px}
+:root[data-size="XL"] { --tile-w: 680px; --tile-pad-x: 0px; --tile-gap: 25px}
 
 html, body {
   margin: 0;
@@ -38,7 +38,7 @@ html, body {
 .wrap { max-width:1600px; margin:auto; padding:24px }
 header { padding:56px 24px 24px }
 h1 { font-size:42px; margin:0 0 8px }
-h2 { font-size:35px; margin:24px 0 12px }
+h2 { font-size:35px; margin:0px 0 40px; text-align: center; }
 nav a { margin-right:16px; color:var(--muted); text-decoration:none }
 nav a:hover { color:var(--fg) }
 .small { color:var(--muted); font-size:14px }
@@ -53,7 +53,7 @@ nav a:hover { color:var(--fg) }
   display: flex;
   align-items: center;
   padding: 0 0px;
-  color: var(--fg);
+  color: var(--muted);
   text-decoration: none;
 }
 
@@ -72,7 +72,7 @@ nav a:hover { color:var(--fg) }
   height: var(--header-h);
   display: flex; align-items: center;
   padding: 0 24px;
-  background: color-mix(in oklab, var(--bg) 50%, transparent);
+  background: color-mix(in oklab, var(--bg) 94%, transparent);
   backdrop-filter: blur(6px);
   z-index: 50;
   border-bottom: 1px solid color-mix(in oklab, var(--fg) 12%, transparent);
@@ -98,7 +98,7 @@ nav a:hover { color:var(--fg) }
   color: var(--muted); text-decoration:none; font-weight:500;
 }
 
-.nav-list a:hover{ color: var(--fg); }
+.nav-list a:hover{ color: var(--accent); }
 
 .burger {
   display: none;       /* wird erst auf Mobile sichtbar */
@@ -216,26 +216,26 @@ nav a:hover { color:var(--fg) }
 ========================= */
 
 /* Sektionen sollen beim Ankern nicht unter die fixe Nav rutschen */
-.section { scroll-margin-top: calc(var(--header-h) + 16px); }
+.section { scroll-margin-top: calc(var(--header-h) + 0px); }
 
 .slogan {
   font-size:24px;
-  margin: 0 0 10px
+  margin: 0 auto 0px;
+  text-align: left;
 }
 
 /* Desktop/Tablet: zwei Spalten nebeneinander */
 .split{
   display: grid;
-  grid-template-columns: max-content 1fr; /* Bild | Text */
-  gap: 40px;
-  align-items: center; /* oder center, wenn du vertikal mittig willst */
+  grid-template-columns: max-content 1fr; /* statt max-content 1fr */
+  max-width: var(--content-w);
   padding: 0 var(--tile-pad-x);
+  margin: auto;
+  gap: 50px;
+  align-items: end; /* oder center, wenn du vertikal mittig willst */
+  text-align: justify;
 }
 
-/* Bild bleibt deine content-img – keine globale Änderung nötig */
-.split .content-img{
-  margin-left: 0px;
-}
 
 /* Mobile: untereinander (Bild -> Slogan -> Text) */
 @media (max-width: 900px){
@@ -249,10 +249,11 @@ nav a:hover { color:var(--fg) }
     margin-right: auto;
     display: block; /* sorgt dafür, dass margin:auto wirkt */
   }
-  
-  .split .slogan {
+
+  .slogan {
     text-align: center;
   }
+  
 }
 
 /* =========================
@@ -282,7 +283,7 @@ nav a:hover { color:var(--fg) }
 .embed.spotify{
   grid-column: 1 / -1;                      /* eigene Reihe, wie bei dir im HTML */
   justify-self: center;
-  width: calc((100% - var(--tile-gap) * 2) / 3);
+  width: calc((100% - var(--tile-gap) * 2) / 1.5);
   max-width: none;                           /* überschreibt .embed { max-width: var(--tile-w) } */
   aspect-ratio: 1;
   min-height: 352px;
@@ -349,7 +350,7 @@ nav a:hover { color:var(--fg) }
   display: block;
   width: 100%;
   max-width: var(--tile-w);
-  aspect-ratio: var(--thumb-ar);   /* gleiche Thumbnail-Ratio wie Embeds */
+  aspect-ratio: 5/4;   /* gleiche Thumbnail-Ratio wie Embeds */
   border-radius: 12px;
   overflow: hidden;
   background: #071a21;
@@ -372,6 +373,7 @@ nav a:hover { color:var(--fg) }
   display: grid;
   justify-content: center;
   justify-items: center;
+  max-width: var(--content-w);
   grid-template-columns: repeat(3, minmax(0, var(--tile-w))); /* feste Tile-Breite */
   gap: var(--tile-gap);
   margin: 0 auto;
@@ -401,11 +403,11 @@ nav a:hover { color:var(--fg) }
 
    /* Universelle Bildklasse – responsive, passt sich an Container an */
 .content-img {
-  max-width: 380px;
+  max-width: calc(var(--tile-w) * 0.8);
   width: 100%;
+  aspect-ratio: auto;
   border-radius: 12px;
   display: block;
-  margin-bottom: 16px;
 }
 
 /* Responsive Images – Bilder werden nie breiter als ihr Container */
