@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" data-size="S">
   <head>
     <meta charset="utf-8" />
     <title>Jonathan Heart</title>
@@ -76,19 +76,19 @@
     <section id="work" class="wrap section">
       <h2>Selected Work</h2>
 
-      <!-- Spotify Playlist (fixe Höhe via CSS-Variable; Größe mit .s/.m/.l steuerbar) -->
-        <div class="embed spotify xs" style="margin:56px auto;">
-          <iframe
-            src="https://open.spotify.com/embed/playlist/3Dx1Mv3YxzqyDBACvLPxs4?utm_source=generator&theme=0"
-            loading="lazy"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            allowfullscreen>
-          </iframe>
-        </div>
+      <div class="media-grid">
 
-      <div class="grid">
+          <!-- Spotify Playlist (fixe Höhe via CSS-Variable; Größe mit .s/.m/.l steuerbar) -->
+          <div class="embed spotify">
+            <iframe
+              src="https://open.spotify.com/embed/playlist/3Dx1Mv3YxzqyDBACvLPxs4?utm_source=generator&theme=0"
+              loading="lazy"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
           <!-- YouTube Playlist (responsiv 16:9 via CSS) -->
-          <div class="embed youtube xs">
+          <div class="embed youtube">
             <iframe
               src="https://www.youtube.com/embed/hkcfdRgLheQ?si=AkYb-eO_d8HOrZc8"
               title="YouTube Playlist"
@@ -97,7 +97,7 @@
             </iframe>
           </div>
 
-          <div class="embed youtube xs">
+          <div class="embed youtube">
             <iframe
               src="https://www.youtube.com/embed/EthbAJ00iqg?si=SSlg-FPbyOAa0HfJ"
               title="YouTube video player"
@@ -106,7 +106,7 @@
             </iframe>
           </div>
 
-          <div class="embed youtube xs">
+          <div class="embed youtube">
             <iframe
               src="https://www.youtube.com/embed/DV68w9O-R9E?si=RhxlV3EuEdjDJdax"
               title="YouTube video player"
@@ -115,7 +115,7 @@
             </iframe>
           </div>
 
-          <div class="embed youtube xs">
+          <div class="embed youtube">
             <iframe
               src="https://www.youtube.com/embed/REbrKoZy1YI?si=v2KlKfX2F-7jrz2e"
               title="YouTube video player"
@@ -124,7 +124,7 @@
             </iframe>
           </div>
 
-          <div class="embed youtube xs">
+          <div class="embed youtube">
             <iframe
               src="https://www.youtube.com/embed/Ic5oqa0zLKM?si=HDdqKrm-X4Xc3vlZ"
               title="YouTube video player"
@@ -133,7 +133,7 @@
             </iframe>
           </div>
 
-          <div class="embed youtube xs">
+          <div class="embed youtube">
             <iframe
               src="https://www.youtube.com/embed/Y3vEmhQQbto?si=yOWsaC8aVG_hCxOC"
               title="YouTube video player"
@@ -142,7 +142,7 @@
             </iframe>
           </div>
 
-          <div class="embed youtube xs">
+          <div class="embed youtube">
             <iframe
               src="https://www.youtube.com/embed/RtfhpJwiSDU?si=RO1D4SPHQDZPzsBt"
               title="YouTube video player"
@@ -155,39 +155,39 @@
 
     <section id="music" class="wrap section">
       <h2>Music</h2>
-      <div class="grid">
+      <div class="media-grid">
 
-        <div class="embed video xs">
+        <div class="embed video">
           <video controls preload="none" playsinline webkit-playsinline data-autoposter>
             <source src="assets/video/Day_at_the_Stu_web.mp4" type="video/mp4" />
           </video>
         </div>
 
-        <div class="embed video xs">
+        <div class="embed video">
           <video controls preload="none" playsinline webkit-playsinline data-autoposter>
             <source src="assets/video/Just a little progression I came up with.mp4" type="video/mp4" />
           </video>
         </div>
 
-        <div class="embed video xs">
+        <div class="embed video">
           <video controls preload="none" playsinline webkit-playsinline data-autoposter>
             <source src="assets/video/six six strings v4.mp4" type="video/mp4" />
           </video>
         </div>
 
-        <div class="embed video xs">
+        <div class="embed video">
           <video controls preload="none" playsinline webkit-playsinline data-autoposter>
             <source src="assets/video/Bass playing/Is this hope.mp4" type="video/mp4" />
           </video>
         </div>
 
-        <div class="embed video xs">
+        <div class="embed video">
           <video controls preload="none" playsinline webkit-playsinline data-autoposter>
             <source src="assets/video/Bass playing/melody.mp4" type="video/mp4" />
           </video>
         </div>
 
-        <div class="embed video xs">
+        <div class="embed video">
           <video controls preload="none" playsinline webkit-playsinline data-autoposter>
             <source src="assets/video/Bass playing/Quicksand.mp4" type="video/mp4" />
           </video>
@@ -200,7 +200,7 @@
       <h2>Studio</h2>
 
       <div class="gallery-layout">
-        <div id="gallery" class="gallery-grid"></div>
+        <div id="gallery" class="media-grid"></div>
           <aside class="gallery-footer">
             <button id="gallery-more" class="btn-more" hidden>Load more</button>
           </aside>
@@ -219,7 +219,7 @@
 
     <section id="mixing" class="wrap section">
       <h2>Mixing</h2>
-      <div class="grid">
+      <div class="media-grid">
 
 
       </div>

@@ -14,7 +14,19 @@ html {
   --accent:#235ac0;
   --header-h: 64px;
   --burgerbg: #0e1b23;
+  --tile-w: 460px;         /* Default-Fall, wird durch data-size überschrieben */
+  --tile-gap: 40px;
+  --tile-pad-x: 200px;     /* seitliche Innenräume der Grids (Desktop) */
+  --thumb-ar: 16/9;        /* Aspect-Ratio der THUMBNAILS (nicht der Player!) */
+  --cols-min: var(--tile-w);
 }
+
+/* Stufen (einfach per data-size am <html> umschalten) */
+:root[data-size="XS"] { --tile-w: 320px; --tile-pad-x: 200px}
+:root[data-size="S"]  { --tile-w: 380px; --tile-pad-x: 15px}
+:root[data-size="M"]  { --tile-w: 460px; --tile-pad-x: 100px}
+:root[data-size="L"]  { --tile-w: 560px; --tile-pad-x: 50px}
+:root[data-size="XL"] { --tile-w: 680px; --tile-pad-x: 0px}
 
 html, body {
   margin: 0;
@@ -217,6 +229,7 @@ nav a:hover { color:var(--fg) }
   grid-template-columns: max-content 1fr; /* Bild | Text */
   gap: 40px;
   align-items: center; /* oder center, wenn du vertikal mittig willst */
+  padding: 0 var(--tile-pad-x);
 }
 
 /* Bild bleibt deine content-img – keine globale Änderung nötig */
@@ -245,15 +258,54 @@ nav a:hover { color:var(--fg) }
 /* =========================
    EMBEDS
 ========================= */
-.embed {
-  margin:16px 0;
-  --radius:12px;
-  --player-height:380px; /* Default für fixe Player */
-  position:relative;
+
+/* === Gemeinsame Thumbnail-Kachel (Foto & Video) === */
+.media-grid .tile{
+  width: 100%;
+  max-width: var(--tile-w);
 }
 
-/* Iframe-Grundstil */
-.embed iframe {
+/* EMBEDS als Thumbnails: fester Rahmen mit definierter Thumb-Ratio */
+.embed{
+  --radius:12px;
+  position: relative;
+  width: 100%;
+  max-width: var(--tile-w);
+}
+
+/* Iframes (YouTube/Vimeo/Spotify etc.) – Thumbnail-Frame */
+:where(.embed.youtube, .embed.vimeo){
+  aspect-ratio: var(--thumb-ar);
+}
+
+/* Box wie eine Kachel, Höhe folgt Breite (smooth) */
+.embed.spotify{
+  grid-column: 1 / -1;                      /* eigene Reihe, wie bei dir im HTML */
+  justify-self: center;
+  width: calc((100% - var(--tile-gap) * 2) / 3);
+  max-width: none;                           /* überschreibt .embed { max-width: var(--tile-w) } */
+  aspect-ratio: 1;
+  min-height: 352px;
+  max-height: 370px;
+  height: 100%;
+  /*margin-bottom: calc(-1 * var(--tile-gap) - (var(--tile-gap)/1)); /* z.B. 16px netto */
+
+}
+
+@media (max-width: 900px){
+  .embed.spotify{
+    /* gleiche Breite-Logik wie die Tiles */
+    width: 100%;
+    max-width: var(--tile-w);    /* nicht größer als eine mittlere Kachel */
+    margin: 0 auto;
+
+    /* alte Begrenzungen neutralisieren */
+    max-height: 352px;
+    height: auto;
+  }
+}
+
+.embed iframe{
   width:100%;
   height:100%;
   border:0;
@@ -261,55 +313,53 @@ nav a:hover { color:var(--fg) }
   display:block;
 }
 
-.grid .embed.video {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.embed.video video {
-  width: auto;
-  height: 100%;
+/* Native Video-Thumbnails (wenn du <video> als Thumb anzeigst) */
+.embed.video {
+  aspect-ratio: var(--thumb-ar);
+  background: var(--black);
+  border-radius: var(--radius);
   display: block;
-  border: 0;
+}
+.embed.video video.thumb{
+  width:100%; height:100%;
+  object-fit: cover;       /* Thumbnail füllt die Kachel */
   border-radius: var(--radius);
-  object-fit: contain;        /* füllt schön; nutzt ggf. wenig Crop */
-  background: var(--black);
+}
+.embed.video video.playing{
+  aspect-ratio: auto;      /* beim Abspielen natürliche Größe */
+  width:auto; height:auto;
+  object-fit: contain;
+  max-width: 100%;
 }
 
-/* Music-Section: Thumbnails einheitlich */
-#music .embed.video video.thumb {
-  height: 80%;
-  width: 100% !important;
-  aspect-ratio: 16 / 9;   /* gleiche Thumbnail-Größe */
-  object-fit: cover;      /* füllt Kachel */
-  border-radius: var(--radius);
-  background: var(--black);
+/* Wenn ein Video spielt: Wrapper nicht mehr auf Thumbnail-Ratio festnageln */
+.embed.video:has(video.playing){
+  aspect-ratio: auto;     /* Höhe folgt Inhalt */
 }
 
-/* Wenn Video spielt -> natürliche Größe */
-#music .embed.video video.playing {
-  aspect-ratio: auto;     /* Seitenverhältnis freigeben */
-  width: var(--player-width);
+/* Das spielende Video füllt den Wrapper in echter Ratio */
+.embed.video:has(video.playing) video{
+  width: 100%;
   height: auto;
-  object-fit: contain;    /* zeigt Originalformat */
+  object-fit: contain;
 }
 
-/* ---- Größen-Profile ---- */
-.embed.xxxs { width:200px;  --player-width:200px; }
-.embed.xxs  { width:252px;  --player-width:252px; }
-.embed.xs   { width:352px;  --player-width:352px; }
-.embed.s   { width:380px;  --player-width:380px; }
-.embed.m   { width:500px;  --player-width:500px; }
-
-/* ---- Defaults (wenn keine Größe gesetzt) ---- */
-/* Videos bleiben 16:9 */
-:where(.embed.youtube, .embed.vimeo):not(.s,.m,.l) {
-  aspect-ratio:16/9;
+/* Foto-Thumbnails (Gallery) */
+.media-grid a.photo{
+  display: block;
+  width: 100%;
+  max-width: var(--tile-w);
+  aspect-ratio: var(--thumb-ar);   /* gleiche Thumbnail-Ratio wie Embeds */
+  border-radius: 12px;
+  overflow: hidden;
+  background: #071a21;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  content-visibility: auto;
+  contain-intrinsic-size: 400px 400px;
 }
-/* Spotify & Co. nutzen fixe Höhe */
-.embed.spotify, .embed.soundcloud, .embed.bandcamp iframe {
-  height: var(--player-width);
+.media-grid a.photo img{
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
 }
 
 
@@ -317,22 +367,23 @@ nav a:hover { color:var(--fg) }
 /* =========================
    GRID
 ========================= */
-.grid {
+/* === Einheitliches Grid für Videos + Fotos === */
+.media-grid{
   display: grid;
   justify-content: center;
   justify-items: center;
-  grid-template-columns: repeat(3, minmax(0, 1fr));  /* drei Spalten */
-  gap: 40px;
+  grid-template-columns: repeat(3, minmax(0, var(--tile-w))); /* feste Tile-Breite */
+  gap: var(--tile-gap);
   margin: 0 auto;
-  padding: 0 200px;
-  align-items: center;               /* keine Stretch-Höhen */
+  padding: 0 var(--tile-pad-x);
+  align-items: start;
 }
 
-/* Mobile: untereinander */
-@media (max-width: 600px) {
-.grid {
-    grid-template-columns: 1fr;    /* eine Spalte */
-    gap: 16px;
+/* Mobile: 1 Spalte, kleinere Abstände */
+@media (max-width: 900px){
+  .media-grid{
+    grid-template-columns: 1fr;
+    gap: var(--tile-gap);
     padding: 0 16px;
   }
 }
@@ -393,35 +444,7 @@ nav a:hover { color:var(--fg) }
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: 0 130px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-/* Grid mit genau 3 Spalten (für kleinere Thumbs auf 4 erhöhen) */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-  padding: 0;
-}
-
-/* Bildkarten */
-.gallery-grid .photo {
-  display: block;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #071a21;
-  box-shadow: 0 8px 24px rgba(0,0,0,.25);
-  aspect-ratio: 4 / 4;
-  content-visibility: auto;
-  contain-intrinsic-size: 400px 400px;
-}
-.gallery-grid .photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  margin:0 auto;
 }
 
 /* Footer mit Button unten zentriert */
@@ -436,10 +459,6 @@ nav a:hover { color:var(--fg) }
   .gallery-layout {
     gap: 20px;
     padding: 0 16px;
-  }
-  .gallery-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
   }
 }
 
