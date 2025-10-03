@@ -43,6 +43,14 @@ nav a { margin-right:16px; color:var(--muted); text-decoration:none }
 nav a:hover { color:var(--fg) }
 .small { color:var(--muted); font-size:14px }
 
+p {
+  margin: 0;                /* kein globaler bottom-margin */
+}
+
+p + p {
+  margin-top: 1em;          /* Abstand nur zwischen aufeinanderfolgenden Absätzen */
+}
+
 /* =========================
    Fixed Top Navigation (rechtsbündig)
    – neue Klassen für deine gewünschte Topbar
