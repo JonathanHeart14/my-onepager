@@ -168,7 +168,7 @@ p + p {
 .hero-subtitle{
   color: var(--fg);
   font-size: clamp(16px, 2.5vw, 26px);
-  margin: 0;
+  margin-bottom: 27px;
 }
 
 .social-links {
@@ -224,7 +224,27 @@ p + p {
 ========================= */
 
 /* Sektionen sollen beim Ankern nicht unter die fixe Nav rutschen */
-.section { scroll-margin-top: calc(var(--header-h) + 0px); }
+.section {
+  scroll-margin-top: calc(var(--header-h) + 0px);
+  position: relative;
+  padding-bottom: 80px; /* mehr Platz zwischen Inhalt und Strich */
+  margin-bottom: 10px;  /* mehr Platz zwischen Strich und nächster Section */
+}
+
+.section::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(1.5 * var(--tile-w));    /* Browserbreite */
+  height: 3px;
+  background: color-mix(in srgb, var(--muted) 30%, transparent);
+}
+
+.section:last-of-type::after {
+  display: none;
+}
 
 .slogan {
   font-size:24px;
