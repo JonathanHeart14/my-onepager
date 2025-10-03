@@ -19,6 +19,7 @@ html {
   --tile-pad-x: 200px;     /* seitliche Innenräume der Grids (Desktop) */
   --thumb-ar: 16/9;        /* Aspect-Ratio der THUMBNAILS (nicht der Player!) */
   --content-w: calc(var(--tile-w) * 3 + var(--tile-gap) * 2); /* 3 Tiles + 2 Gaps */
+  --mobile_pad: 40px;
 }
 
 /* Stufen (einfach per data-size am <html> umschalten) */
@@ -334,8 +335,8 @@ body.lb-open{ overflow:hidden; }
   .wrap:has(.split),
   .wrap:has(.embed),
   .wrap:has(.grid){
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: var(--mobile_pad);
+    padding-right: var(--mobile_pad);
   }
 
   /* 2) Universelle Breiten-Klammer:
