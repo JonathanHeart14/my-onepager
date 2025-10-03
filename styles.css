@@ -140,8 +140,14 @@ p + p { margin-top: 1em; }
   margin-bottom: 10px;
 }
 .section::after {
-  content:""; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
-  width: calc(1.5 * var(--tile-w)); height:3px;
+  content:"";
+  position:absolute;
+  bottom:15px;
+  left:50%;
+  transform:translateX(-50%);
+  width: calc(70vw - 2 * var(--mobile_pad)); /* immer viewportabhängig */
+  max-width: calc(1.8 * var(--tile-w));
+  height:3px;
   background: color-mix(in srgb, var(--muted) 30%, transparent);
 }
 .section:last-of-type::after { display: none; }
@@ -164,7 +170,7 @@ p + p { margin-top: 1em; }
 @media (max-width: 900px){
   .split{
     grid-template-columns: 1fr;
-    gap: 0px;
+    gap: 20px;
     padding: 0;
     max-width: var(--tile-w);  /* einheitliche Breite wie Tiles */
     margin: 0 auto;
@@ -331,5 +337,9 @@ body.lb-open{ overflow:hidden; }
   /* Spotify */
   .embed.spotify {
     min-width: 0px;
+  }
+
+  .section::after {
+    width: calc(0.9 * var(--tile-w));
   }
 }
