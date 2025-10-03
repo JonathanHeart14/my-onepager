@@ -39,7 +39,7 @@ html, body {
 @media (max-width: 900px){
   .wrap {
     max-width: 100%;
-    /* WICHTIG: Einheits-Padding auf Mobile, damit alle Sections gleich breit sind */
+    /* Einheits-Padding auf Mobile */
     padding-left: 16px;
     padding-right: 16px;
   }
@@ -51,37 +51,22 @@ nav a { margin-right:16px; color:var(--muted); text-decoration:none }
 nav a:hover { color:var(--fg) }
 .small { color:var(--muted); font-size:14px }
 
-p {
-  margin: 0;                /* kein globaler bottom-margin */
-}
-
-p + p {
-  margin-top: 1em;          /* Abstand nur zwischen aufeinanderfolgenden Absätzen */
-}
+p { margin: 0; }
+p + p { margin-top: 1em; }
 
 /* =========================
-   Fixed Top Navigation (rechtsbündig)
-   – neue Klassen für deine gewünschte Topbar
+   Fixed Top Navigation
 ========================= */
-/* Home-Link (links in der Leiste) */
 .home-link {
-  margin-right: auto;             /* alles rechts vom Haus wird nach rechts geschoben */
+  margin-right: auto;
   display: flex;
   align-items: center;
   padding: 0 0px;
   color: var(--muted);
   text-decoration: none;
 }
-
-.home-link:hover {
-  color: var(--accent);            /* Farbe beim Hovern (rot z.B.) */
-}
-
-.home-icon {
-  display: block;
-  width: 24px;
-  height: 24px;
-}
+.home-link:hover { color: var(--accent); }
+.home-icon { display:block; width:24px; height:24px; }
 
 .site-nav{
   position: fixed; inset: 0 0 auto 0;
@@ -93,174 +78,76 @@ p + p {
   z-index: 50;
   border-bottom: 1px solid color-mix(in oklab, var(--fg) 12%, transparent);
 }
-
 .site-nav .wrap{
-  max-width: none;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
+  max-width: none; width: 100%; margin: 0; padding: 0;
+  display: flex; align-items: center;
 }
 
-.nav-list{
-  display: flex;
-  gap: 20px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.nav-list a{
-  color: var(--muted); text-decoration:none; font-weight:500;
-}
-
+.nav-list{ display:flex; gap:20px; list-style:none; margin:0; padding:0; }
+.nav-list a{ color: var(--muted); text-decoration:none; font-weight:500; }
 .nav-list a:hover{ color: var(--accent); }
 
-.burger {
-  display: none;       /* wird erst auf Mobile sichtbar */
-  background: none;
-  border: none;
-  font-size: 28px;
-  cursor: pointer;
-  color: var(--fg);
-}
-
-.burger:hover {
-  color: var(--accent);            /* Farbe beim Hovern (rot z.B.) */
-}
+.burger { display:none; background:none; border:none; font-size:28px; cursor:pointer; color:var(--fg); }
+.burger:hover { color: var(--accent); }
 
 @media (max-width: 768px) {
   .nav-list {
-    display: none;            /* normale Links verstecken */
-    position: absolute;
-    top: var(--header-h);
-    right: 0;
+    display: none;
+    position: absolute; top: var(--header-h); right: 0;
     background: var(--bg);
-    flex-direction: column;
-    gap: 16px;
-    padding: 16px 24px;
+    flex-direction: column; gap: 16px; padding: 16px 24px;
     border: 1px solid color-mix(in oklab, var(--fg) 15%, transparent);
   }
-
-  .nav-list.show {
-    display: flex;            /* sichtbar, wenn per JS getoggelt */
-  }
-
-  .burger {
-    display: block;           /* Burger sichtbar machen */
-  }
-
+  .nav-list.show { display: flex; }
+  .burger { display: block; }
 }
 
-
 /* =========================
-   Landing Hero (zentrierter Name + Subtitle)
+   Landing Hero
 ========================= */
 .hero.landing{
-  min-height: calc(100dvh - var(--header-h)); /* volle Höhe unter Topbar */
-  display: grid;
-  place-items: center;
-  text-align: center;
-  padding: 24px;
+  min-height: calc(100dvh - var(--header-h));
+  display: grid; place-items: center;
+  text-align: center; padding: 24px;
   background: url("assets/img/Background_blended.png") no-repeat center/cover;
-  /* background: var(--bg); /* neutral – optional unten Bild aktivieren */
 }
 .hero-inner{ margin-top: calc(var(--header-h) * 0.5); }
 .hero-title{
   color: var(--fg);
   font-size: clamp(42px, 8vw, 96px);
-  line-height: 1.05;
-  margin: 0 0 8px 0;
-  letter-spacing: 0.5px;
+  line-height: 1.05; margin: 0 0 8px 0; letter-spacing: .5px;
 }
-.hero-subtitle{
-  color: var(--fg);
-  font-size: clamp(16px, 2.5vw, 26px);
-  margin-bottom: 27px;
-}
+.hero-subtitle{ color: var(--fg); font-size: clamp(16px, 2.5vw, 26px); margin-bottom: 27px; }
 
-.social-links {
-  margin-top: 24px;
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-}
-
-.social-links a {
-  color: var(--fg); /* Standard: Weiß */
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-}
-
-.icon-mask {
-  --icon: none;
-  width: 36px;
-  height: 36px;
-  background-color: currentColor;
-  -webkit-mask: var(--icon) center / contain no-repeat;
-  mask: var(--icon) center / contain no-repeat;
-}
-
-.social-links a:hover {
-  color: var(--accent); /* Hover: Rot (deine Akzentfarbe) */
-}
-
-/* Optional: Hintergrundbild für Hero aktivieren (Desktop/Mobile getrennt) */
-/*
-.hero.landing{
-  background: url("assets/img/header-desktop.jpg") no-repeat center/cover;
-}
-@media (max-width: 768px){
-  .hero.landing{
-    background-image: url("assets/img/header-mobile.jpg");
-    background-position: center top;
-  }
-}
-*/
+.social-links { margin-top: 24px; display:flex; gap:20px; justify-content:center; }
+.social-links a { color: var(--fg); text-decoration:none; display:inline-flex; align-items:center; }
+.icon-mask { --icon:none; width:36px; height:36px; background-color: currentColor; -webkit-mask: var(--icon) center / contain no-repeat; mask: var(--icon) center / contain no-repeat; }
+.social-links a:hover { color: var(--accent); }
 
 /* =========================
    Hero Section
 ========================= */
-.hero {
-  height: 100vh;  /* 1 Bildschirmhöhe */
-  background: url("assets/img/Background.png") no-repeat center/cover;
-}
+.hero { height: 100vh; background: url("assets/img/Background.png") no-repeat center/cover; }
 
 /* =========================
    Sections
 ========================= */
-
-/* Sektionen sollen beim Ankern nicht unter die fixe Nav rutschen */
 .section {
   scroll-margin-top: calc(var(--header-h) + 0px);
   position: relative;
-  padding-bottom: 80px; /* mehr Platz zwischen Inhalt und Strich */
-  margin-bottom: 10px;  /* mehr Platz zwischen Strich und nächster Section */
+  padding-bottom: 80px;
+  margin-bottom: 10px;
 }
-
 .section::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(1.5 * var(--tile-w));    /* Browserbreite */
-  height: 3px;
+  content:""; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+  width: calc(1.5 * var(--tile-w)); height:3px;
   background: color-mix(in srgb, var(--muted) 30%, transparent);
 }
+.section:last-of-type::after { display: none; }
 
-.section:last-of-type::after {
-  display: none;
-}
+.slogan { font-size:24px; margin: 0 auto 0px; text-align: left; }
 
-.slogan {
-  font-size:24px;
-  margin: 0 auto 0px;
-  text-align: left;
-}
-
-/* Desktop/Tablet: zwei Spalten nebeneinander */
+/* Desktop/Tablet */
 .split{
   display: grid;
   grid-template-columns: max-content 1fr;
@@ -268,176 +155,124 @@ p + p {
   padding: 0 var(--tile-pad-x);
   margin: auto;
   gap: 50px;
-  align-items: end; /* oder center, wenn du vertikal mittig willst */
+  align-items: end;
   text-align: justify;
 }
 
-
-/* Mobile: untereinander (Bild -> Slogan -> Text) */
+/* Mobile: untereinander + BREITENANGLEICH */
 @media (max-width: 900px){
   .split{
-    grid-template-columns: 1fr; /* eine Spalte */
+    grid-template-columns: 1fr;
     gap: 0px;
-    /* gleiche Innenränder wie alle anderen Mobile-Grids */
     padding: 0;
+    max-width: var(--tile-w);  /* einheitliche Breite wie Tiles */
+    margin: 0 auto;
   }
-
   .split .content-img {
-    margin-left: auto;
-    margin-right: auto;
-    display: block; /* sorgt dafür, dass margin:auto wirkt */
+    margin-left: auto; margin-right: auto; display: block;
+    max-width: 100%;
   }
-
-  .slogan {
-    text-align: center;
-  }
-  
+  .slogan { text-align: center; }
 }
 
 /* =========================
    EMBEDS
 ========================= */
 
-/* === Gemeinsame Thumbnail-Kachel (Foto & Video) === */
-.media-grid .tile{
-  width: 100%;
-  max-width: var(--tile-w);
-}
+/* Gemeinsame Kachel */
+.media-grid .tile{ width: 100%; max-width: var(--tile-w); }
 
-/* EMBEDS als Thumbnails: fester Rahmen mit definierter Thumb-Ratio */
-.embed{
-  --radius:12px;
-  position: relative;
-  width: 100%;
-  max-width: var(--tile-w);
-}
+/* EMBED-Wrapper */
+.embed{ --radius:12px; position: relative; width: 100%; max-width: var(--tile-w); }
 
-/* Iframes (YouTube/Vimeo/Spotify etc.) – Thumbnail-Frame */
-:where(.embed.youtube, .embed.vimeo){
-  aspect-ratio: var(--thumb-ar);
-}
+/* YouTube/Vimeo Thumbnail-Frame */
+:where(.embed.youtube, .embed.vimeo){ aspect-ratio: var(--thumb-ar); }
 
-/* Box wie eine Kachel, Höhe folgt Breite (smooth) */
+/* Spotify (Desktop) */
 .embed.spotify{
-  grid-column: 1 / -1;                      /* eigene Reihe, wie bei dir im HTML */
+  grid-column: 1 / -1;
   justify-self: center;
   width: calc((100% - var(--tile-gap) * 2) / 1.5);
-  max-width: none;                           /* überschreibt .embed { max-width: var(--tile-w) } */
+  max-width: none;
   aspect-ratio: 1;
-  min-height: 352px;
-  max-height: 370px;
-  height: 100%;
+  min-height: 352px; max-height: 370px; height: 100%;
 }
 
+/* Spotify (Mobile) – EXAKT gleiche Innenbreite */
 @media (max-width: 900px){
   .embed.spotify{
-    /* gleiche Breite-Logik wie die Tiles */
     width: 100%;
-    max-width: var(--tile-w);
+    max-width: 100%;     /* folgt dem Parent, der auf var(--tile-w) begrenzt wird */
     margin: 0 auto;
-
-    /* alte Begrenzungen neutralisieren */
-    max-height: 352px;
-    height: auto;
+    max-height: 352px; height: auto;
   }
 }
 
 .embed iframe{
-  width:100%;
-  height:100%;
-  border:0;
-  border-radius:var(--radius);
-  display:block;
+  width:100%; height:100%; border:0; border-radius:var(--radius); display:block;
 }
 
-/* Native Video-Thumbnails (wenn du <video> als Thumb anzeigst) */
-.embed.video {
-  aspect-ratio: var(--thumb-ar);
-  background: var(--black);
-  border-radius: var(--radius);
-  display: block;
-}
-.embed.video video.thumb{
-  width:100%; height:100%;
-  object-fit: cover;       /* Thumbnail füllt die Kachel */
-  border-radius: var(--radius);
-}
-.embed.video video.playing{
-  aspect-ratio: auto;      /* beim Abspielen natürliche Größe */
-  width:auto; height:auto;
-  object-fit: contain;
-  max-width: 100%;
-}
-
-/* Wenn ein Video spielt: Wrapper nicht mehr auf Thumbnail-Ratio festnageln */
-.embed.video:has(video.playing){
-  aspect-ratio: auto;     /* Höhe folgt Inhalt */
-}
-
-/* Das spielende Video füllt den Wrapper in echter Ratio */
-.embed.video:has(video.playing) video{
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-}
+/* Native Video-Thumbnails */
+.embed.video { aspect-ratio: var(--thumb-ar); background: var(--black); border-radius: var(--radius); display: block; }
+.embed.video video.thumb{ width:100%; height:100%; object-fit: cover; border-radius: var(--radius); }
+.embed.video video.playing{ aspect-ratio: auto; width:auto; height:auto; object-fit: contain; max-width: 100%; }
+.embed.video:has(video.playing){ aspect-ratio: auto; }
+.embed.video:has(video.playing) video{ width: 100%; height: auto; object-fit: contain; }
 
 /* Foto-Thumbnails (Gallery) */
 .media-grid a.photo{
   display: block;
   width: 100%;
   max-width: var(--tile-w);
-  aspect-ratio: 5/4;   /* gleiche Thumbnail-Ratio wie Embeds */
-  border-radius: 12px;
-  overflow: hidden;
-  background: #071a21;
+  aspect-ratio: 5/4;
+  border-radius: 12px; overflow: hidden; background: #071a21;
   box-shadow: 0 8px 24px rgba(0,0,0,.25);
-  content-visibility: auto;
-  contain-intrinsic-size: 400px 400px;
+  content-visibility: auto; contain-intrinsic-size: 400px 400px;
 }
-.media-grid a.photo img{
-  width: 100%; height: 100%;
-  object-fit: cover; display: block;
-}
-
-
+.media-grid a.photo img{ width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* =========================
    GRID
 ========================= */
-/* === Einheitliches Grid für Videos + Fotos === */
+/* Einheitliches Grid */
 .media-grid{
   display: grid;
   justify-content: center;
   justify-items: center;
   max-width: var(--content-w);
-  grid-template-columns: repeat(3, minmax(0, var(--tile-w))); /* feste Tile-Breite */
+  grid-template-columns: repeat(3, minmax(0, var(--tile-w)));
   gap: var(--tile-gap);
   margin: 0 auto;
   padding: 0 var(--tile-pad-x);
   align-items: start;
 }
 
-/* Mobile: 1 Spalte, kleinere Abstände */
+/* Mobile-ANGLEICH: Containerbreite vereinheitlichen + Kinder auf 100% */
 @media (max-width: 900px){
   .media-grid{
     grid-template-columns: 1fr;
     gap: var(--tile-gap);
-    padding: 0 16px;
+    padding-left: 0;       /* kein zusätzliches Padding gegenüber .wrap */
+    padding-right: 0;
+    max-width: var(--tile-w);
+    margin: 0 auto;
+  }
+  /* Alle direkten Kinder exakt gleich breit */
+  .media-grid > *,
+  .media-grid :is(.embed, a.photo){
+    width: 100%;
+    max-width: 100%;
   }
 }
 
 /* =========================
    Responsive Tweaks
 ========================= */
-@media (max-width:600px) {
-  .embed { --player-height:320px; }
-}
+@media (max-width:600px) { .embed { --player-height:320px; } }
 
 /* =========================
    IMAGES
-   ========================= */
-
-/* Universelle Bildklasse – responsive, passt sich an Container an */
+========================= */
 .content-img {
   max-width: calc(var(--tile-w) * 0.8);
   width: 100%;
@@ -445,115 +280,42 @@ p + p {
   border-radius: 12px;
   display: block;
 }
-
-/* Mobile: Bilder auf gleiche Breite wie andere Inhalte bringen */
 @media (max-width: 900px){
-  .content-img {
-    max-width: var(--tile-w); /* identisch zu Embeds/Gallery */
-    width: 100%;
-  }
+  .content-img { max-width: 100%; width: 100%; }
 }
 
-/* Responsive Images – Bilder werden nie breiter als ihr Container */
-.img-responsive {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
+/* Responsive Images helpers */
+.img-responsive { max-width: 100%; height: auto; display: block; }
+.media-img { max-width: 200px; height: auto; display: block; margin: 0 auto; }
+.section-img { max-width: 600px; width: 100%; height: auto; margin: 24px 0; display: block; }
+.image { max-width: 100%; height: auto; display: inline-block; }
 
-/* Media Images – gedacht für eingebettete Medienbilder, z.B. Logos oder Cover */
-.media-img {
-  max-width: 200px;
-  height: auto;
-  display: block;
-  margin: 0 auto; /* zentriert im Container */
-}
-
-/* Section Images – für Bilder, die zu ganzen Inhaltsabschnitten gehören */
-.section-img {
-  max-width: 600px;
-  width: 100%;
-  height: auto;
-  margin: 24px 0;
-  display: block;
-}
-
-/* Generic Image – neutrale Basis-Klasse, falls kein spezieller Style gebraucht wird */
-.image {
-  max-width: 100%;
-  height: auto;
-  display: inline-block;
-}
-
-/* --- Studio Gallery: einspaltiges Layout mit Button unten --- */
-.gallery-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  margin:0 auto;
-}
-
-/* Footer mit Button unten zentriert */
-.gallery-footer {
-  display: flex;
-  justify-content: center;
-  padding-top: 8px;
-}
-
-/* Mobile: 1 Spalte, kleinere Abstände */
+/* --- Studio Gallery Layout --- */
+.gallery-layout { display:flex; flex-direction:column; gap:32px; margin:0 auto; }
+/* Mobile: KEIN zusätzliches Padding mehr – gleiche Breite wie media-grid */
 @media (max-width: 900px) {
   .gallery-layout {
     gap: 20px;
-    padding: 0 16px;
+    padding-left: 0;
+    padding-right: 0;
+    max-width: var(--tile-w);
   }
 }
 
+/* Footer mit Button unten zentriert */
+.gallery-footer { display:flex; justify-content:center; padding-top:8px; }
+
 /* Lightbox */
-.lightbox{
-  position:fixed; inset:0;
-  background:rgba(0,0,0,.9);
-  display:flex; align-items:center; justify-content:center;
-  padding:24px; z-index:999;
-}
+.lightbox{ position:fixed; inset:0; background:rgba(0,0,0,.9); display:flex; align-items:center; justify-content:center; padding:24px; z-index:999; }
 .lightbox[hidden]{ display:none; }
-.lightbox img{
-  max-width:90vw; max-height:90vh;
-  border-radius:12px;
-}
-/* Lightbox Navigation + Counter */
-.lb-nav{
-  position:absolute; top:50%; transform:translateY(-50%);
-  width:48px; height:48px; border-radius:50%;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.2);
-  color:#fff; font-size:28px; cursor:pointer;
-  display:grid; place-items:center;
-}
-.lb-prev{ left:16px; }
-.lb-next{ right:16px; }
+.lightbox img{ max-width:90vw; max-height:90vh; border-radius:12px; }
+.lb-nav{ position:absolute; top:50%; transform:translateY(-50%); width:48px; height:48px; border-radius:50%; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.2); color:#fff; font-size:28px; cursor:pointer; display:grid; place-items:center; }
+.lb-prev{ left:16px; } .lb-next{ right:16px; }
 .lb-nav:hover{ background:rgba(255,255,255,.15); }
-
-.lb-counter{
-  position:absolute; left:50%; transform:translateX(-50%);
-  bottom:18px; color:#eaeaea; font-size:14px;
-  background:rgba(0,0,0,.35);
-  padding:6px 10px; border-radius:8px;
-  border:1px solid rgba(255,255,255,.12);
-}
-
-/* Body scroll sperren, wenn Lightbox offen */
+.lb-counter{ position:absolute; left:50%; transform:translateX(-50%); bottom:18px; color:#eaeaea; font-size:14px; background:rgba(0,0,0,.35); padding:6px 10px; border-radius:8px; border:1px solid rgba(255,255,255,.12); }
 body.lb-open{ overflow:hidden; }
-
-.lb-close{
-  position:absolute; top:16px; right:16px;
-  background:transparent; border:0; color:#fff;
-  font-size:28px; line-height:1; cursor:pointer;
-}
-.btn-more{
-  display:block; margin:24px auto 0;
-  background:#0e1b23; color:#ececec; border:1px solid rgba(255,255,255,.12);
-  padding:10px 16px; border-radius:10px; cursor:pointer;
-}
+.lb-close{ position:absolute; top:16px; right:16px; background:transparent; border:0; color:#fff; font-size:28px; line-height:1; cursor:pointer; }
+.btn-more{ display:block; margin:24px auto 0; background:#0e1b23; color:#ececec; border:1px solid rgba(255,255,255,.12); padding:10px 16px; border-radius:10px; cursor:pointer; }
 .btn-more:hover{ background:#12232b; }
 
 [hidden] { display: none !important; }
