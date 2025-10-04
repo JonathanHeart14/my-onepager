@@ -132,7 +132,7 @@ p + p { margin-top: 1em; }
   right: 0;                 /* <<< statt left/translateX */
   z-index: 9999;
 
-  width: min(60vw, 480px);  /* wie breit das Menü sein soll */
+  width: 60vw;  /* wie breit das Menü sein soll */
 
   display: flex;
   flex-direction: column;
