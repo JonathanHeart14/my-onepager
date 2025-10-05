@@ -5,6 +5,14 @@
     <title>Jonathan Heart</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="musician · producer · mixing engineer" />
+
+  <style>
+    :root { --muted:#bdbdbd; --accent:#235ac0 }
+    .home-link:link, .home-link:visited { color: var(--muted); text-decoration: none }
+    .home-icon { width:24px; height:24px; display:block }
+    @media (hover:hover){ .home-link:hover { color: var(--accent) } }
+  </style>
+    
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -775,19 +783,17 @@ document.querySelectorAll('#music .embed.video video').forEach(v => {
 
 <script>
 (() => {
-  // Mobile-Grenze zentral
-  const mql = window.matchMedia('(max-width: 900px)');
+  if (window.innerWidth > 900) return;
+  // CSS-Empfehlung: html { scroll-behavior: auto; } (verhindert Konflikte)
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   let rafId = null;
   let cancelers = [];
 
-  function isMobile(){ return mql.matches; }
-  function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
-
-  // Cinematic easing
+  // 🎬 Cinematic easing – sanftes Beschleunigen & Abbremsen
   function easeInOutQuint(t){
-    return t < 0.5 ? 16*t*t*t*t*t : 1 - Math.pow(-2*t + 2, 5) / 2;
+    return t < 0.5
+      ? 16 * t * t * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 5) / 2;
   }
 
   function getHeaderOffset(){
@@ -796,8 +802,11 @@ document.querySelectorAll('#music .embed.video video').forEach(v => {
     return Number.isFinite(n) ? n : 0;
   }
 
-  // Dauer abhängig von Strecke (cinematisch)
+  function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+  // 🎥 Dauer dynamisch mit Strecke: langsam, filmisch
   function durationFor(distancePx){
+    // 0.8 ms pro px, min 420 ms, max 1800 ms
     return clamp(Math.round(distancePx * 0.8), 420, 1800);
   }
 
@@ -830,15 +839,12 @@ document.querySelectorAll('#music .embed.video video').forEach(v => {
     if (rafId) cancelAnimationFrame(rafId);
     const startY = window.scrollY || window.pageYOffset;
     const diff   = targetY - startY;
-    if (Math.abs(diff) < 1) return;
+    if (Math.abs(diff) < 1) return; // already there
 
     const start  = performance.now();
     const cleanup = cancelOnUserInput();
 
     const step = (now) => {
-      // Wenn währenddessen auf Desktop gewechselt wurde: abbrechen
-      if (!isMobile()) { cancelAnimationFrame(rafId); rafId = null; cleanup(); return; }
-
       const t = clamp((now - start) / dur, 0, 1);
       const y = startY + diff * easeInOutQuint(t);
       window.scrollTo(0, y);
@@ -852,38 +858,18 @@ document.querySelectorAll('#music .embed.video video').forEach(v => {
     rafId = requestAnimationFrame(step);
   }
 
-  // 🔁 Wechsel Mobile ↔ Desktop: Animation stoppen + Fokus säubern
-  mql.addEventListener?.('change', () => {
-    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-
-    if (!isMobile()) {
-      // aktives Element blur'en, falls es ein Sprungziel war
-      const active = document.activeElement;
-      if (active && active.matches('[tabindex="-1"], section[id], [id]')) {
-        active.blur();
-      }
-      // temporäre tabindex="-1" entfernen
-      document.querySelectorAll('[tabindex="-1"]').forEach(el => el.removeAttribute('tabindex'));
-    }
-  });
-
-  // 🧭 Delegation: alle internen Hash-Links
+  // 🎯 Klicks auf interne Anker-Links abfangen
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[href^="#"]');
     if (!a) return;
-
     const hash = a.getAttribute('href');
     const id   = hash.slice(1);
     const target = id ? document.getElementById(id) : document.body;
     if (!target) return;
 
-    // Auf Desktop: natives Verhalten (kein Eingriff, kein Fokus)
-    if (!isMobile()) return;
-
-    // Auf Mobile: eigener Smooth-Scroll
     e.preventDefault();
 
-    // Mobile-Menü sofort schließen (ohne Animation)
+    // Menü ggf. schließen (instant)
     const overlay = document.getElementById('mobile-menu');
     const burger  = document.querySelector('.burger');
     if (overlay && overlay.hasAttribute('data-open')) {
@@ -903,19 +889,14 @@ document.querySelectorAll('#music .embed.video video').forEach(v => {
       smoothScrollTo(targetY, durationFor(distance));
     }
 
-    // Fokus für A11y nur auf Mobile, temporär & ohne sichtbare Outline
+    // Fokus/URL ohne Sprung
     if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex','-1');
     target.focus?.({ preventScroll: true });
-    target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });
-
-    // URL aktualisieren
     if (history.pushState) history.pushState(null, '', hash);
     else location.hash = hash;
   }, { passive: false });
 })();
 </script>
-
-
 
 
 
