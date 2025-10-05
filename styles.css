@@ -145,7 +145,7 @@ p + p { margin-top: 1em; }
   body.menu-open { overflow: hidden; }
   body.menu-open .site-nav { backdrop-filter: none; }
 @media (max-width: 900px){
-  .site-nav { backdrop-filter: blur(4px); } /* leichter statt 6px */
+  .site-nav { backdrop-filter: blur(6px); } /* leichter statt 6px */
 }
 
 
