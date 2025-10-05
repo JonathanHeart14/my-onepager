@@ -52,10 +52,10 @@
             <span class="icon-mask" style="--icon: url('assets/icons/Spotify.svg')"></span>
           </a>
           <a href="https://youtube.com/@deinprofil" target="_blank" aria-label="YouTube">
-            <span class="icon-mask" style="--icon: url('assets/icons/Youtube.svg'); width:44px;"></span>
+            <span class="icon-mask" style="--icon: url('assets/icons/Youtube.svg'); width:45px;"></span>
           </a>
           <a href="mailto:deineadresse@email.com" target="_blank" aria-label="Email">
-            <span class="icon-mask" style="--icon: url('assets/icons/Mail.svg'); width:41px;"></span>
+            <span class="icon-mask" style="--icon: url('assets/icons/Mail.svg'); width:43px;"></span>
           </a>
         </div>
        
@@ -314,77 +314,134 @@
     <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
 
 <!-- Java Scripts-->
-
 <script>
-(() => {
+  // 1) Referenzen besorgen
   const burger  = document.querySelector('.burger');
-  const srcList = document.querySelector('.site-nav .nav-list');
+  const srcList = document.querySelector('.site-nav .nav-list'); // Liste im Header
 
-  if (!burger || !srcList) return;
+  // Wenn etwas fehlt: abbrechen (schützt vor Fehlern)
+  if (burger && srcList) {
+    // 2) Overlay nur erzeugen, wenn es noch nicht existiert
+    let overlay = document.getElementById('mobile-menu');
+    if (!overlay) {
+      overlay = document.createElement('ul');
+      overlay.id = 'mobile-menu';
+      overlay.className = 'nav-list nav-overlay';
+      overlay.innerHTML = srcList.innerHTML;     // Inhalte klonen
+      document.body.appendChild(overlay);         // AUS dem Header herausziehen;
 
-  // Ensure overlay exists, cloned from header list
-  let overlay = document.getElementById('mobile-menu');
-  if (!overlay) {
-    overlay = document.createElement('ul');
-    overlay.id = 'mobile-menu';
-    overlay.className = 'nav-list nav-overlay';
-overlay.innerHTML = `
-  ${srcList.innerHTML}
-  <li class="nav-footer">
-    <p>© ${new Date().getFullYear()} Jonathan Heart<br>
-    musician · producer · mixing engineer</p>
-  </li>
-`;
-    document.body.appendChild(overlay);
-  }
 
-  function isOpen() { return overlay.hasAttribute('data-open'); }
+    // Smooth toggle helper to ensure transition is applied
+    function _forceFrame() {
+      // force reflow
+      void overlay.offsetHeight;
+      // and one animation frame
+      return new Promise(requestAnimationFrame);
+    }
 
-  function openMenu() {
-    overlay.setAttribute('data-open', '');
-    document.body.classList.add('menu-open');
-    burger.setAttribute('aria-expanded', 'true');
-    burger.classList.add('active');
-  }
+    // compute scrollbar width for potential desktop lock (no-op on most mobiles)
+    (function computeSBW(){
+      const sbw = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.setProperty('--sbw', sbw + 'px');
+    })();
 
-  function closeMenu(animated = true) {
-    if (!animated) overlay.classList.add('no-anim');
-    overlay.removeAttribute('data-open');
-    document.body.classList.remove('menu-open');
+    }
+
+    // Animations-Status, um Doppelklicks zu verhindern
+    let isAnimating = false;
+
+    // Transition-Ende sauber behandeln (nur für unsere Slide-Animation)
+    overlay.addEventListener('transitionend', (e) => {
+      if (e.propertyName !== 'transform') return;
+      if (overlay.classList.contains('closing')) {
+        overlay.classList.remove('closing');     // zurück in den Basiszustand (unsichtbar)
+      }
+      isAnimating = false;
+    });
+
+    // 3) Toggle-Logik
+    async function toggleMenu(force) {
+      if (overlay.classList.contains('closing')) return;
+    /*  if (isAnimating) return; // blocken während der Animation */
+
+      const isOpen = overlay.classList.contains('show');
+      const open   = typeof force === 'boolean' ? force : !isOpen;
+
+      if (open) {
+        // Sicherheitsmaßnahme: evtl. frühere Inline-Styles entfernen
+        isAnimating = true;
+        overlay.style.visibility = '';
+        overlay.style.pointerEvents = '';
+
+        overlay.classList.remove('closing');
+        await _forceFrame();
+        overlay.classList.add('show');
+        document.body.classList.add('menu-open');
+        burger.setAttribute('aria-expanded', 'true');
+        burger.classList.add('active');
+      } else {
+
+        if (!overlay.classList.contains('show')) return;
+
+        isAnimating = true;
+        overlay.classList.add('closing');
+        await _forceFrame();
+        overlay.classList.remove('show');   // löst die Slide-up Transition aus
+        document.body.classList.remove('menu-open');
+        burger.setAttribute('aria-expanded', 'false');
+        burger.classList.remove('active');
+        burger.blur();  // danach Fokus weg → nicht blau 
+      }
+    }
+
+    // 4) Events
+    burger.addEventListener('click', () => toggleMenu());
+    overlay.addEventListener('click', (e) => {
+      if (e.target.closest('a')) toggleMenu(false); // Link-Klick schließt
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') toggleMenu(false);    // ESC schließt
+    });
+
+    // Home-Link sofort Fokus verlieren (nie blau hängenbleiben)
+document.querySelector('.home-link')?.addEventListener('click', (e) => {
+  e.currentTarget.blur();
+});
+
+// Home-Icon: kurzer iOS-Tap-Pulse, danach kein Blau kleben
+const home = document.querySelector('.home-link');
+if (home) {
+  let tapTimer = null;
+
+  const pulseOn = () => {
+    clearTimeout(tapTimer);
+    home.classList.add('tapped');
+    // nach ~180ms wieder normal
+    tapTimer = setTimeout(() => home.classList.remove('tapped'), 180);
+  };
+
+  // iOS/Touch: sofort beim Finger-Down pulsen
+  home.addEventListener('touchstart', pulseOn, {passive:true});
+  // Fallback für Maus/Sim: mousedown
+  home.addEventListener('mousedown', pulseOn);
+
+  // Beim Klick Fokus weg, damit nix hängenbleibt
+  home.addEventListener('click', (e) => {
+    // sichergehen, dass der Pulse nach dem Navigieren nicht klebt
+    setTimeout(() => {
+      home.classList.remove('tapped');
+      home.blur();
+    }, 0);
+  });
+}
+
+
+    // 5) ARIA auf dem Button setzen
+    if (!burger.hasAttribute('type')) burger.setAttribute('type', 'button');
+    burger.setAttribute('aria-controls', 'mobile-menu');
     burger.setAttribute('aria-expanded', 'false');
-    burger.classList.remove('active');
-    if (!animated) requestAnimationFrame(() => overlay.classList.remove('no-anim'));
   }
-
-  // Toggle on burger (animated both ways)
-  burger.addEventListener('click', () => {
-    isOpen() ? closeMenu(true) : openMenu();
-  });
-
-  // Instant close on any nav link tap/click inside overlay
-  overlay.addEventListener('click', (e) => {
-    if (e.target.closest('a')) closeMenu(false);
-  });
-
-  // Home icon: instant-close if menu is open
-  const home = document.querySelector('.home-link');
-  if (home) {
-    home.addEventListener('click', () => { if (isOpen()) closeMenu(false); });
-    home.addEventListener('touchend', () => { if (isOpen()) closeMenu(false); }, { passive: true });
-  }
-
-  // ESC closes (animated)
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isOpen()) closeMenu(true);
-  });
-
-  // ARIA sanity
-  if (!burger.hasAttribute('type')) burger.setAttribute('type', 'button');
-  burger.setAttribute('aria-controls', 'mobile-menu');
-  burger.setAttribute('aria-expanded', 'false');
-})();
 </script>
-
 
 
 
@@ -706,7 +763,7 @@ document.querySelectorAll('#music .embed.video video').forEach(v => {
     home.classList.add('tapped');
     // Keep the pulse a bit longer so it’s visible during the scroll-to-#top jump
     clearTimeout(pulseOn._t);
-    pulseOn._t = setTimeout(() => home.classList.remove('tapped'), 80);
+    pulseOn._t = setTimeout(() => home.classList.remove('tapped'), 220);
   };
 
   // helper: is a touch within an expanded rectangle around the home link?
@@ -736,69 +793,43 @@ document.querySelectorAll('#music .embed.video video').forEach(v => {
 
 <script>
 (() => {
-  const headerH = parseFloat(getComputedStyle(document.documentElement)
-                   .getPropertyValue('--header-h')) || 64;
-  const contact = document.getElementById('contact');
-  if (!contact) return;
+  const home   = document.querySelector('.home-link');
+  const burger = document.querySelector('.burger');
+  // Nimm, was vorhanden ist: zuerst #mobile-menu, sonst nav-overlay/nav-list
+  const overlay = document.getElementById('mobile-menu') 
+               || document.querySelector('.nav-overlay') 
+               || document.querySelector('.nav-list');
 
-  // Grab all links that jump to #contact (nav + service images + button)
-  const links = document.querySelectorAll('a[href="#contact"]');
+  function isMenuOpen() {
+    return document.body.classList.contains('menu-open') ||
+           (overlay && overlay.classList.contains('show'));
+  }
 
-  // If the mobile menu might be open, close it instantly so it doesn't interfere
-  function closeMenuInstant() {
-    const overlay = document.getElementById('mobile-menu');
-    const burger  = document.querySelector('.burger');
+  function closeMenu() {
     document.body.classList.remove('menu-open');
-    if (overlay) overlay.removeAttribute('data-open');
-    if (burger) {
-      burger.setAttribute('aria-expanded', 'false');
-      burger.classList.remove('active');
+    if (overlay) {
+      overlay.classList.remove('show');
+      overlay.setAttribute('aria-hidden', 'true');
     }
+    if (burger) burger.setAttribute('aria-expanded', 'false');
+        burger.classList.remove('active');   // falls du eine .active-Klasse nutzt
+    burger.blur();                       // entfernt den blauen Fokusrahmen
   }
 
-  // Scroll to the contact section with header offset, then "finish" in case iOS stops early
-  function scrollToContact() {
-    const rectTop = contact.getBoundingClientRect().top + window.pageYOffset;
-    const targetTop = Math.max(0, rectTop - headerH);
+  if (home) {
+    // KLICK schließt das Menü, lässt aber die Navigation normal weiterlaufen
+    home.addEventListener('click', () => {
+      if (isMenuOpen()) closeMenu();
+    });
 
-    // Start: go to contact top accounting for fixed header
-    window.scrollTo({ top: targetTop, behavior: 'smooth' });
-
-    // After layout settles (images/fonts/toolbars), ensure we really reached the end if needed
-    let tries = 10, lastH = 0;
-    (function settle() {
-      const h = Math.max(
-        document.body.scrollHeight,
-        document.documentElement.scrollHeight
-      );
-      // When height stabilizes or we ran several checks, optionally nudge to absolute bottom
-      if (--tries <= 0 || Math.abs(h - lastH) < 2) {
-        const max = h - window.innerHeight;
-        // If contact is near the bottom and iOS stopped early, finish the last pixels
-        if ((window.pageYOffset + headerH) < contact.offsetTop &&
-            (max - window.pageYOffset) > 2) {
-          window.scrollTo({ top: max, behavior: 'smooth' });
-        }
-        return;
-      }
-      lastH = h;
-      setTimeout(settle, 60);
-    })();
+    // optional: auf Touch-Geräten direkt beim Loslassen
+    home.addEventListener('touchend', () => {
+      if (isMenuOpen()) closeMenu();
+    }, { passive: true });
   }
-
-  links.forEach(a => {
-    a.addEventListener('click', (e) => {
-      // Let anchors stay anchors (good for SEO/UX), but we drive the scroll ourselves
-      e.preventDefault();
-      closeMenuInstant();
-      // On the next frame so any menu state/focus is cleared
-      requestAnimationFrame(scrollToContact);
-    }, { passive: false });
-  });
+  
 })();
 </script>
-
-
 
 </body>
 </html>

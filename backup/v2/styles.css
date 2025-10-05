@@ -117,9 +117,8 @@ p + p { margin-top: 1em; }
 }
 
 /* =========================
-   Mobile Burger Menu Overlay (robust)
-   - Always rendered; hidden via transform/opacity/visibility
-   - One boolean: [data-open] present = open
+   Mobile Burger Menu Overlay
+   (Rein = 0.40s, Raus = 1.25s)
 ========================= */
 @media (max-width: 900px) {
   .burger { display: block; }
@@ -127,47 +126,59 @@ p + p { margin-top: 1em; }
   body.menu-open { overflow: hidden; }
 
   .nav-overlay {
-    position: fixed;
-    inset: var(--header-h) 0 0 0;
-    z-index: 9999;
+  position: fixed;
+  top: var(--header-h);
+  bottom: 0;
+  right: 0;                 /* <<< statt left/translateX */
+  left: 0;
+  z-index: 9999;
 
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
+  /* width: 60vw;  /* wie breit das Menü sein soll */
 
-    --menu-bg: color-mix(in srgb, var(--bg) 90%, transparent);
-    background: var(--menu-bg);
-    padding: 0; margin: 0; list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
 
-    overflow: hidden;
-    backface-visibility: hidden;
-    will-change: transform, opacity;
+  --menu-bg: color-mix(in srgb, var(--bg) 90%, transparent);
+  background: var(--menu-bg);
+  padding: 0; margin: 0; list-style: none;
 
-    /* hidden (base) */
-    visibility: hidden;
-    pointer-events: none;
-    opacity: 0;
+  overflow: hidden;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
 
-    transition:
-      opacity 0.7s ease,
-      visibility 0.7s ; /* hide after anim ends */ /* set to zero for instant close */
-  }
+  opacity: 0;
+  transform: translate3d(0, -100%, 0); /* nur vertikal animieren */
+  visibility: hidden;
+  pointer-events: none;
 
-  .nav-overlay[data-open] {
+  transition:
+    transform .40s cubic-bezier(.25,.8,.25,1),
+    opacity   .40s cubic-bezier(.25,.8,.25,1);
+}
 
-    visibility: visible;
-    pointer-events: auto;
-    opacity: 1;
-    transition:
-      visibility 0s; /* visible immediately */
-  }
+.nav-overlay.show {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  visibility: visible;
+  pointer-events: auto;
+}
 
-  /* Optional: disable transitions for instant-close on link taps */
-  .nav-overlay.no-anim,
-  .nav-overlay.no-anim[data-open] {
-    transition: none !important;
-  }
+.nav-overlay.closing {
+  transform: translate3d(0, calc(-100% - 12px), 0);
+  opacity: 0;
+  visibility: visible;
+  pointer-events: none;
+
+  transition:
+    transform 1.2s cubic-bezier(.25,.8,.25,1),
+    opacity   0.5s cubic-bezier(.25,.8,.25,1);
+  transition-delay: 0s, .08s;
+}
+
+
+
 
   .nav-overlay li {
     margin: 0;
@@ -175,37 +186,48 @@ p + p { margin-top: 1em; }
     display: flex;
     justify-content: flex-end;
     opacity: 0;
-    transition: opacity 0.80s ease;
+    transform: translateY(-6px);
+    transition: opacity .40s ease, transform .40s ease;
   }
 
-  .nav-overlay[data-open] li {
+  .nav-overlay.show li {
     opacity: 1;
+    transform: translateY(0);
   }
 
-/* Einblenden (vorwärts) */
-.nav-overlay[data-open] li:nth-child(1)  { transition-delay: .03s; }
-.nav-overlay[data-open] li:nth-child(2)  { transition-delay: .06s; }
-.nav-overlay[data-open] li:nth-child(3)  { transition-delay: .09s; }
-.nav-overlay[data-open] li:nth-child(4)  { transition-delay: .12s; }
-.nav-overlay[data-open] li:nth-child(5)  { transition-delay: .15s; }
-.nav-overlay[data-open] li:nth-child(6)  { transition-delay: .18s; }
-.nav-overlay[data-open] li:nth-child(7)  { transition-delay: .21s; }
-.nav-overlay[data-open] li:nth-child(8)  { transition-delay: .24s; }
-.nav-overlay[data-open] li:nth-child(9)  { transition-delay: .27s; }
-.nav-overlay[data-open] li:nth-child(10) { transition-delay: .30s; }
+  /* Stagger forward (rein) */
+  .nav-overlay.show li:nth-child(1)  { transition-delay: .04s; }
+  .nav-overlay.show li:nth-child(2)  { transition-delay: .08s; }
+  .nav-overlay.show li:nth-child(3)  { transition-delay: .12s; }
+  .nav-overlay.show li:nth-child(4)  { transition-delay: .16s; }
+  .nav-overlay.show li:nth-child(5)  { transition-delay: .20s; }
+  .nav-overlay.show li:nth-child(6)  { transition-delay: .24s; }
+  .nav-overlay.show li:nth-child(7)  { transition-delay: .28s; }
+  .nav-overlay.show li:nth-child(8)  { transition-delay: .32s; }
+  .nav-overlay.show li:nth-child(9)  { transition-delay: .36s; }
+  .nav-overlay.show li:nth-child(10) { transition-delay: .40s; }
 
-/* Ausblenden (rückwärts) */
-.nav-overlay:not([data-open]) li:nth-child(1)  { transition-delay: .10s; }
-.nav-overlay:not([data-open]) li:nth-child(2)  { transition-delay: .09s; }
-.nav-overlay:not([data-open]) li:nth-child(3)  { transition-delay: .08s; }
-.nav-overlay:not([data-open]) li:nth-child(4)  { transition-delay: .07s; }
-.nav-overlay:not([data-open]) li:nth-child(5)  { transition-delay: .06s; }
-.nav-overlay:not([data-open]) li:nth-child(6)  { transition-delay: .05s; }
-.nav-overlay:not([data-open]) li:nth-child(7)  { transition-delay: .04s; }
-.nav-overlay:not([data-open]) li:nth-child(8)  { transition-delay: .03s; }
-.nav-overlay:not([data-open]) li:nth-child(9)  { transition-delay: .02s; }
-.nav-overlay:not([data-open]) li:nth-child(10) { transition-delay: .01s; } 
-
+  /* Reverse stagger out – langsamer (1.25s) */
+  .nav-overlay.closing li {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity .40s ease, transform .40s ease;
+  }
+  
+  .nav-overlay.closing li:nth-child(1)  { transition-delay: .40s; }
+  .nav-overlay.closing li:nth-child(2)  { transition-delay: .36s; }
+  .nav-overlay.closing li:nth-child(3)  { transition-delay: .32s; }
+  .nav-overlay.closing li:nth-child(4)  { transition-delay: .28s; }
+  .nav-overlay.closing li:nth-child(5)  { transition-delay: .24s; }
+  .nav-overlay.closing li:nth-child(6)  { transition-delay: .20s; }
+  .nav-overlay.closing li:nth-child(7)  { transition-delay: .16s; }
+  .nav-overlay.closing li:nth-child(8)  { transition-delay: .12s; }
+  .nav-overlay.closing li:nth-child(9)  { transition-delay: .08s; }
+  .nav-overlay.closing li:nth-child(10) { transition-delay: .04s; }
 
   .nav-overlay a {
     display:flex; align-items:center; justify-content:center;
@@ -214,40 +236,18 @@ p + p { margin-top: 1em; }
     text-decoration:none; color:var(--fg);
     font-weight:600; background:var(--menu-bg);
     border-top:1px solid rgba(255, 255, 255, 0.078);
+    /*  border-left:1px solid rgba(255, 255, 255, 0.078); */
     border-radius:0px;
   }
 
-  .nav-overlay li:nth-last-child(2) > a {
-    border-bottom:1px solid rgba(255, 255, 255, 0.078);
-  }
-
-.nav-overlay .nav-footer {
-  margin-top: auto;               /* push to bottom */
-  justify-content: center;
-  text-align: center;
-  margin-bottom: 30px;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.4;
+  .nav-overlay li:last-child >a {
+  /* Letztes Element zusätzlich unten Linie */
+  border-bottom:1px solid rgba(255, 255, 255, 0.078);
 }
-
-.nav-overlay .nav-footer p{ margin: 0; }
-
-.nav-overlay[data-open] .nav-footer {
-  opacity: 1;
-}
-
   .nav-overlay a:hover,
   .nav-overlay a:active,
   .nav-overlay a:focus { filter: brightness(1.42); }
 }
-
-@media (prefers-reduced-motion: reduce){
-  .nav-overlay, .nav-overlay *{
-    transition: none !important;
-  }
-}
-
 
 @media (prefers-reduced-motion: reduce){
   .nav-overlay, .nav-overlay *{
@@ -352,13 +352,19 @@ p + p { margin-top: 1em; }
   justify-items: center;
 }
 
+@media (max-width: 1200px){
+  .services-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 @media (max-width: 900px){
   .services-grid{
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     max-width: var(--tile-w);
     padding: 0;
     gap: 24px;
   }
+}
+@media (max-width: 580px){
+  .services-grid{ grid-template-columns: 1fr; }
 }
 
 /* Card */
@@ -378,7 +384,6 @@ p + p { margin-top: 1em; }
   display: block;
   width: 100%;
   aspect-ratio: 4/4;
-  height: auto;
   border-radius: 12px;
   overflow: hidden;
   background: #071a21;
@@ -389,7 +394,7 @@ p + p { margin-top: 1em; }
 .service-img img{
   width: 100%; height: 100%; object-fit: cover; display: block;
 }
-.service-img:hover{ transform: translateY(-4px); }
+.service-img:hover{ transform: translateY(-2px); }
 
 .service-desc{
   color: var(--muted);
