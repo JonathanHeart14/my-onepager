@@ -319,71 +319,110 @@
 (() => {
   const burger  = document.querySelector('.burger');
   const srcList = document.querySelector('.site-nav .nav-list');
-
   if (!burger || !srcList) return;
 
-  // Ensure overlay exists, cloned from header list
-  let overlay = document.getElementById('mobile-menu');
-  if (!overlay) {
-    overlay = document.createElement('ul');
-    overlay.id = 'mobile-menu';
-    overlay.className = 'nav-list nav-overlay';
-overlay.innerHTML = `
-  ${srcList.innerHTML}
-  <li class="nav-footer">
-    <p>© ${new Date().getFullYear()} Jonathan Heart<br>
-    musician · producer · mixing engineer</p>
-  </li>
-`;
-    document.body.appendChild(overlay);
-  }
+  let overlay = null;         // <- außerhalb, damit resize ihn sieht
+  let initialized = false;
 
-  function isOpen() { return overlay.hasAttribute('data-open'); }
+  function isOpen() { return overlay && overlay.hasAttribute('data-open'); }
 
   function openMenu() {
+    if (!overlay) return;
     overlay.setAttribute('data-open', '');
+    overlay.removeAttribute('aria-hidden');
     document.body.classList.add('menu-open');
     burger.setAttribute('aria-expanded', 'true');
     burger.classList.add('active');
   }
 
   function closeMenu(animated = true) {
+    if (!overlay) return;
     if (!animated) overlay.classList.add('no-anim');
     overlay.removeAttribute('data-open');
+    overlay.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('menu-open');
     burger.setAttribute('aria-expanded', 'false');
     burger.classList.remove('active');
     if (!animated) requestAnimationFrame(() => overlay.classList.remove('no-anim'));
   }
 
-  // Toggle on burger (animated both ways)
-  burger.addEventListener('click', () => {
+  function handleBurgerClick() {
     isOpen() ? closeMenu(true) : openMenu();
-  });
+  }
+  function handleOverlayClick(e) {
+    if (e.target.closest('a')) closeMenu(true);
+  }
+  function handleKeydown(e) {
+    if (e.key === 'Escape' && isOpen()) closeMenu(true);
+  }
 
-  // Instant close on any nav link tap/click inside overlay
-  overlay.addEventListener('click', (e) => {
-    if (e.target.closest('a')) closeMenu(false);
-  });
+  // --- nur auf Mobile initialisieren ---
+  function initMobile() {
+    if (initialized) return;
 
-  // Home icon: instant-close if menu is open
+    // Overlay erzeugen (ohne .nav-list, sonst erbt es Desktop-Styles)
+    overlay = document.getElementById('mobile-menu');
+    if (!overlay) {
+      overlay = document.createElement('ul');
+      overlay.id = 'mobile-menu';
+      overlay.className = 'nav-overlay';
+      overlay.innerHTML = `${srcList.innerHTML}
+        <li class="nav-footer">
+          <p>© ${new Date().getFullYear()} Jonathan Heart<br>
+          musician · producer · mixing engineer</p>
+        </li>`;
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(overlay);
+    }
+
+    // Listener binden
+    burger.addEventListener('click', handleBurgerClick);
+    overlay.addEventListener('click', handleOverlayClick);
+    window.addEventListener('keydown', handleKeydown);
+
+    // ARIA
+    if (!burger.hasAttribute('type')) burger.setAttribute('type', 'button');
+    burger.setAttribute('aria-controls', 'mobile-menu');
+    burger.setAttribute('aria-expanded', 'false');
+
+    initialized = true;
+  }
+
+  // --- beim Wechsel auf Desktop wieder abbauen ---
+  function teardownDesktop() {
+    if (!initialized) return;
+    closeMenu(true);
+    burger.removeEventListener('click', handleBurgerClick);
+    if (overlay) overlay.removeEventListener('click', handleOverlayClick);
+    window.removeEventListener('keydown', handleKeydown);
+    if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    overlay = null;
+    initialized = false;
+  }
+
+  // Breite beobachten und Zustand synchronisieren
+  function syncStateToViewport() {
+    if (window.innerWidth <= 900) {
+      initMobile();
+    } else {
+      teardownDesktop();
+    }
+  }
+
+    // Home-Icon/Link: immer (auch auf Desktop) sofort schließen, falls offen
   const home = document.querySelector('.home-link');
   if (home) {
     home.addEventListener('click', () => { if (isOpen()) closeMenu(false); });
     home.addEventListener('touchend', () => { if (isOpen()) closeMenu(false); }, { passive: true });
   }
 
-  // ESC closes (animated)
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isOpen()) closeMenu(true);
-  });
 
-  // ARIA sanity
-  if (!burger.hasAttribute('type')) burger.setAttribute('type', 'button');
-  burger.setAttribute('aria-controls', 'mobile-menu');
-  burger.setAttribute('aria-expanded', 'false');
+  // Start + live auf Resize
+  syncStateToViewport();
+  window.addEventListener('resize', syncStateToViewport, { passive: true });
 })();
 </script>
+
 
 
 
@@ -456,7 +495,7 @@ overlay.innerHTML = `
       const grid = document.querySelector('#gallery');
       const btn  = document.querySelector('#gallery-more');
 
-      const PAGE = 6; // initial 6 Bilder, bleibt wie bei dir
+      const PAGE = 4; // initial 6 Bilder, bleibt wie bei dir
       const BASE = 'assets/img/gallery/Studio%20Bilder/';
       const EXT  = 'jpg';
 
@@ -706,7 +745,7 @@ document.querySelectorAll('#music .embed.video video').forEach(v => {
     home.classList.add('tapped');
     // Keep the pulse a bit longer so it’s visible during the scroll-to-#top jump
     clearTimeout(pulseOn._t);
-    pulseOn._t = setTimeout(() => home.classList.remove('tapped'), 80);
+    pulseOn._t = setTimeout(() => home.classList.remove('tapped'), 100);
   };
 
   // helper: is a touch within an expanded rectangle around the home link?
@@ -736,67 +775,148 @@ document.querySelectorAll('#music .embed.video video').forEach(v => {
 
 <script>
 (() => {
-  const headerH = parseFloat(getComputedStyle(document.documentElement)
-                   .getPropertyValue('--header-h')) || 64;
-  const contact = document.getElementById('contact');
-  if (!contact) return;
+  // Mobile-Grenze zentral
+  const mql = window.matchMedia('(max-width: 900px)');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Grab all links that jump to #contact (nav + service images + button)
-  const links = document.querySelectorAll('a[href="#contact"]');
+  let rafId = null;
+  let cancelers = [];
 
-  // If the mobile menu might be open, close it instantly so it doesn't interfere
-  function closeMenuInstant() {
+  function isMobile(){ return mql.matches; }
+  function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
+
+  // Cinematic easing
+  function easeInOutQuint(t){
+    return t < 0.5 ? 16*t*t*t*t*t : 1 - Math.pow(-2*t + 2, 5) / 2;
+  }
+
+  function getHeaderOffset(){
+    const val = getComputedStyle(document.documentElement).getPropertyValue('--header-h').trim();
+    const n = parseFloat(val || '0');
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  // Dauer abhängig von Strecke (cinematisch)
+  function durationFor(distancePx){
+    return clamp(Math.round(distancePx * 0.8), 420, 1800);
+  }
+
+  function cancelOnUserInput(){
+    const stop = () => { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } cleanup(); };
+    const optsPassive = { passive: true };
+    const optsActive  = { passive: false };
+
+    const list = [
+      ['wheel', stop, optsActive],
+      ['touchstart', stop, optsPassive],
+      ['touchmove', stop, optsPassive],
+      ['keydown', (e) => {
+        const keys = ['ArrowUp','ArrowDown','PageUp','PageDown','Home','End','Space',' '];
+        if (keys.includes(e.key)) stop();
+      }, optsPassive],
+      ['mousedown', stop, optsPassive]
+    ];
+
+    list.forEach(([ev, fn, opts]) => {
+      window.addEventListener(ev, fn, opts);
+      cancelers.push(() => window.removeEventListener(ev, fn, opts));
+    });
+
+    function cleanup(){ cancelers.splice(0).forEach(off => off()); }
+    return cleanup;
+  }
+
+  function smoothScrollTo(targetY, dur){
+    if (rafId) cancelAnimationFrame(rafId);
+    const startY = window.scrollY || window.pageYOffset;
+    const diff   = targetY - startY;
+    if (Math.abs(diff) < 1) return;
+
+    const start  = performance.now();
+    const cleanup = cancelOnUserInput();
+
+    const step = (now) => {
+      // Wenn währenddessen auf Desktop gewechselt wurde: abbrechen
+      if (!isMobile()) { cancelAnimationFrame(rafId); rafId = null; cleanup(); return; }
+
+      const t = clamp((now - start) / dur, 0, 1);
+      const y = startY + diff * easeInOutQuint(t);
+      window.scrollTo(0, y);
+      if (t < 1 && rafId !== null) {
+        rafId = requestAnimationFrame(step);
+      } else {
+        rafId = null;
+        cleanup();
+      }
+    };
+    rafId = requestAnimationFrame(step);
+  }
+
+  // 🔁 Wechsel Mobile ↔ Desktop: Animation stoppen + Fokus säubern
+  mql.addEventListener?.('change', () => {
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+
+    if (!isMobile()) {
+      // aktives Element blur'en, falls es ein Sprungziel war
+      const active = document.activeElement;
+      if (active && active.matches('[tabindex="-1"], section[id], [id]')) {
+        active.blur();
+      }
+      // temporäre tabindex="-1" entfernen
+      document.querySelectorAll('[tabindex="-1"]').forEach(el => el.removeAttribute('tabindex'));
+    }
+  });
+
+  // 🧭 Delegation: alle internen Hash-Links
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+
+    const hash = a.getAttribute('href');
+    const id   = hash.slice(1);
+    const target = id ? document.getElementById(id) : document.body;
+    if (!target) return;
+
+    // Auf Desktop: natives Verhalten (kein Eingriff, kein Fokus)
+    if (!isMobile()) return;
+
+    // Auf Mobile: eigener Smooth-Scroll
+    e.preventDefault();
+
+    // Mobile-Menü sofort schließen (ohne Animation)
     const overlay = document.getElementById('mobile-menu');
     const burger  = document.querySelector('.burger');
-    document.body.classList.remove('menu-open');
-    if (overlay) overlay.removeAttribute('data-open');
-    if (burger) {
-      burger.setAttribute('aria-expanded', 'false');
-      burger.classList.remove('active');
+    if (overlay && overlay.hasAttribute('data-open')) {
+      overlay.removeAttribute('data-open');
+      document.body.classList.remove('menu-open');
+      if (burger) { burger.setAttribute('aria-expanded','false'); burger.classList.remove('active'); }
     }
-  }
 
-  // Scroll to the contact section with header offset, then "finish" in case iOS stops early
-  function scrollToContact() {
-    const rectTop = contact.getBoundingClientRect().top + window.pageYOffset;
-    const targetTop = Math.max(0, rectTop - headerH);
+    const headerH = getHeaderOffset();
+    const startY  = window.scrollY || window.pageYOffset;
+    const targetY = Math.max(0, target.getBoundingClientRect().top + startY - headerH);
+    const distance = Math.abs(targetY - startY);
 
-    // Start: go to contact top accounting for fixed header
-    window.scrollTo({ top: targetTop, behavior: 'smooth' });
+    if (prefersReduced) {
+      window.scrollTo(0, targetY);
+    } else {
+      smoothScrollTo(targetY, durationFor(distance));
+    }
 
-    // After layout settles (images/fonts/toolbars), ensure we really reached the end if needed
-    let tries = 10, lastH = 0;
-    (function settle() {
-      const h = Math.max(
-        document.body.scrollHeight,
-        document.documentElement.scrollHeight
-      );
-      // When height stabilizes or we ran several checks, optionally nudge to absolute bottom
-      if (--tries <= 0 || Math.abs(h - lastH) < 2) {
-        const max = h - window.innerHeight;
-        // If contact is near the bottom and iOS stopped early, finish the last pixels
-        if ((window.pageYOffset + headerH) < contact.offsetTop &&
-            (max - window.pageYOffset) > 2) {
-          window.scrollTo({ top: max, behavior: 'smooth' });
-        }
-        return;
-      }
-      lastH = h;
-      setTimeout(settle, 60);
-    })();
-  }
+    // Fokus für A11y nur auf Mobile, temporär & ohne sichtbare Outline
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex','-1');
+    target.focus?.({ preventScroll: true });
+    target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });
 
-  links.forEach(a => {
-    a.addEventListener('click', (e) => {
-      // Let anchors stay anchors (good for SEO/UX), but we drive the scroll ourselves
-      e.preventDefault();
-      closeMenuInstant();
-      // On the next frame so any menu state/focus is cleared
-      requestAnimationFrame(scrollToContact);
-    }, { passive: false });
-  });
+    // URL aktualisieren
+    if (history.pushState) history.pushState(null, '', hash);
+    else location.hash = hash;
+  }, { passive: false });
 })();
 </script>
+
+
+
 
 
 
