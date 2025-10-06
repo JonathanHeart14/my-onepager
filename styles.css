@@ -82,6 +82,7 @@ p + p { margin-top: 1em; }
   display: flex; align-items: center;
   padding: 0 24px;
   background: color-mix(in oklab, var(--bg) 85%, transparent);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   z-index: 50;
   box-shadow: 0 0px 6px 8px rgba(0, 0, 0, 0.5);
@@ -143,10 +144,7 @@ p + p { margin-top: 1em; }
   .burger { display: block; }
   .site-nav .nav-list { display: none; }
   body.menu-open { overflow: hidden; }
-  body.menu-open .site-nav { backdrop-filter: none; }
-@media (max-width: 900px){
-  .site-nav { backdrop-filter: blur(6px); } /* leichter statt 6px */
-}
+
 
 
   .nav-overlay {
