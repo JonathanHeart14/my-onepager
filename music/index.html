@@ -70,15 +70,13 @@
 <script>
 (() => {
   const KEY = 'mediaConsentV1'; // 'allow' | 'deny'
-  const $pop = document.getElementById('media-consent');
-  const EXT_SRC = /^(https:\/\/(www\.)?(youtube\.com|youtube-nocookie\.com|open\.spotify\.com))/i;
+  const EXT_SRC = /^(https?:\/\/(?:www\.)?(?:youtube(?:-nocookie)?\.com|youtu\.be|open\.spotify\.com))/i;
 
-  // --- Persistence helpers (localStorage + Cookie fallback) ---
+  // ---------- persistence (LS + cookie fallback) ----------
   function setConsent(val){
     try { localStorage.setItem(KEY, val); } catch(_) {}
-    try {
-      document.cookie = KEY + '=' + encodeURIComponent(val) + '; Max-Age=' + (3600*24*365) + '; Path=/; SameSite=Lax';
-    } catch(_) {}
+    // cookie for Safari / private mode / sub-doc reloads
+    document.cookie = KEY + '=' + encodeURIComponent(val) + '; Max-Age='+(3600*24*365)+'; Path=/; SameSite=Lax';
   }
   function getConsent(){
     let v = null;
@@ -94,61 +92,126 @@
     document.cookie = KEY + '=; Max-Age=0; Path=/; SameSite=Lax';
   }
 
-  // --- Iframe prep / load ---
-  function prepareIframes() {
-    document.querySelectorAll('iframe').forEach(ifr => {
+  // ---------- DOM helpers ----------
+  function markBlocked(ifr){
+    if (!ifr.classList.contains('requires-consent')) {
+      ifr.classList.add('requires-consent');
+    }
+    const wrap = ifr.closest('.embed') || ifr.parentElement;
+    if (wrap) wrap.classList.add('consent-blocked');
+  }
+  function unmarkBlocked(ifr){
+    ifr.classList.remove('requires-consent');
+    const wrap = ifr.closest('.embed') || ifr.parentElement;
+    if (wrap) wrap.classList.remove('consent-blocked');
+    ifr.style.opacity = ''; ifr.style.pointerEvents = '';
+  }
+
+  // Move src->data-src and mark for consent
+  function prepareIframes(root=document){
+    root.querySelectorAll('iframe').forEach(ifr => {
       const src = ifr.getAttribute('src');
-      if (src && EXT_SRC.test(src)) { // echte src -> data-src verschieben
+      const ds  = ifr.getAttribute('data-src');
+      // Normalize: any external src or data-src gets moved to data-src and blocked
+      if (src && EXT_SRC.test(src)) {
         ifr.setAttribute('data-src', src);
         ifr.removeAttribute('src');
       }
-      const ds = ifr.getAttribute('data-src');
-      if (ds && EXT_SRC.test(ds)) {
-        ifr.classList.add('requires-consent');
-        const wrap = ifr.closest('.embed') || ifr.parentElement;
-        if (wrap) wrap.classList.add('consent-blocked');
+      const finalDS = ifr.getAttribute('data-src');
+      if (finalDS && EXT_SRC.test(finalDS)) {
+        markBlocked(ifr);
       }
     });
   }
-  function loadAll() {
+
+  // Load all permitted iframes
+  function loadAll(){
     document.querySelectorAll('iframe.requires-consent[data-src]').forEach(ifr => {
-      const wrap = ifr.closest('.embed') || ifr.parentElement;
-      if (wrap) wrap.classList.remove('consent-blocked');
-      ifr.src = ifr.getAttribute('data-src');
+      const ds = ifr.getAttribute('data-src');
+      if (!ds) return;
+      ifr.src = ds;
       ifr.removeAttribute('data-src');
-      ifr.classList.remove('requires-consent');
-      ifr.style.opacity = ''; ifr.style.pointerEvents = '';
+      unmarkBlocked(ifr);
     });
   }
 
-  // --- Init ---
-  prepareIframes();
-
-  // Neue Logik:
-  // - Popup wird gezeigt, wenn consent !== 'allow' (also auch bei 'deny' oder null).
-  // - Nur bei 'allow' laden wir automatisch die Embeds.
-  const consent = getConsent();
-  if (consent === 'allow') {
-    loadAll();
-    $pop.hidden = true;
-  } else {
-    $pop.hidden = false; // zeig Popup erneut, damit man umschalten kann
+  // Ensure state after short delays (covers late/slow DOM work)
+  function ensureEmbeds(){
+    const consent = getConsent();
+    if (consent === 'allow') {
+      prepareIframes();
+      loadAll();
+    } else {
+      prepareIframes();
+      // keep blocked
+    }
   }
 
-  // Buttons
-  $pop.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-action]');
-    if (!btn) return;
-    const action = btn.getAttribute('data-action'); // 'allow' | 'deny'
-    setConsent(action);
-    if (action === 'allow') loadAll();
-    $pop.hidden = true;
-  });
+  // Popup wiring (expecting your #media-consent box from earlier)
+  function initPopup(){
+    const pop = document.getElementById('media-consent');
+    if (!pop) return; // if you placed popup only on some pages, that's fine
+    const consent = getConsent();
+    if (consent === 'allow') {
+      pop.hidden = true;
+      return;
+    }
+    // Show popup if not allowed yet (includes 'deny' and null)
+    pop.hidden = false;
+    pop.addEventListener('click', e => {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      const action = btn.getAttribute('data-action'); // 'allow' | 'deny'
+      setConsent(action);
+      if (action === 'allow') {
+        loadAll();
+      } // if deny: stay blocked; popup hides but will reappear on next load
+      pop.hidden = true;
+    });
+  }
 
-  // Für einen Footer-Link: <a onclick="resetMediaConsent();return false;">Medien-Einstellungen</a>
+  // Expose reset for your footer link
   window.resetMediaConsent = () => { clearConsent(); location.reload(); };
+
+  // ---------- boot sequence ----------
+  function boot(){
+    // 1) prep existing iframes immediately
+    prepareIframes();
+
+    // 2) load (if already allowed)
+    if (getConsent() === 'allow') loadAll();
+
+    // 3) wire popup
+    initPopup();
+
+    // 4) watch for dynamically added iframes (cms, tabs, etc.)
+    const mo = new MutationObserver(muts => {
+      let needEnsure = false;
+      muts.forEach(m => {
+        m.addedNodes.forEach(n => {
+          if (n.nodeType === 1) {
+            if (n.tagName === 'IFRAME' || n.querySelector?.('iframe')) needEnsure = true;
+          }
+        });
+      });
+      if (needEnsure) ensureEmbeds();
+    });
+    mo.observe(document.documentElement, { childList:true, subtree:true });
+
+    // 5) safety re-checks (timing robustness)
+    setTimeout(ensureEmbeds, 50);
+    setTimeout(ensureEmbeds, 300);
+    window.addEventListener('load', () => setTimeout(ensureEmbeds, 0));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot, { once:true });
+  } else {
+    boot();
+  }
 })();
 </script>
+
 
 
 
