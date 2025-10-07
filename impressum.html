@@ -5,37 +5,140 @@
   <title>Impressum</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Inter", system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 120px auto 0px;
+      padding: 0 24px;
+      line-height: 1.8;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 44px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--fg);
+      margin-bottom: 80px;
+    }
+
+    p {
+      margin-bottom: 22px;
+      color: var(--fg);
+      font-size: 17px;
+    }
+
+    strong {
+      display: block;
+      font-weight: 700;
+      color: var(--fg);
+      font-size: 20px;         /* größer als vorher */
+      margin-bottom: 8px;
+      margin-top: 32px;
+      letter-spacing: 0.3px;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-note {
+      margin-top: 50px;
+/*      border-top: 1px solid rgba(255,255,255,0.1); */
+      padding-top: 20px;
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <main style="max-width:800px;margin:40px auto;padding:0 20px;line-height:1.6;">
+  <main>
     <h1>Impressum</h1>
 
-    <p>Angaben gemäß § 5 TMG</p>
-
-    <p>
+    <p><strong>Angaben gemäß § 5 TMG</strong>
       Jonathan Heart (Künstlername)<br>
       Jonas Röseberg<br>
-      Lünigstraße 3<br>
-      44135 Dortmund<br>
+      Lüningstraße 3<br>
+      59423 Unna<br>
       Deutschland
     </p>
 
-    <p>
-      Kontakt:<br>
-      Telefon: [deine Nummer falls gewünscht]<br>
-      E-Mail: <a href="mailto:kontakt@deinedomain.de">kontakt@deinedomain.de</a>
+    <p class="impressum-links">
+      <strong>Kontakt:</strong>
+      Telefon: +49 178 406 10 20<br>
+      E-Mail: <a href="mailto:j.roeseberg@googlemail.com">j.roeseberg@googlemail.com</a>
     </p>
 
-    <p>
-      Umsatzsteuer-ID: DE[Nummer falls vorhanden]<br>
-      Mitglied der Künstlersozialkasse
+    <p><strong>Umsatzsteuer:</strong>
+      Umsatzsteuer-Identifikationsnummer gemäß §27 a Umsatzsteuergesetz:<br>
+      DE325273274
     </p>
 
-    <p>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br>
-      Jonas Röseberg, Lünigstraße 3, 44135 Dortmund
+    <p><strong>Mitgliedschaften:</strong>
+      Künstlersozialkasse
     </p>
 
-    <p><a href="datenschutz.html">Zur Datenschutzerklärung</a></p>
+    <p><strong>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV:</strong>
+      Jonas Röseberg<br>
+      Lüningstraße 3<br>
+      59423 Unna
+    </p>
+
+    <p class="impressum-links"><strong>Datenschutz:</strong>
+      <a href="datenschutz.html">Zur Datenschutzerklärung</a>
+    </p>
+
+    <p class="impressum-links"><strong>Streitschlichtung</strong>
+      Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
+      <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr</a>.<br>
+      Unsere E-Mail-Adresse finden Sie oben im Impressum.<br><br>
+      Wir sind nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+    </p>
+
+    <p><strong>Haftung für Inhalte</strong>
+      Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.<br><br>
+      Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+    </p>
+
+    <p><strong>Haftung für Links</strong>
+      Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar.<br><br>
+      Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.
+    </p>
+
+    <p><strong>Urheberrecht</strong>
+      Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.<br><br>
+      Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
+    </p>
+
   </main>
+
+      <footer class="footer">
+
+        <p class="footer-note">
+          © <span id="y"></span>
+          <span class="names">
+            Jonathan Heart /<br>
+            Jonas Röseberg
+          </span>
+        </p>
+      </footer>
+
+        <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
+        
 </body>
 </html>

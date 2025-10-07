@@ -280,7 +280,7 @@ p + p { margin-top: 1em; }
    Landing Hero
 ========================= */
 .hero.landing{
-  min-height: calc(100svh - var(--header-h));
+  min-height: calc(100dvh - var(--header-h));
   display: grid; place-items: center;
   text-align: center; padding: 24px;
   background: url("assets/img/Background_blended.png") no-repeat center/cover;
@@ -474,13 +474,11 @@ p + p { margin-top: 1em; }
 .contact-links { margin-top: 12px; font-size: 16px; }
 
 .contact-info a {
-  color: var(--fg);
-  text-decoration: underline;
+  color: var(--accent);
+  text-decoration: none;
   font-weight: 500;
 }
-.contact-info a:hover {
-  color: var(--accent);
-}
+.contact-info a:hover { text-decoration: underline; }
 
 /* =========================
    FOOTER
@@ -492,24 +490,6 @@ footer {
 footer p { margin: 0 0 8px 0; }
 footer a { color: var(--fg); text-decoration: underline; }
 footer a:hover { color: var(--accent); }
-
-.footer-credit {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.3;
-  margin-top: 10px;
-  text-align: center;
-}
-
-.footer-credit .names {
-  text-align: left;
-  margin-left: 5px;
-}
-
 
 /* =========================
    EMBEDS
@@ -661,79 +641,4 @@ body.lb-open{ overflow:hidden; }
 /* Sprungziele: nie Outline, wenn Fokus nicht via Tastatur kam */
 [id]:focus:not(:focus-visible),
 section[id]:focus:not(:focus-visible) { outline: none; }
-
-
-/* =========================
-   LANDING: Zweig-Auswahl (Music/Film)
-========================= */
-.landing-chooser{
-  min-height: 100vh;
-  min-height: 100svh;
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  margin-bottom: 40px;
-}
-
-.choice{
-  position: relative;
-  display: block;
-  text-decoration: none;
-  color: var(--fg);
-  isolation: isolate;          /* für overlay/border Effekte */
-}
-
-.choice-figure{
-  --overlay: color-mix(in oklab, #000 35%, transparent);
-  position: relative;
-  inset: 0; margin: 0; height: 100%;
-  display: grid; place-items: center;
-  overflow: hidden;
-}
-
-.choice-figure img{
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  filter: saturate(0.95) contrast(1.05);
-  transform: scale(1.02);
-  transition: transform .35s ease, filter .35s ease, opacity .35s ease;
-}
-
-.choice-figure::before{
-  content:"";
-  position: absolute; inset: 0;
-  background: var(--overlay);
-  pointer-events: none;
-  transition: background .35s ease;
-}
-
-.choice-figure figcaption{
-  position: relative;
-  z-index: 1;
-  font-size: clamp(42px, 8vw, 96px);
-  font-weight: 700;
-  letter-spacing: .5px;
-  line-height: 1;
-  text-shadow: 0 6px 30px rgba(0,0,0,.45);
-}
-
-.choice:focus-visible .choice-figure{ outline: 2px solid var(--accent); outline-offset: -2px; }
-.choice:hover .choice-figure img{ transform: scale(1.05); filter: saturate(1) contrast(1.08); }
-.choice:hover .choice-figure::before{ background: color-mix(in oklab, #000 22%, transparent); }
-
-/* Mobile: untereinander (bleibt), mit etwas Abstand */
-@media (max-width: 900px){
-  .landing-chooser{ grid-template-rows: 1fr 1fr; }
-}
-
-/* Reuse contact link styling without centering text */
-.impressum-links a {
-  color: var(--fg);
-  text-decoration: underline;
-  font-weight: 500;
-}
-.impressum-links a:hover {
-  color: var(--accent);
-  text-decoration: underline;
-}
 
