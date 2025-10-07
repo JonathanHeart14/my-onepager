@@ -526,6 +526,7 @@ footer a:hover { color: var(--accent); }
   max-width: none;
   aspect-ratio: 1;
   min-height: 352px; max-height: 370px; height: 100%;
+  overflow:hidden;            /* schneidet 1px-Kanten ab */
 }
 @media (max-width: 900px){
   .embed.spotify{
