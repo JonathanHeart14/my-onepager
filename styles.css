@@ -22,7 +22,6 @@ html {
   --thumb-ar: 16/9;        /* Aspect-Ratio der THUMBNAILS (nicht der Player!) */
   --content-w: calc(var(--tile-w) * 3 + var(--tile-gap) * 2); /* 3 Tiles + 2 Gaps */
   --mobile-pad: 45px;
-  scroll-padding-top: var(--header-h); 
 }
 
 /* Stufen (einfach per data-size am <html> umschalten) */
@@ -133,6 +132,20 @@ p + p { margin-top: 1em; }
 .home-link:focus, .burger:focus {
   outline: none;
 }
+
+@media (max-width: 900px) {
+  .home-link {
+    position: relative;
+  }
+
+  /* erweitert nur die unsichtbare Klickfläche */
+  .home-link::before {
+    content: "";
+    position: absolute;
+    inset: -10px; /* rundum 10px größer */
+  }
+}
+
 
 
 /* =========================
@@ -434,22 +447,22 @@ p + p { margin-top: 1em; }
 ========================= */
 .clients-grid{
   list-style: none;
-  margin: 0;
-  padding: 0;
 
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: var(--tile-gap);
-  row-gap: 10px;
+  row-gap: 25px;
 
-  max-width: var(--content-w);
+  max-width: calc(2 * var(--tile-w) + var(--tile-gap));
   padding: 0 var(--tile-pad-x);
-  margin: 0 auto;
+  margin: 80px auto 0;
   justify-items: center;
   text-align: center;
 }
 
-.client-item{ font-size: 16px; }
+.client-item{
+  font-size: 16px;
+  font-weight: 600}
 
 @media (max-width: 900px){
   .clients-grid{
@@ -738,3 +751,28 @@ section[id]:focus:not(:focus-visible) { outline: none; }
   text-decoration: underline;
 }
 
+/* Fix: Blue highlight on Samsung / Android links & buttons */
+a, button, .home-link, .burger {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  outline: none;
+}
+
+a:focus,
+button:focus,
+.home-link:focus,
+.burger:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+@media (max-width: 900px){
+  footer .media-settings-link{
+    display: block;         /* eigene Zeile */
+    white-space: nowrap;    /* „Medien-Einstellungen“ bleibt zusammen */
+    word-break: keep-all;
+    hyphens: none;
+    margin-top: 12px;       /* etwas Abstand nach oben */
+    text-align: center;     /* hübsch mittig im Footer */
+  }
+}

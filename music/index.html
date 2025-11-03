@@ -12,10 +12,6 @@
     .home-icon { width:24px; height:24px; display:block }
     @media (hover:hover){ .home-link:hover { color: var(--accent) } }
   </style>
-    
-    <link rel="stylesheet" href="../styles.css" />
-  </head>
-
   <style>
   /* Overlay-Optik für blockierte Embeds */
   .requires-consent {
@@ -52,170 +48,25 @@
   /* Optional: kleiner „Medien-Einstellungen“-Link im Footer kann diese Klasse nutzen */
   .media-settings-link { opacity:.85 }
   .media-settings-link:hover { opacity:1 }
-</style>
-
-<!-- Popup (wird per JS nur gezeigt, wenn noch keine Entscheidung vorliegt) -->
-<div id="media-consent" class="consent-pop" hidden>
-  <h3>Externe Medien</h3>
-  <p>Diese Seite kann Inhalte von <strong>YouTube</strong> & <strong>Spotify</strong> laden. 
-     Mit „Akzeptieren“ erlaubst du die Datenübertragung an diese Anbieter. 
-     Du kannst das später im Footer unter „Medien-Einstellungen“ ändern.</p>
-  <div class="row">
-    <button class="consent-btn" data-action="deny">Nur notwendige</button>
-    <button class="consent-btn primary" data-action="allow">Akzeptieren</button>
-    <a href="../datenschutz.html" class="consent-btn" style="text-decoration:none">Mehr erfahren</a>
-  </div>
-</div>
-
-<script>
-(() => {
-  const KEY = 'mediaConsentV1'; // 'allow' | 'deny'
-  const EXT_SRC = /^(https?:\/\/(?:www\.)?(?:youtube(?:-nocookie)?\.com|youtu\.be|open\.spotify\.com))/i;
-
-  // ---------- persistence (LS + cookie fallback) ----------
-  function setConsent(val){
-    try { localStorage.setItem(KEY, val); } catch(_) {}
-    // cookie for Safari / private mode / sub-doc reloads
-    document.cookie = KEY + '=' + encodeURIComponent(val) + '; Max-Age='+(3600*24*365)+'; Path=/; SameSite=Lax';
-  }
-  function getConsent(){
-    let v = null;
-    try { v = localStorage.getItem(KEY); } catch(_) {}
-    if (!v) {
-      const m = document.cookie.match(new RegExp('(?:^|; )' + KEY + '=([^;]*)'));
-      if (m) v = decodeURIComponent(m[1]);
-    }
-    return v;
-  }
-  function clearConsent(){
-    try { localStorage.removeItem(KEY); } catch(_) {}
-    document.cookie = KEY + '=; Max-Age=0; Path=/; SameSite=Lax';
-  }
-
-  // ---------- DOM helpers ----------
-  function markBlocked(ifr){
-    if (!ifr.classList.contains('requires-consent')) {
-      ifr.classList.add('requires-consent');
-    }
-    const wrap = ifr.closest('.embed') || ifr.parentElement;
-    if (wrap) wrap.classList.add('consent-blocked');
-  }
-  function unmarkBlocked(ifr){
-    ifr.classList.remove('requires-consent');
-    const wrap = ifr.closest('.embed') || ifr.parentElement;
-    if (wrap) wrap.classList.remove('consent-blocked');
-    ifr.style.opacity = ''; ifr.style.pointerEvents = '';
-  }
-
-  // Move src->data-src and mark for consent
-  function prepareIframes(root=document){
-    root.querySelectorAll('iframe').forEach(ifr => {
-      const src = ifr.getAttribute('src');
-      const ds  = ifr.getAttribute('data-src');
-      // Normalize: any external src or data-src gets moved to data-src and blocked
-      if (src && EXT_SRC.test(src)) {
-        ifr.setAttribute('data-src', src);
-        ifr.removeAttribute('src');
-      }
-      const finalDS = ifr.getAttribute('data-src');
-      if (finalDS && EXT_SRC.test(finalDS)) {
-        markBlocked(ifr);
-      }
-    });
-  }
-
-  // Load all permitted iframes
-  function loadAll(){
-    document.querySelectorAll('iframe.requires-consent[data-src]').forEach(ifr => {
-      const ds = ifr.getAttribute('data-src');
-      if (!ds) return;
-      ifr.src = ds;
-      ifr.removeAttribute('data-src');
-      unmarkBlocked(ifr);
-    });
-  }
-
-  // Ensure state after short delays (covers late/slow DOM work)
-  function ensureEmbeds(){
-    const consent = getConsent();
-    if (consent === 'allow') {
-      prepareIframes();
-      loadAll();
-    } else {
-      prepareIframes();
-      // keep blocked
-    }
-  }
-
-  // Popup wiring (expecting your #media-consent box from earlier)
-  function initPopup(){
-    const pop = document.getElementById('media-consent');
-    if (!pop) return; // if you placed popup only on some pages, that's fine
-    const consent = getConsent();
-    if (consent === 'allow') {
-      pop.hidden = true;
-      return;
-    }
-    // Show popup if not allowed yet (includes 'deny' and null)
-    pop.hidden = false;
-    pop.addEventListener('click', e => {
-      const btn = e.target.closest('[data-action]');
-      if (!btn) return;
-      const action = btn.getAttribute('data-action'); // 'allow' | 'deny'
-      setConsent(action);
-      if (action === 'allow') {
-        loadAll();
-      } // if deny: stay blocked; popup hides but will reappear on next load
-      pop.hidden = true;
-    });
-  }
-
-  // Expose reset for your footer link
-  window.resetMediaConsent = () => { clearConsent(); location.reload(); };
-
-  // ---------- boot sequence ----------
-  function boot(){
-    // 1) prep existing iframes immediately
-    prepareIframes();
-
-    // 2) load (if already allowed)
-    if (getConsent() === 'allow') loadAll();
-
-    // 3) wire popup
-    initPopup();
-
-    // 4) watch for dynamically added iframes (cms, tabs, etc.)
-    const mo = new MutationObserver(muts => {
-      let needEnsure = false;
-      muts.forEach(m => {
-        m.addedNodes.forEach(n => {
-          if (n.nodeType === 1) {
-            if (n.tagName === 'IFRAME' || n.querySelector?.('iframe')) needEnsure = true;
-          }
-        });
-      });
-      if (needEnsure) ensureEmbeds();
-    });
-    mo.observe(document.documentElement, { childList:true, subtree:true });
-
-    // 5) safety re-checks (timing robustness)
-    setTimeout(ensureEmbeds, 50);
-    setTimeout(ensureEmbeds, 300);
-    window.addEventListener('load', () => setTimeout(ensureEmbeds, 0));
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', boot, { once:true });
-  } else {
-    boot();
-  }
-})();
-</script>
-
-
-
+  </style>
+    
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
 
   <body>
+
+    <!-- Popup (wird per JS nur gezeigt, wenn noch keine Entscheidung vorliegt) -->
+    <div id="media-consent" class="consent-pop" hidden>
+      <h3>Externe Medien</h3>
+      <p>Diese Seite kann Inhalte von <strong>YouTube</strong> & <strong>Spotify</strong> laden. 
+        Mit „Akzeptieren“ erlaubst du die Datenübertragung an diese Anbieter. 
+        Du kannst das später im Footer unter „Medien-Einstellungen“ ändern.</p>
+      <div class="row">
+        <button class="consent-btn" data-action="deny">Nur notwendige</button>
+        <button class="consent-btn primary" data-action="allow">Akzeptieren</button>
+        <a href="../datenschutz.html" class="consent-btn" style="text-decoration:none">Mehr erfahren</a>
+      </div>
+    </div>
 
     <!-- Fixed Top Navigation -->
     <header class="site-nav">
@@ -478,15 +329,22 @@
 <section id="clients" class="wrap section">
   <h2>clients.</h2>
   <ul class="clients-grid">
-    <li class="client-item">Artist / Band 1</li>
-    <li class="client-item">Artist / Band 2</li>
-    <li class="client-item">Artist / Band 3</li>
-    <li class="client-item">Artist / Band 4</li>
-    <li class="client-item">Artist / Band 5</li>
-    <li class="client-item">Artist / Band 6</li>
-    <li class="client-item">Artist / Band 7</li>
-    <li class="client-item">Artist / Band 8</li>
-    <li class="client-item">Artist / Band 9</li>
+    <li class="client-item">badbadbad.</li>
+    <li class="client-item">JOËL - JOÃO</li>
+    <li class="client-item">TAMU</li>
+    <li class="client-item">NARÎNÊ</li>
+    <li class="client-item">Crime City Boyz</li>
+    <li class="client-item">Jan Scharfenberg</li>
+    <li class="client-item">Lost Tape</li>
+    <li class="client-item">Topgolf</li>
+    <li class="client-item">Zalando</li>
+    <li class="client-item">Spaghettieis - Musical</li>
+    <li class="client-item">Sterben ohne Gott - Dokumentarfilm</li>
+    <li class="client-item">AS Audio</li>
+    <li class="client-item">Joshua Karp</li>
+    <li class="client-item">Pur Abenteuerland - Das Musical</li>
+    <li class="client-item">Sat1 - Die Landarztpraxis</li>
+    <li class="client-item">30 and Wild - Spielfilm</li>
     <!-- … beliebig erweitern … -->
   </ul>
 </section>
@@ -496,7 +354,7 @@
   <div class="contact-info">
     <p><strong>Jonathan Heart</strong></p>
     <p><a href="mailto:booking@deinedomain.com">booking@deinedomain.com</a></p>
-    <p>Telefon: +49 123 456789</p>
+    <p>Telefon: +49 178 406 10 20</p>
   </div>
 </section>
 
@@ -520,7 +378,10 @@
       <p>
         <a href="../impressum.html">Impressum</a> | 
         <a href="../datenschutz.html">Datenschutzerklärung</a> |
-        <a href="#" class="media-settings-link" onclick="resetMediaConsent();return false;">Medien-Einstellungen</a>
+        <a href="javascript:void 0"
+   class="media-settings-link"
+   onclick="resetMediaConsent()">Medien-Einstellungen</a>
+
       </p>
 
       <p>© <span id="y"></span> Jonathan Heart
@@ -712,7 +573,7 @@
       const grid = document.querySelector('#gallery');
       const btn  = document.querySelector('#gallery-more');
 
-      const PAGE = 4; // initial 6 Bilder, bleibt wie bei dir
+      const PAGE = 6; // initial 6 Bilder, bleibt wie bei dir
       const BASE = '../assets/img/gallery/Studio%20Bilder/';
       const EXT  = 'jpg';
 
@@ -758,6 +619,9 @@
         i += slice.length;
         btn.hidden = i >= items.length;
         refreshAnchors();
+
+        // ⬇️ neu: nach jedem Render ggf. Hash-Scroll präzise korrigieren
+        if (location.hash) window.__scrollToHashNow?.();
       }
 
       // --- Lightbox Logik ---
@@ -878,9 +742,14 @@
       });
 
       // Initial
-      renderNext();
-      btn.hidden = items.length <= PAGE;
-      btn.addEventListener('click', () => renderNext());
+// Initial Render
+renderNext();
+
+// Hash-Scroll nachladen (z. B. wenn #clients / #contact aufgerufen wird)
+if (location.hash) window.__scrollToHashNow?.();
+
+btn.hidden = items.length <= PAGE;
+btn.addEventListener('click', () => renderNext());
     })();
     </script>
 
@@ -1107,6 +976,206 @@ document.querySelectorAll('#music .embed.video video').forEach(v => {
 })();
 </script>
 
+<script>
+(() => {
+  const KEY = 'mediaConsentV1'; // 'allow' | 'deny'
+  const EXT_SRC = /^(https?:\/\/(?:www\.)?(?:youtube(?:-nocookie)?\.com|youtu\.be|open\.spotify\.com))/i;
+
+  // ---------- persistence (LS + cookie fallback) ----------
+  function setConsent(val){
+    try { localStorage.setItem(KEY, val); } catch(_) {}
+    // cookie for Safari / private mode / sub-doc reloads
+    document.cookie = KEY + '=' + encodeURIComponent(val) + '; Max-Age='+(3600*24*365)+'; Path=/; SameSite=Lax';
+  }
+  function getConsent(){
+    let v = null;
+    try { v = localStorage.getItem(KEY); } catch(_) {}
+    if (!v) {
+      const m = document.cookie.match(new RegExp('(?:^|; )' + KEY + '=([^;]*)'));
+      if (m) v = decodeURIComponent(m[1]);
+    }
+    return v;
+  }
+  function clearConsent(){
+    try { localStorage.removeItem(KEY); } catch(_) {}
+    document.cookie = KEY + '=; Max-Age=0; Path=/; SameSite=Lax';
+  }
+
+  // ---------- DOM helpers ----------
+  function markBlocked(ifr){
+    if (!ifr.classList.contains('requires-consent')) {
+      ifr.classList.add('requires-consent');
+    }
+    const wrap = ifr.closest('.embed') || ifr.parentElement;
+    if (wrap) wrap.classList.add('consent-blocked');
+  }
+  function unmarkBlocked(ifr){
+    ifr.classList.remove('requires-consent');
+    const wrap = ifr.closest('.embed') || ifr.parentElement;
+    if (wrap) wrap.classList.remove('consent-blocked');
+    ifr.style.opacity = ''; ifr.style.pointerEvents = '';
+  }
+
+  // Move src->data-src and mark for consent
+  function prepareIframes(root=document){
+    root.querySelectorAll('iframe').forEach(ifr => {
+      const src = ifr.getAttribute('src');
+      const ds  = ifr.getAttribute('data-src');
+      // Normalize: any external src or data-src gets moved to data-src and blocked
+      if (src && EXT_SRC.test(src)) {
+        ifr.setAttribute('data-src', src);
+        ifr.removeAttribute('src');
+      }
+      const finalDS = ifr.getAttribute('data-src');
+      if (finalDS && EXT_SRC.test(finalDS)) {
+        markBlocked(ifr);
+      }
+    });
+  }
+
+  // Load all permitted iframes
+  function loadAll(){
+    document.querySelectorAll('iframe.requires-consent[data-src]').forEach(ifr => {
+      const ds = ifr.getAttribute('data-src');
+      if (!ds) return;
+      ifr.src = ds;
+      ifr.removeAttribute('data-src');
+      unmarkBlocked(ifr);
+    });
+  }
+
+  // Ensure state after short delays (covers late/slow DOM work)
+  function ensureEmbeds(){
+    const consent = getConsent();
+    if (consent === 'allow') {
+      prepareIframes();
+      loadAll();
+    } else {
+      prepareIframes();
+      // keep blocked
+    }
+  }
+
+  // Popup wiring (expecting your #media-consent box from earlier)
+// Popup wiring (expecting your #media-consent box from earlier)
+function initPopup(){
+  const pop = document.getElementById('media-consent');
+  if (!pop) return;
+
+  // ⬅️ Listener EINMALIG verdrahten – unabhängig vom aktuellen Consent
+  if (!pop.__wired) {
+    pop.addEventListener('click', e => {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      const action = btn.getAttribute('data-action'); // 'allow' | 'deny'
+      setConsent(action);
+      if (action === 'allow') loadAll();   // bei allow sofort Embeds laden
+      pop.hidden = true;                   // Popup schließen
+    });
+    pop.__wired = true; // Merker, damit nicht doppelt verdrahtet wird
+  }
+
+  // ⬅️ Sichtbarkeit NUR togglen (kein frühes return mehr!)
+  // allow => verstecken, sonst zeigen
+  pop.hidden = (getConsent() === 'allow');
+}
+
+
+  // Expose reset for your footer link
+window.resetMediaConsent = () => {
+  try { localStorage.removeItem('mediaConsentV1'); } catch(_) {}
+  document.cookie = 'mediaConsentV1=; Max-Age=0; Path=/; SameSite=Lax';
+
+  // iframes wieder blockieren
+  document.querySelectorAll('iframe').forEach(ifr => {
+    const src = ifr.getAttribute('src');
+    const EXT_SRC = /^(https?:\/\/(?:www\.)?(?:youtube(?:-nocookie)?\.com|youtu\.be|open\.spotify\.com))/i;
+    if (src && EXT_SRC.test(src)) { ifr.setAttribute('data-src', src); ifr.removeAttribute('src'); }
+    if (ifr.getAttribute('data-src')) {
+      ifr.classList.add('requires-consent');
+      ifr.closest('.embed')?.classList.add('consent-blocked');
+    }
+  });
+
+  // Popup zeigen (Listener ist ja jetzt immer verdrahtet)
+  const pop = document.getElementById('media-consent');
+  if (pop) pop.hidden = false;
+};
+
+
+
+  // ---------- boot sequence ----------
+  function boot(){
+    // 1) prep existing iframes immediately
+    prepareIframes();
+
+    // 2) load (if already allowed)
+    if (getConsent() === 'allow') loadAll();
+
+    // 3) wire popup
+    initPopup();
+
+    // 4) watch for dynamically added iframes (cms, tabs, etc.)
+    const mo = new MutationObserver(muts => {
+      let needEnsure = false;
+      muts.forEach(m => {
+        m.addedNodes.forEach(n => {
+          if (n.nodeType === 1) {
+            if (n.tagName === 'IFRAME' || n.querySelector?.('iframe')) needEnsure = true;
+          }
+        });
+      });
+      if (needEnsure) ensureEmbeds();
+    });
+    mo.observe(document.documentElement, { childList:true, subtree:true });
+
+    // 5) safety re-checks (timing robustness)
+    setTimeout(ensureEmbeds, 50);
+    setTimeout(ensureEmbeds, 300);
+    window.addEventListener('load', () => setTimeout(ensureEmbeds, 0));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot, { once:true });
+  } else {
+    boot();
+  }
+})();
+</script>
+
+<script>
+(() => {
+  // Deaktiviere Browser-Auto-Restore
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
+  const headerOffset = () => {
+    const val = getComputedStyle(document.documentElement).getPropertyValue('--header-h').trim();
+    const n = parseFloat(val || '0');
+    return Number.isFinite(n) ? n : 0;
+  };
+
+  function scrollToHash() {
+    if (!location.hash) return;
+    const el = document.getElementById(location.hash.slice(1));
+    if (!el) return;
+    const y = el.getBoundingClientRect().top + window.scrollY - headerOffset();
+    window.scrollTo({ top: y, behavior: 'instant' });
+  }
+
+  // 1️⃣ Beim ersten DOM-Ready merken, ob ein Hash existiert
+  let pendingHash = location.hash ? location.hash : null;
+
+  // 2️⃣ Sobald alles geladen ist (inkl. Bilder / Gallery), einmal korrekt springen
+  window.addEventListener('load', () => {
+    if (pendingHash) scrollToHash();
+  });
+
+  // 3️⃣ Falls dein JS dynamisch nachlädt (z. B. Gallery), kannst du von dort manuell triggern:
+  window.__scrollToHashNow = scrollToHash;
+})();
+</script>
 
 
 
