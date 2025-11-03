@@ -2,13 +2,12 @@
 <html lang="de" data-size="M">
   <head>
     <meta charset="utf-8" />
-    <title>Jonathan Heart</title>
+    <title>Jonathan Heart - music</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="musician · producer · mixing engineer" />
 
   <style>
     :root { --muted:#bdbdbd; --accent:#235ac0 }
-    .home-link:link, .home-link:visited { color: var(--muted); text-decoration: none }
     .home-icon { width:24px; height:24px; display:block }
     @media (hover:hover){ .home-link:hover { color: var(--accent) } }
   </style>
@@ -71,12 +70,18 @@
     <!-- Fixed Top Navigation -->
     <header class="site-nav">
       <nav class="wrap">
-        <!-- Weißes Haus-Icon als SVG -->
-        <a href="#top" class="home-link" aria-label="Home">
+        <!-- Weißes Haus-Icon als SVG links -->
+        <a href="/" class="home-link" aria-label="Home">
           <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
             <path d="M3 9.5l9-7 9 7V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
           </svg>
         </a>
+
+      <!-- zentraler Switch -->
+      <div class="site-toggle" role="menubar" aria-label="Bereich wechseln">
+        <a href="#top" aria-current="page">music</a> |
+        <a href="/film/">film</a>
+      </div>
 
         <!-- Rechts: Navigation-->
         <ul class="nav-list">
@@ -1197,6 +1202,201 @@ window.resetMediaConsent = () => {
   window.__scrollToHashNow = scrollToHash;
 })();
 </script>
+
+<script>
+(() => {
+  const HERO_ID = 'top';
+  const hero = document.getElementById(HERO_ID);
+
+  // === Desktop (unverändert) ===
+  const MIN_RATIO_DELTA_DESKTOP = 0.16;
+  const IO_MID_FRAC_DESKTOP = 0.46;
+  const FALLBACK_ANCHOR_FRAC_DESKTOP = 0.58;
+
+  // === Mobile (deutlich später) ===
+  const MIN_RATIO_DELTA_MOBILE = 0.22;   // größerer Vorsprung nötig
+  const IO_MID_FRAC_MOBILE = 0.50;       // IO-Korridor tiefer → später
+  const FALLBACK_DOWN_FRAC_MOBILE = 0.62; // Runter: später
+  const FALLBACK_UP_FRAC_MOBILE   = 0.58; // Hoch: später
+  const HYSTERESIS_PX_MOBILE = 24;        // Puffer gegen frühes Umschalten
+
+  const isMobile = () => window.innerWidth <= 768;
+
+  const getHeaderH = () => {
+    const v = getComputedStyle(document.documentElement)
+      .getPropertyValue('--header-h').trim();
+    const n = parseFloat(v || '0');
+    return Number.isFinite(n) ? n : 0;
+  };
+
+  const linksAll = Array.from(document.querySelectorAll('a[href^="#"]'))
+    .filter(a => {
+      const id = a.getAttribute('href').slice(1);
+      return !!id && !!document.getElementById(id);
+    });
+
+  const sections = Array.from(document.querySelectorAll('section[id]'))
+    .filter(s => s.id !== HERO_ID);
+
+  const hasSelectedWork = !!document.getElementById('selected-work');
+
+  const setActive = (idOrNull) => {
+    linksAll.forEach(a => {
+      const hit = idOrNull && a.getAttribute('href') === `#${idOrNull}`;
+      a.classList.toggle('active', !!hit);
+    });
+  };
+
+  const isInHeroZone = () => {
+    const h = getHeaderH();
+    const y = window.scrollY || document.documentElement.scrollTop || 0;
+    if (y <= (h + 4)) return true;
+    if (hero) {
+      const bottom = hero.offsetTop + hero.offsetHeight;
+      if ((y + h + 10) < bottom) return true;
+    }
+    return false;
+  };
+
+  let io, currentId = null, ratios = new Map();
+  let lastY = window.scrollY || 0;
+  let direction = 'down';
+
+  const ioMidFrac = () => isMobile() ? IO_MID_FRAC_MOBILE : IO_MID_FRAC_DESKTOP;
+  const minRatioDelta = () => isMobile() ? MIN_RATIO_DELTA_MOBILE : MIN_RATIO_DELTA_DESKTOP;
+
+  function buildObserver(){
+    if (io) io.disconnect();
+    ratios.clear();
+
+    const h = getHeaderH();
+    const mid = ioMidFrac();
+    const top = Math.round(h + window.innerHeight * mid);
+    const bottom = Math.round(window.innerHeight * mid);
+
+    io = new IntersectionObserver(onIntersect, {
+      root: null,
+      rootMargin: `-${top}px 0px -${bottom}px 0px`,
+      threshold: Array.from({length: 21}, (_,i)=> i/20)
+    });
+
+    sections.forEach(s => io.observe(s));
+    requestAnimationFrame(updateActive);
+  }
+
+  function onIntersect(entries){
+    for (const e of entries){
+      const id = e.target.id;
+      if (!id) continue;
+      ratios.set(id, e.isIntersecting ? (e.intersectionRatio || 0) : 0);
+    }
+    requestAnimationFrame(updateActive);
+  }
+
+  function pickByProgress(dir){
+    const h = getHeaderH();
+    const frac = isMobile()
+      ? (dir === 'up' ? FALLBACK_UP_FRAC_MOBILE : FALLBACK_DOWN_FRAC_MOBILE)
+      : FALLBACK_ANCHOR_FRAC_DESKTOP;
+
+    const anchor = (window.scrollY || 0) + h + window.innerHeight * frac;
+
+    let cand = null;
+    for (const s of sections){
+      if (s.offsetTop <= anchor) cand = s;
+    }
+
+    if (cand && hasSelectedWork){
+      const sw = document.getElementById('selected-work');
+      if (sw){
+        const center = (window.scrollY||0) + window.innerHeight * (isMobile() ? 0.60 : 0.60);
+        const dCand = Math.abs(center - (cand.offsetTop + cand.offsetHeight*0.5));
+        const dSW   = Math.abs(center - (sw.offsetTop + sw.offsetHeight*0.5));
+        if (dSW < dCand * 0.88) cand = sw;
+      }
+    }
+    return cand ? cand.id : null;
+  }
+
+  function applyHysteresis(chosenId){
+    if (!isMobile() || !chosenId || !currentId || chosenId === currentId) return chosenId;
+
+    const newSec = document.getElementById(chosenId);
+    const curSec = document.getElementById(currentId);
+    if (!newSec || !curSec) return chosenId;
+
+    const y = window.scrollY || 0;
+    const h = getHeaderH();
+    const anchorLine = y + h + window.innerHeight * (direction === 'down' ? FALLBACK_DOWN_FRAC_MOBILE : FALLBACK_UP_FRAC_MOBILE);
+
+    const newDist = Math.abs((newSec.offsetTop + newSec.offsetHeight/2) - anchorLine);
+    const curDist = Math.abs((curSec.offsetTop + curSec.offsetHeight/2) - anchorLine);
+
+    if (newDist + HYSTERESIS_PX_MOBILE >= curDist) return currentId;
+    return chosenId;
+  }
+
+  function updateActive(){
+    const y = window.scrollY || 0;
+    direction = (y > lastY) ? 'down' : (y < lastY ? 'up' : direction);
+    lastY = y;
+
+    if (isInHeroZone()){
+      if (currentId !== null){ currentId = null; setActive(null); }
+      return;
+    }
+
+    let bestId = null, bestRatio = 0;
+    for (const s of sections){
+      const r = ratios.get(s.id) || 0;
+      if (r > bestRatio){ bestRatio = r; bestId = s.id; }
+    }
+
+    let chosen = bestId;
+    if (!chosen){
+      chosen = pickByProgress(direction);
+    } else if (currentId){
+      const cur = ratios.get(currentId) || 0;
+      if (bestRatio < cur + minRatioDelta()){
+        const byProg = pickByProgress(direction);
+        if (byProg) chosen = byProg;
+      }
+    } else {
+      const byProg = pickByProgress(direction);
+      if (byProg) chosen = byProg;
+    }
+
+    chosen = applyHysteresis(chosen);
+
+    if (!chosen) return;
+    if (chosen !== currentId){
+      currentId = chosen;
+      setActive(chosen);
+    }
+  }
+
+  linksAll.forEach(a => {
+    a.addEventListener('click', () => {
+      const id = a.getAttribute('href').slice(1);
+      if (!id || id === HERO_ID) { setActive(null); currentId = null; }
+      else { setActive(id); currentId = id; }
+    });
+  });
+
+  window.addEventListener('scroll', () => {
+    requestAnimationFrame(updateActive);
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    buildObserver();
+    requestAnimationFrame(updateActive);
+  }, { passive: true });
+
+  buildObserver();
+  setTimeout(() => { buildObserver(); requestAnimationFrame(updateActive); }, 250);
+})();
+</script>
+
 
 
 
