@@ -85,13 +85,13 @@
 
         <!-- Rechts: Navigation-->
         <ul class="nav-list">
-          <li><a href="#about">about</a></li>
-          <li><a href="#work">selected work</a></li>
-          <li><a href="#music">music</a></li>
-          <li><a href="#studio">studio</a></li>
-          <li><a href="#services">services</a></li>
-          <li><a href="#clients">clients</a></li>
-          <li><a href="#contact">contact</a></li>
+          <li><a href="#about">about.</a></li>
+          <li><a href="#work">selected work.</a></li>
+          <li><a href="#music">music.</a></li>
+          <li><a href="#studio">studio.</a></li>
+          <li><a href="#services">services.</a></li>
+          <li><a href="#clients">clients.</a></li>
+          <li><a href="#contact">contact.</a></li>
         </ul>
 
         <!-- Burger-Button (nur sichtbar auf Mobilea) -->
@@ -335,7 +335,7 @@
   <h2>clients.</h2>
   <ul class="clients-grid">
     <li class="client-item">badbadbad.</li>
-    <li class="client-item">JOËL - JOÃO</li>
+    <li class="client-item">JOËL - JOÃO</li>
     <li class="client-item">TAMU</li>
     <li class="client-item">NARÎNÊ</li>
     <li class="client-item">Crime City Boyz</li>
@@ -343,16 +343,29 @@
     <li class="client-item">Lost Tape</li>
     <li class="client-item">Topgolf</li>
     <li class="client-item">Zalando</li>
-    <li class="client-item">Spaghettieis - Musical</li>
-    <li class="client-item">Sterben ohne Gott - Dokumentarfilm</li>
     <li class="client-item">AS Audio</li>
+    <li class="client-item">
+      Spaghettieis <span class="line">(Musical)</span>
+    </li>
+    <li class="client-item">
+      Sterben ohne Gott <span class="line">(Dokumentarfilm)</span>
+    </li>
+
     <li class="client-item">Joshua Karp</li>
-    <li class="client-item">Pur Abenteuerland - Das Musical</li>
-    <li class="client-item">Sat1 - Die Landarztpraxis</li>
-    <li class="client-item">30 and Wild - Spielfilm</li>
+    <li class="client-item">
+      Pur Abenteuerland <span class="line">(Das Musical)</span>
+    </li>
+    <li class="client-item">
+      Sat1 - Die <span class="line">Landarztpraxis</span>
+      <span class="line">(Daily Soap)</span>
+    </li>
+    <li class="client-item">
+      30 and Wild <span class="line">(Spielfilm)</span>
+    </li>
     <!-- … beliebig erweitern … -->
   </ul>
 </section>
+
 
 <section id="contact" class="wrap section">
   <h2>contact.</h2>
@@ -380,14 +393,32 @@
         </a>
       </p>
 
-      <p>
-        <a href="../impressum.html">Impressum</a> | 
-        <a href="../datenschutz.html">Datenschutzerklärung</a> |
-        <a href="javascript:void 0"
-   class="media-settings-link"
-   onclick="resetMediaConsent()">Medien-Einstellungen</a>
+<!-- Desktop-Version -->
+<p class="footer-links desktop-only">
+  <a href="../impressum.html">Impressum</a> | 
+  <a href="../datenschutz.html">Datenschutzerklärung</a> | 
+  <a href="javascript:void(0)" class="media-settings-link" onclick="resetMediaConsent()">Medien-Einstellungen</a>
+</p>
 
-      </p>
+<!-- Mobile-Version -->
+<p class="footer-links mobile-only">
+  <a href="../impressum.html">Impressum</a> |
+  <a href="../datenschutz.html">Datenschutzerklärung</a>
+  <a href="javascript:void(0)" class="media-settings-link" onclick="resetMediaConsent()">Medien-Einstellungen</a>
+</p>
+
+<style>
+  /* Standard: Desktop sichtbar, Mobile versteckt */
+  .desktop-only { display: block; }
+  .mobile-only { display: none; }
+
+  /* Unter 900px: Mobile sichtbar, Desktop versteckt */
+  @media (max-width: 900px) {
+    .desktop-only { display: none; }
+    .mobile-only { display: block; }
+  }
+</style>
+
 
       <p>© <span id="y"></span> Jonathan Heart
       </p>
