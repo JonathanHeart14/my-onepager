@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Datenschutz</title>
+  <title>Datenschutzerklärung</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles.css">
   <style>
@@ -23,7 +23,7 @@
 
     h1 {
       text-align: center;
-      font-size: 44px;
+      font-size: 40px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -63,11 +63,31 @@
       font-size: 14px;
       color: var(--muted);
     }
+
+
+    .legal-topbar{
+      position: fixed; inset: 0 0 auto 0;
+      height: var(--header-h, 64px);
+      display:flex; align-items:center;
+      padding: 0 16px;
+      background: color-mix(in oklab, var(--bg) 90%, transparent);
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+      box-shadow: 0 0px 6px 8px rgba(0,0,0,.5);
+      z-index: 1000;
+    }
+    .legal-topbar a{ color: var(--fg); text-decoration:none; font-weight:600 }
+    main{ margin-top: calc(var(--header-h, 64px) + 56px); } /* Platz für Topbar */
   </style>
 </head>
 <body>
+
+  <header class="legal-topbar">
+  <a id="backLink" href="/">← Zurück</a>
+  </header>
+
+
   <main>
-    <h1>Datenschutz</h1>
+    <h1>Datenschutz&shy;erklärung</h1>
 
     <p>
       Wir freuen uns sehr über Ihr Interesse an unserer Website. Datenschutz hat einen besonders hohen Stellenwert.
@@ -162,17 +182,74 @@
 
   </main>
 
+      <!-- Dein normaler Footer unten -->
   <footer class="footer">
-    <p class="footer-note">
-      © <span id="y"></span>
-      <span class="names">
-        Jonathan Heart /<br>
-        Jonas Röseberg
-      </span>
-    </p>
-  </footer>
+<!-- statt: <a href="impressum.html">Impressum</a> -->
+<p id="legalSwitch"></p>
 
-  <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
+
+      <p class="footer-credit">
+        © <span id="y"></span>
+        <span class="names">
+          Jonathan Heart / Jonas Röseberg
+        </span>
+      </p>
+    </footer>
+
+        <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
+
+<script>
+(function(){
+  const params = new URLSearchParams(location.search);
+  const from = params.get('from');
+
+  // Ziel & Label aus ?from ableiten
+  let fallback = '/', label = 'back to home';
+  if (from === 'music') { fallback = '/music/'; label = 'back to music'; }
+  if (from === 'film')  { fallback = '/film/';  label = 'back to film'; }
+
+  // Back-Link setzen
+  const link = document.getElementById('backLink');
+  if (link){ link.textContent = '← ' + label; link.href = fallback; }
+
+  // --- WICHTIGER FIX: Referrer korrekt parsen (Query ignorieren)
+  const legal = ['impressum.html','datenschutz.html'];
+  let isInternalRef = false, refIsLegal = false;
+  try {
+    if (document.referrer) {
+      const refUrl = new URL(document.referrer);
+      isInternalRef = refUrl.origin === location.origin;
+      // vergleiche NUR den Pfad, nicht die Query
+      refIsLegal = legal.some(p => refUrl.pathname.endsWith('/' + p));
+    }
+  } catch {}
+
+  // Nur wenn KEIN ?from=… vorhanden ist, versuchen wir history.back();
+  // mit ?from=… immer deterministisch zum fallback (home/music/film).
+  link?.addEventListener('click', function(e){
+    if (!from && isInternalRef && !refIsLegal) {
+      e.preventDefault();
+      history.back();
+    }
+    // sonst normaler Link (fallback) führt immer direkt zum Ziel
+  });
+
+  // (Optional, falls noch nicht drin): Cross-Link zwischen den Legal-Seiten
+  // behält die Herkunft (?from=…) bei, damit "back to …" stabil bleibt.
+  const isPrivacy = location.pathname.endsWith('datenschutz.html');
+  const target = isPrivacy ? 'impressum.html' : 'datenschutz.html';
+  const label2 = isPrivacy ? 'Impressum' : 'Datenschutzerklärung';
+  const holder = document.getElementById('legalSwitch');
+  if (holder){
+    const u = new URL(target, location.origin);
+    if (from) u.searchParams.set('from', from);
+    holder.innerHTML = `<a href="${u.pathname}${u.search}">${label2}</a>`;
+  }
+})();
+</script>
+
+
+
 
 </body>
 </html>

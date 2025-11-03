@@ -394,6 +394,27 @@
 <!-- Java Scripts-->
 
 <script>
+(function(){
+  // Erkenne, wo wir sind:
+  const section =
+    location.pathname.startsWith('/music/') ? 'music' :
+    location.pathname.startsWith('/film/')  ? 'film'  :
+    'home';
+
+  // Hänge ?from=… an alle Impressum/Datenschutz-Links auf dieser Seite an
+  document.querySelectorAll('a[href$="impressum.html"], a[href$="datenschutz.html"]').forEach(a => {
+    try {
+      const url = new URL(a.getAttribute('href'), location.origin);
+      if (!url.searchParams.has('from')) url.searchParams.set('from', section);
+      // schreibe relative Form zurück (ohne Origin)
+      a.setAttribute('href', url.pathname + '?' + url.searchParams.toString());
+    } catch {}
+  });
+})();
+</script>
+
+
+<script>
 (() => {
   const burger  = document.querySelector('.burger');
   const srcList = document.querySelector('.site-nav .nav-list');
