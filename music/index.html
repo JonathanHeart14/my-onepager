@@ -384,6 +384,7 @@
     <p>As part of <em>badbadbad.</em> and in support of <em>Joël João</em>, Jonathan extends this philosophy into collaboration. On stage he is not looking for praise but for resonance, using sound as a way to connect and communicate.</p>
     <p>After years in the studio and on stage technical abilities have moved to the background and made way for an understanding of music as a means to evoke emotion.</p>
   </article>
+  
 </section>
 
 
@@ -657,7 +658,7 @@
         const grid = document.querySelector('#gallery');
         const btn  = document.querySelector('#gallery-more');
 
-        const PAGE = 6; // initial 6 Bilder, bleibt wie bei dir
+        const PAGE = 3; // initial 6 Bilder, bleibt wie bei dir
         const BASE = '../assets/img/gallery/Studio%20Bilder/';
         const EXT  = 'jpg';
 
@@ -1085,9 +1086,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (burger) { burger.setAttribute('aria-expanded','false'); burger.classList.remove('active'); }
       }
 
-      const headerH = getHeaderOffset();
+      const headerH = getHeaderOffset() + 15;
       const startY  = window.scrollY || window.pageYOffset;
-      const targetY = Math.max(0, target.getBoundingClientRect().top + startY - headerH);
+      const targetY = Math.max(0, target.getBoundingClientRect().top + startY - headerH + 15);
       const distance = Math.abs(targetY - startY);
 
       if (prefersReduced) {

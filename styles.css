@@ -135,8 +135,10 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
   text-decoration:none;
   font-weight:500;
   display:inline-block;
+  transition: color .25s ease, transform .25s ease;
 }
-.nav-list a.active { color: var(--fg); font-weight: 800 }
+.nav-list a.active { color: var(--fg); transform: scale(1.08);
+  transform-origin: center; /* symmetrisch wachsen */}
 
 /* Auch im Mobile-Overlay */
 .nav-overlay a.active {
@@ -346,14 +348,15 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
    Sections / Split
 ========================= */
 .section{
-  scroll-margin-top: calc(var(--header-h) + 0px);
+  scroll-margin-top: calc(var(--header-h) + 30px);
   position: relative;
-  padding-bottom: 60px;
-  margin-bottom: 5px;
+  padding-bottom: 100px;
+  margin-bottom: 50px;
+  margin-top: 50px;
 }
 .section:last-of-type{ padding-bottom:30px }
 .section::after{
-  content:""; position:absolute; bottom:15px; left:50%; transform:translateX(-50%);
+  content:""; position:absolute; bottom: 0px; left:50%; transform:translateX(-50%);
   width: calc(70vw - 2 * var(--mobile-pad)); /* viewportabhängig */
   max-width: calc(1.8 * var(--tile-w));
   height:3px;
@@ -366,7 +369,7 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
 /* ABOUT: float-basiertes „Text frisst Bild“-Layout */
 .about-flow {
   max-width: var(--content-w);
-  margin: 0 auto;
+  margin: 80px auto 0;
   padding: 0 var(--tile-pad-x);
   font-size: 1rem;
   line-height: 1.6;
@@ -400,11 +403,13 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
 
 /* Mobile/Tablet: stacken, Float aufheben */
 @media (max-width: 900px) {
+  
   .slogan{ text-align:center
   }
   .about-flow { 
     max-width: var(--tile-w);
     padding: 0;
+    margin: 20px auto 0;
   }
   .about-photo {
     float: none;
@@ -424,7 +429,7 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
   gap:var(--tile-gap);
   max-width:var(--content-w);
   padding:0 var(--tile-pad-x);
-  margin:0 auto;
+  margin:70px auto 0;
   justify-items:center;
 }
 @media (max-width:900px){
@@ -432,6 +437,7 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
     grid-template-columns:1fr;
     max-width:var(--tile-w);
     padding:0;
+    margin: 0 auto;
     gap:24px;
   }
 }
@@ -492,7 +498,7 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
     grid-template-columns: repeat(2, 1fr);
     width: 100%;
     padding: 0 var(--tile-pad-x);     /* internes Padding statt -Margins */
-    margin: 60px auto 0;              /* auto zentriert den Container */
+    margin: 40px auto 0;              /* auto zentriert den Container */
     justify-content: center;          /* falls max-width > Inhalt */
     justify-items: center;
     row-gap: 27px;
@@ -535,7 +541,7 @@ footer a:hover{ color:var(--accent) }
 /* =========================
    Embeds / Media
 ========================= */
-.media-grid .tile{ width:100%; max-width:var(--tile-w) }
+.media-grid .tile{ width:100%; max-width:var(--tile-w)}
 .embed{ --radius:12px; position:relative; width:100%; max-width:var(--tile-w) }
 :where(.embed.youtube, .embed.vimeo){ aspect-ratio: var(--thumb-ar) }
 
@@ -596,7 +602,7 @@ footer a:hover{ color:var(--accent) }
   max-width:var(--content-w);
   grid-template-columns: repeat(3, minmax(0, var(--tile-w)));
   gap:var(--tile-gap);
-  margin:0 auto; padding:0 var(--tile-pad-x);
+  margin:80px auto 0; padding:0 var(--tile-pad-x);
   align-items:start;
 }
 
@@ -642,7 +648,7 @@ footer a:hover{ color:var(--accent) }
 .image{ max-width:100%; height:auto; display:inline-block }
 
 /* --- Studio Gallery Layout --- */
-.gallery-layout{ display:flex; flex-direction:column; gap:32px; margin:0 auto }
+.gallery-layout{ display:center; flex-direction:column; gap:32px; margin:0 auto 0}
 @media (max-width:900px){
   .gallery-layout{ gap:20px; padding-left:0; padding-right:0; max-width:var(--tile-w) }
 }
