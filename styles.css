@@ -6,6 +6,8 @@
 html {
   scroll-behavior: auto;
   scrollbar-gutter: stable;
+  -webkit-text-size-adjust: 100%;  /* Safari/Samsung/Chrome Android */
+  text-size-adjust: 100%;          /* Standard-Eigenschaft */
 }
 
 :root {
@@ -359,28 +361,59 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
 }
 /* .section:last-of-type::after{ display:none } */
 
-.slogan{ font-size:24px; margin:0 auto 0; text-align:left }
+.slogan{ font-size:24px; margin:0 auto 0; text-align:left; line-height: 1; }
 
-.split{
-  display:grid;
-  grid-template-columns:max-content 1fr;
-  max-width:var(--content-w);
-  padding:0 var(--tile-pad-x);
-  margin:auto;
-  gap:50px;
-  align-items: center;
+/* ABOUT: float-basiertes „Text frisst Bild“-Layout */
+.about-flow {
+  max-width: var(--content-w);
+  margin: 0 auto;
+  padding: 0 var(--tile-pad-x);
+  font-size: 1rem;
+  line-height: 1.6;
   text-align:justify;
 }
-@media (max-width:900px){
-  .split{
-    grid-template-columns:1fr;
-    gap:20px; padding:0;
-    max-width:var(--tile-w);
-    margin:0 auto;
-  }
-  .split .content-img{ margin-left:auto; margin-right:auto; display:block; max-width:100% }
-  .slogan{ text-align:center }
+
+/* About-Container soll Floats „einsammeln“ */
+.about-flow::after {
+  content: "";
+  display: block;
+  clear: both;
 }
+
+/* Das Bild „schwimmt“ links; Text umfließt es und läuft darunter weiter */
+.about-photo {
+  float: left;
+  margin: 0 28px 14px 0;
+  max-width: calc(var(--tile-w) * 0.8);
+  width:24%;
+  aspect-ratio:auto;
+  border-radius:12px;
+  display:block;
+}
+
+.about-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Mobile/Tablet: stacken, Float aufheben */
+@media (max-width: 900px) {
+  .slogan{ text-align:center
+  }
+  .about-flow { 
+    max-width: var(--tile-w);
+    padding: 0;
+  }
+  .about-photo {
+    float: none;
+    width: 100%;
+    margin: 0 0 16px 0; /* Bild oben, Text darunter */
+    shape-outside: none;
+  }
+}
+
 
 /* =========================
    Services Grid
