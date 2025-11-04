@@ -1,28 +1,77 @@
-<!-- Ton & Audio-Post Branch -->
 <!doctype html>
 <html lang="de" data-size="M">
   <head>
     <meta charset="utf-8" />
-    <title>Jonathan Heart – Film / Audio‑Post</title>
+    <title>Jonathan Heart - music</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Ton am Set, Dialogschnitt, Sound Design & Mischung – für Film, Serien & Werbung." />
+    <meta name="description" content="musician · producer · mixing engineer" />
 
   <style>
     :root { --muted:#bdbdbd; --accent:#235ac0 }
-    .home-link:link, .home-link:visited { color: var(--muted); text-decoration: none }
     .home-icon { width:24px; height:24px; display:block }
     @media (hover:hover){ .home-link:hover { color: var(--accent) } }
+  </style>
+  <style>
+  /* Overlay-Optik für blockierte Embeds */
+  .requires-consent {
+    display:block; width:100%; height:100%;
+    border:0; background:#000; opacity:.25; pointer-events:none;
+  }
+  .embed.consent-blocked { position:relative; }
+  .embed.consent-blocked::before {
+    content:"Externes Medium ist blockiert (YouTube/Spotify).";
+    position:absolute; inset:auto 12px 12px 12px;
+    padding:10px 12px; border-radius:10px;
+    background:rgba(0,0,0,.7); color:#fff; font-size:14px; line-height:1.4;
+  }
+
+  /* Mini-Popup unten rechts */
+  .consent-pop {
+    position: fixed; right: 16px; bottom: 16px; z-index: 9999;
+    max-width: 360px; background: rgba(20,20,20,.98); color:#eee;
+    border:1px solid rgba(255,255,255,.12); border-radius: 12px;
+    padding: 14px 14px 12px; box-shadow: 0 10px 30px rgba(0,0,0,.4);
+    font: 14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  }
+  .consent-pop h3 { margin: 0 0 6px; font-size: 15px; }
+  .consent-pop p  { margin: 0 0 10px; color:#cfcfcf; }
+  .consent-pop .row { display:flex; gap:8px; flex-wrap:wrap; margin-top: 8px; }
+  .consent-btn {
+    appearance: none; border:1px solid rgba(255,255,255,.16);
+    padding:8px 12px; border-radius:10px; background:#161616; color:#eee; cursor:pointer;
+  }
+  .consent-btn.primary { background:#235ac0; border-color:#235ac0; color:#fff; }
+  .consent-pop a { color:#cfe1ff; text-decoration:none; }
+  .consent-pop a:hover { text-decoration:underline; }
+
+  /* Optional: kleiner „Medien-Einstellungen“-Link im Footer kann diese Klasse nutzen */
+  .media-settings-link { opacity:.85 }
+  .media-settings-link:hover { opacity:1 }
   </style>
     
     <link rel="stylesheet" href="../styles.css" />
   </head>
+
   <body>
+
+    <!-- Popup (wird per JS nur gezeigt, wenn noch keine Entscheidung vorliegt) -->
+    <div id="media-consent" class="consent-pop" hidden>
+      <h3>Externe Medien</h3>
+      <p>Diese Seite kann Inhalte von <strong>YouTube</strong> & <strong>Spotify</strong> laden. 
+        Mit „Akzeptieren“ erlaubst du die Datenübertragung an diese Anbieter. 
+        Du kannst das später im Footer unter „Medien-Einstellungen“ ändern.</p>
+      <div class="row">
+        <button class="consent-btn" data-action="deny">Nur notwendige</button>
+        <button class="consent-btn primary" data-action="allow">Akzeptieren</button>
+        <a href="../datenschutz.html" class="consent-btn" style="text-decoration:none">Mehr erfahren</a>
+      </div>
+    </div>
 
     <!-- Fixed Top Navigation -->
     <header class="site-nav">
       <nav class="wrap">
-        <!-- Weißes Haus-Icon als SVG -->
-        <a href="#top" class="home-link" aria-label="Home">
+        <!-- Weißes Haus-Icon als SVG links -->
+        <a href="/" class="home-link" aria-label="Home">
           <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
             <path d="M3 9.5l9-7 9 7V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
           </svg>
@@ -30,21 +79,19 @@
 
       <!-- zentraler Switch -->
       <div class="site-toggle" role="menubar" aria-label="Bereich wechseln">
-        <a href="/music/">music</a>
-        <a href="#top" aria-current="page">film</a>
+        <a href="#top" aria-current="page">music</a> |
+        <a href="/film/">film</a>
       </div>
-
-
 
         <!-- Rechts: Navigation-->
         <ul class="nav-list">
-          <li><a href="#about">about</a></li>
-          <li><a href="#work">selected work</a></li>
-          <li><a href="#film">film</a></li>
-          <li><a href="#studio">studio</a></li>
-          <li><a href="#services">services</a></li>
-          <li><a href="#clients">clients</a></li>
-          <li><a href="#contact">contact</a></li>
+          <li><a href="#about">about.</a></li>
+          <li><a href="#work">selected work.</a></li>
+          <li><a href="#music">music.</a></li>
+          <li><a href="#studio">studio.</a></li>
+          <li><a href="#services">services.</a></li>
+          <li><a href="#clients">clients.</a></li>
+          <li><a href="#contact">contact.</a></li>
         </ul>
 
         <!-- Burger-Button (nur sichtbar auf Mobilea) -->
@@ -60,7 +107,7 @@
     <section class="hero landing">
       <div class="hero-inner">
         <h1 class="hero-title">Jonathan Heart</h1>
-        <p class="hero-subtitle">Ton &amp;&nbsp;Audio‑Postproduktion</p>
+        <p class="hero-subtitle">musician · producer · mixing engineer</p>
         <div class="social-links">
           <a href="https://instagram.com/deinprofil" target="_blank" aria-label="Instagram">
             <span class="icon-mask" style="--icon: url('assets/icons/Instagram.svg')"></span>
@@ -104,7 +151,8 @@
           <!-- Spotify Playlist (fixe Höhe via CSS-Variable; Größe mit .s/.m/.l steuerbar) -->
           <div class="embed spotify">
             <iframe
-              src="https://open.spotify.com/embed/playlist/3Dx1Mv3YxzqyDBACvLPxs4?utm_source=generator&theme=0"
+              class="requires-consent"
+              data-src="https://open.spotify.com/embed/playlist/3Dx1Mv3YxzqyDBACvLPxs4?utm_source=generator&theme=0"
               loading="lazy"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               allowfullscreen>
@@ -113,7 +161,8 @@
           <!-- YouTube Playlist (responsiv 16:9 via CSS) -->
           <div class="embed youtube">
             <iframe
-              src="https://www.youtube.com/embed/hkcfdRgLheQ?si=AkYb-eO_d8HOrZc8"
+              class="requires-consent"
+              data-src="https://www.youtube.com/embed/hkcfdRgLheQ?si=AkYb-eO_d8HOrZc8"
               title="YouTube Playlist"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen>
@@ -122,7 +171,8 @@
 
           <div class="embed youtube">
             <iframe
-              src="https://www.youtube.com/embed/EthbAJ00iqg?si=SSlg-FPbyOAa0HfJ"
+              class="requires-consent"
+              data-src="https://www.youtube.com/embed/EthbAJ00iqg?si=SSlg-FPbyOAa0HfJ"
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen>
@@ -131,7 +181,8 @@
 
           <div class="embed youtube">
             <iframe
-              src="https://www.youtube.com/embed/DV68w9O-R9E?si=RhxlV3EuEdjDJdax"
+              class="requires-consent"
+              data-src="https://www.youtube.com/embed/DV68w9O-R9E?si=RhxlV3EuEdjDJdax"
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen>
@@ -140,7 +191,8 @@
 
           <div class="embed youtube">
             <iframe
-              src="https://www.youtube.com/embed/REbrKoZy1YI?si=v2KlKfX2F-7jrz2e"
+              class="requires-consent"
+              data-src="https://www.youtube.com/embed/REbrKoZy1YI?si=v2KlKfX2F-7jrz2e"
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen>
@@ -149,7 +201,8 @@
 
           <div class="embed youtube">
             <iframe
-              src="https://www.youtube.com/embed/Ic5oqa0zLKM?si=HDdqKrm-X4Xc3vlZ"
+              class="requires-consent"
+              data-src="https://www.youtube.com/embed/Ic5oqa0zLKM?si=HDdqKrm-X4Xc3vlZ"
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen>
@@ -158,7 +211,8 @@
 
           <div class="embed youtube">
             <iframe
-              src="https://www.youtube.com/embed/Y3vEmhQQbto?si=yOWsaC8aVG_hCxOC"
+              class="requires-consent"
+              data-src="https://www.youtube.com/embed/Y3vEmhQQbto?si=yOWsaC8aVG_hCxOC"
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen>
@@ -167,7 +221,8 @@
 
           <div class="embed youtube">
             <iframe
-              src="https://www.youtube.com/embed/RtfhpJwiSDU?si=RO1D4SPHQDZPzsBt"
+              class="requires-consent"
+              data-src="https://www.youtube.com/embed/RtfhpJwiSDU?si=RO1D4SPHQDZPzsBt"
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen>
@@ -176,8 +231,8 @@
       </div>
     </section>
 
-    <section id="film" class="wrap section">
-      <h2>film.</h2>
+    <section id="music" class="wrap section">
+      <h2>music.</h2>
       <div class="media-grid">
 
         <div class="embed video">
@@ -279,25 +334,45 @@
 <section id="clients" class="wrap section">
   <h2>clients.</h2>
   <ul class="clients-grid">
-    <li class="client-item">Artist / Band 1</li>
-    <li class="client-item">Artist / Band 2</li>
-    <li class="client-item">Artist / Band 3</li>
-    <li class="client-item">Artist / Band 4</li>
-    <li class="client-item">Artist / Band 5</li>
-    <li class="client-item">Artist / Band 6</li>
-    <li class="client-item">Artist / Band 7</li>
-    <li class="client-item">Artist / Band 8</li>
-    <li class="client-item">Artist / Band 9</li>
+    <li class="client-item">badbadbad.</li>
+    <li class="client-item">JOËL - JOÃO</li>
+    <li class="client-item">TAMU</li>
+    <li class="client-item">NARÎNÊ</li>
+    <li class="client-item">Crime City Boyz</li>
+    <li class="client-item">Jan Scharfenberg</li>
+    <li class="client-item">Lost Tape</li>
+    <li class="client-item">Topgolf</li>
+    <li class="client-item">Zalando</li>
+    <li class="client-item">AS Audio</li>
+    <li class="client-item">
+      Spaghettieis <span class="line">(Musical)</span>
+    </li>
+    <li class="client-item">
+      Sterben ohne Gott <span class="line">(Dokumentarfilm)</span>
+    </li>
+
+    <li class="client-item">Joshua Karp</li>
+    <li class="client-item">
+      Pur Abenteuerland <span class="line">(Das Musical)</span>
+    </li>
+    <li class="client-item">
+      Sat1 - Die <span class="line">Landarztpraxis</span>
+      <span class="line">(Daily Soap)</span>
+    </li>
+    <li class="client-item">
+      30 and Wild <span class="line">(Spielfilm)</span>
+    </li>
     <!-- … beliebig erweitern … -->
   </ul>
 </section>
+
 
 <section id="contact" class="wrap section">
   <h2>contact.</h2>
   <div class="contact-info">
     <p><strong>Jonathan Heart</strong></p>
     <p><a href="mailto:booking@deinedomain.com">booking@deinedomain.com</a></p>
-    <p>Telefon: +49 123 456789</p>
+    <p>Telefon: +49 178 406 10 20</p>
   </div>
 </section>
 
@@ -318,10 +393,32 @@
         </a>
       </p>
 
-      <p>
-        <a href="../impressum.html">Impressum</a> | 
-        <a href="../datenschutz.html">Datenschutzerklärung</a>
-      </p>
+<!-- Desktop-Version -->
+<p class="footer-links desktop-only">
+  <a href="../impressum.html">Impressum</a> | 
+  <a href="../datenschutz.html">Datenschutzerklärung</a> | 
+  <a href="javascript:void(0)" class="media-settings-link" onclick="resetMediaConsent()">Medien-Einstellungen</a>
+</p>
+
+<!-- Mobile-Version -->
+<p class="footer-links mobile-only">
+  <a href="../impressum.html">Impressum</a> |
+  <a href="../datenschutz.html">Datenschutzerklärung</a>
+  <a href="javascript:void(0)" class="media-settings-link" onclick="resetMediaConsent()">Medien-Einstellungen</a>
+</p>
+
+<style>
+  /* Standard: Desktop sichtbar, Mobile versteckt */
+  .desktop-only { display: block; }
+  .mobile-only { display: none; }
+
+  /* Unter 900px: Mobile sichtbar, Desktop versteckt */
+  @media (max-width: 900px) {
+    .desktop-only { display: none; }
+    .mobile-only { display: block; }
+  }
+</style>
+
 
       <p>© <span id="y"></span> Jonathan Heart
       </p>
@@ -331,6 +428,27 @@
     <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
 
 <!-- Java Scripts-->
+
+<script>
+(function(){
+  // Erkenne, wo wir sind:
+  const section =
+    location.pathname.startsWith('/music/') ? 'music' :
+    location.pathname.startsWith('/film/')  ? 'film'  :
+    'home';
+
+  // Hänge ?from=… an alle Impressum/Datenschutz-Links auf dieser Seite an
+  document.querySelectorAll('a[href$="impressum.html"], a[href$="datenschutz.html"]').forEach(a => {
+    try {
+      const url = new URL(a.getAttribute('href'), location.origin);
+      if (!url.searchParams.has('from')) url.searchParams.set('from', section);
+      // schreibe relative Form zurück (ohne Origin)
+      a.setAttribute('href', url.pathname + '?' + url.searchParams.toString());
+    } catch {}
+  });
+})();
+</script>
+
 
 <script>
 (() => {
@@ -386,7 +504,7 @@
       overlay.innerHTML = `${srcList.innerHTML}
         <li class="nav-footer">
           <p>© ${new Date().getFullYear()} Jonathan Heart<br>
-          Ton & Audio‑Postproduktion</p>
+          musician · producer · mixing engineer</p>
         </li>`;
       overlay.setAttribute('aria-hidden', 'true');
       document.body.appendChild(overlay);
@@ -443,25 +561,6 @@
 
 
 
-<script>
-(function(){
-  // Erkenne, wo wir sind:
-  const section =
-    location.pathname.startsWith('/music/') ? 'music' :
-    location.pathname.startsWith('/film/')  ? 'film'  :
-    'home';
-
-  // Hänge ?from=… an alle Impressum/Datenschutz-Links auf dieser Seite an
-  document.querySelectorAll('a[href$="impressum.html"], a[href$="datenschutz.html"]').forEach(a => {
-    try {
-      const url = new URL(a.getAttribute('href'), location.origin);
-      if (!url.searchParams.has('from')) url.searchParams.set('from', section);
-      // schreibe relative Form zurück (ohne Origin)
-      a.setAttribute('href', url.pathname + '?' + url.searchParams.toString());
-    } catch {}
-  });
-})();
-</script>
 
 
 
@@ -531,7 +630,7 @@
       const grid = document.querySelector('#gallery');
       const btn  = document.querySelector('#gallery-more');
 
-      const PAGE = 4; // initial 6 Bilder, bleibt wie bei dir
+      const PAGE = 6; // initial 6 Bilder, bleibt wie bei dir
       const BASE = '../assets/img/gallery/Studio%20Bilder/';
       const EXT  = 'jpg';
 
@@ -577,6 +676,9 @@
         i += slice.length;
         btn.hidden = i >= items.length;
         refreshAnchors();
+
+        // ⬇️ neu: nach jedem Render ggf. Hash-Scroll präzise korrigieren
+        if (location.hash) window.__scrollToHashNow?.();
       }
 
       // --- Lightbox Logik ---
@@ -697,14 +799,19 @@
       });
 
       // Initial
-      renderNext();
-      btn.hidden = items.length <= PAGE;
-      btn.addEventListener('click', () => renderNext());
+// Initial Render
+renderNext();
+
+// Hash-Scroll nachladen (z. B. wenn #clients / #contact aufgerufen wird)
+if (location.hash) window.__scrollToHashNow?.();
+
+btn.hidden = items.length <= PAGE;
+btn.addEventListener('click', () => renderNext());
     })();
     </script>
 
     <script>
-document.querySelectorAll('#film .embed.video video').forEach(v => {
+document.querySelectorAll('#music .embed.video video').forEach(v => {
   // Initial: alle als Thumbnail markieren
   v.classList.add('thumb');
 
@@ -731,7 +838,7 @@ document.querySelectorAll('#film .embed.video video').forEach(v => {
 
 <script>
 (() => {
-  const vids = Array.from(document.querySelectorAll('#film .embed.video video'));
+  const vids = Array.from(document.querySelectorAll('#music .embed.video video'));
 
   // Alle Videos bekommen initial die Thumb-Optik (füllt die 16:9-Kachel)
   vids.forEach(v => v.classList.add('thumb'));
@@ -923,6 +1030,401 @@ document.querySelectorAll('#film .embed.video video').forEach(v => {
     if (history.pushState) history.pushState(null, '', hash);
     else location.hash = hash;
   }, { passive: false });
+})();
+</script>
+
+<script>
+(() => {
+  const KEY = 'mediaConsentV1'; // 'allow' | 'deny'
+  const EXT_SRC = /^(https?:\/\/(?:www\.)?(?:youtube(?:-nocookie)?\.com|youtu\.be|open\.spotify\.com))/i;
+
+  // ---------- persistence (LS + cookie fallback) ----------
+  function setConsent(val){
+    try { localStorage.setItem(KEY, val); } catch(_) {}
+    // cookie for Safari / private mode / sub-doc reloads
+    document.cookie = KEY + '=' + encodeURIComponent(val) + '; Max-Age='+(3600*24*365)+'; Path=/; SameSite=Lax';
+  }
+  function getConsent(){
+    let v = null;
+    try { v = localStorage.getItem(KEY); } catch(_) {}
+    if (!v) {
+      const m = document.cookie.match(new RegExp('(?:^|; )' + KEY + '=([^;]*)'));
+      if (m) v = decodeURIComponent(m[1]);
+    }
+    return v;
+  }
+  function clearConsent(){
+    try { localStorage.removeItem(KEY); } catch(_) {}
+    document.cookie = KEY + '=; Max-Age=0; Path=/; SameSite=Lax';
+  }
+
+  // ---------- DOM helpers ----------
+  function markBlocked(ifr){
+    if (!ifr.classList.contains('requires-consent')) {
+      ifr.classList.add('requires-consent');
+    }
+    const wrap = ifr.closest('.embed') || ifr.parentElement;
+    if (wrap) wrap.classList.add('consent-blocked');
+  }
+  function unmarkBlocked(ifr){
+    ifr.classList.remove('requires-consent');
+    const wrap = ifr.closest('.embed') || ifr.parentElement;
+    if (wrap) wrap.classList.remove('consent-blocked');
+    ifr.style.opacity = ''; ifr.style.pointerEvents = '';
+  }
+
+  // Move src->data-src and mark for consent
+  function prepareIframes(root=document){
+    root.querySelectorAll('iframe').forEach(ifr => {
+      const src = ifr.getAttribute('src');
+      const ds  = ifr.getAttribute('data-src');
+      // Normalize: any external src or data-src gets moved to data-src and blocked
+      if (src && EXT_SRC.test(src)) {
+        ifr.setAttribute('data-src', src);
+        ifr.removeAttribute('src');
+      }
+      const finalDS = ifr.getAttribute('data-src');
+      if (finalDS && EXT_SRC.test(finalDS)) {
+        markBlocked(ifr);
+      }
+    });
+  }
+
+  // Load all permitted iframes
+  function loadAll(){
+    document.querySelectorAll('iframe.requires-consent[data-src]').forEach(ifr => {
+      const ds = ifr.getAttribute('data-src');
+      if (!ds) return;
+      ifr.src = ds;
+      ifr.removeAttribute('data-src');
+      unmarkBlocked(ifr);
+    });
+  }
+
+  // Ensure state after short delays (covers late/slow DOM work)
+  function ensureEmbeds(){
+    const consent = getConsent();
+    if (consent === 'allow') {
+      prepareIframes();
+      loadAll();
+    } else {
+      prepareIframes();
+      // keep blocked
+    }
+  }
+
+  // Popup wiring (expecting your #media-consent box from earlier)
+// Popup wiring (expecting your #media-consent box from earlier)
+function initPopup(){
+  const pop = document.getElementById('media-consent');
+  if (!pop) return;
+
+  // ⬅️ Listener EINMALIG verdrahten – unabhängig vom aktuellen Consent
+  if (!pop.__wired) {
+    pop.addEventListener('click', e => {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      const action = btn.getAttribute('data-action'); // 'allow' | 'deny'
+      setConsent(action);
+      if (action === 'allow') loadAll();   // bei allow sofort Embeds laden
+      pop.hidden = true;                   // Popup schließen
+    });
+    pop.__wired = true; // Merker, damit nicht doppelt verdrahtet wird
+  }
+
+  // ⬅️ Sichtbarkeit NUR togglen (kein frühes return mehr!)
+  // allow => verstecken, sonst zeigen
+  pop.hidden = (getConsent() === 'allow');
+}
+
+
+  // Expose reset for your footer link
+window.resetMediaConsent = () => {
+  try { localStorage.removeItem('mediaConsentV1'); } catch(_) {}
+  document.cookie = 'mediaConsentV1=; Max-Age=0; Path=/; SameSite=Lax';
+
+  // iframes wieder blockieren
+  document.querySelectorAll('iframe').forEach(ifr => {
+    const src = ifr.getAttribute('src');
+    const EXT_SRC = /^(https?:\/\/(?:www\.)?(?:youtube(?:-nocookie)?\.com|youtu\.be|open\.spotify\.com))/i;
+    if (src && EXT_SRC.test(src)) { ifr.setAttribute('data-src', src); ifr.removeAttribute('src'); }
+    if (ifr.getAttribute('data-src')) {
+      ifr.classList.add('requires-consent');
+      ifr.closest('.embed')?.classList.add('consent-blocked');
+    }
+  });
+
+  // Popup zeigen (Listener ist ja jetzt immer verdrahtet)
+  const pop = document.getElementById('media-consent');
+  if (pop) pop.hidden = false;
+};
+
+
+
+  // ---------- boot sequence ----------
+  function boot(){
+    // 1) prep existing iframes immediately
+    prepareIframes();
+
+    // 2) load (if already allowed)
+    if (getConsent() === 'allow') loadAll();
+
+    // 3) wire popup
+    initPopup();
+
+    // 4) watch for dynamically added iframes (cms, tabs, etc.)
+    const mo = new MutationObserver(muts => {
+      let needEnsure = false;
+      muts.forEach(m => {
+        m.addedNodes.forEach(n => {
+          if (n.nodeType === 1) {
+            if (n.tagName === 'IFRAME' || n.querySelector?.('iframe')) needEnsure = true;
+          }
+        });
+      });
+      if (needEnsure) ensureEmbeds();
+    });
+    mo.observe(document.documentElement, { childList:true, subtree:true });
+
+    // 5) safety re-checks (timing robustness)
+    setTimeout(ensureEmbeds, 50);
+    setTimeout(ensureEmbeds, 300);
+    window.addEventListener('load', () => setTimeout(ensureEmbeds, 0));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot, { once:true });
+  } else {
+    boot();
+  }
+})();
+</script>
+
+<script>
+(() => {
+  // Deaktiviere Browser-Auto-Restore
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
+  const headerOffset = () => {
+    const val = getComputedStyle(document.documentElement).getPropertyValue('--header-h').trim();
+    const n = parseFloat(val || '0');
+    return Number.isFinite(n) ? n : 0;
+  };
+
+  function scrollToHash() {
+    if (!location.hash) return;
+    const el = document.getElementById(location.hash.slice(1));
+    if (!el) return;
+    const y = el.getBoundingClientRect().top + window.scrollY - headerOffset();
+    window.scrollTo({ top: y, behavior: 'instant' });
+  }
+
+  // 1️⃣ Beim ersten DOM-Ready merken, ob ein Hash existiert
+  let pendingHash = location.hash ? location.hash : null;
+
+  // 2️⃣ Sobald alles geladen ist (inkl. Bilder / Gallery), einmal korrekt springen
+  window.addEventListener('load', () => {
+    if (pendingHash) scrollToHash();
+  });
+
+  // 3️⃣ Falls dein JS dynamisch nachlädt (z. B. Gallery), kannst du von dort manuell triggern:
+  window.__scrollToHashNow = scrollToHash;
+})();
+</script>
+
+<script>
+(() => {
+  const HERO_ID = 'top';
+  const hero = document.getElementById(HERO_ID);
+
+  // === Desktop (unverändert) ===
+  const MIN_RATIO_DELTA_DESKTOP = 0.16;
+  const IO_MID_FRAC_DESKTOP = 0.46;
+  const FALLBACK_ANCHOR_FRAC_DESKTOP = 0.58;
+
+  // === Mobile (deutlich später) ===
+  const MIN_RATIO_DELTA_MOBILE = 0.22;   // größerer Vorsprung nötig
+  const IO_MID_FRAC_MOBILE = 0.50;       // IO-Korridor tiefer → später
+  const FALLBACK_DOWN_FRAC_MOBILE = 0.62; // Runter: später
+  const FALLBACK_UP_FRAC_MOBILE   = 0.58; // Hoch: später
+  const HYSTERESIS_PX_MOBILE = 24;        // Puffer gegen frühes Umschalten
+
+  const isMobile = () => window.innerWidth <= 768;
+
+  const getHeaderH = () => {
+    const v = getComputedStyle(document.documentElement)
+      .getPropertyValue('--header-h').trim();
+    const n = parseFloat(v || '0');
+    return Number.isFinite(n) ? n : 0;
+  };
+
+  const linksAll = Array.from(document.querySelectorAll('a[href^="#"]'))
+    .filter(a => {
+      const id = a.getAttribute('href').slice(1);
+      return !!id && !!document.getElementById(id);
+    });
+
+  const sections = Array.from(document.querySelectorAll('section[id]'))
+    .filter(s => s.id !== HERO_ID);
+
+  const hasSelectedWork = !!document.getElementById('selected-work');
+
+  const setActive = (idOrNull) => {
+    linksAll.forEach(a => {
+      const hit = idOrNull && a.getAttribute('href') === `#${idOrNull}`;
+      a.classList.toggle('active', !!hit);
+    });
+  };
+
+  const isInHeroZone = () => {
+    const h = getHeaderH();
+    const y = window.scrollY || document.documentElement.scrollTop || 0;
+    if (y <= (h + 4)) return true;
+    if (hero) {
+      const bottom = hero.offsetTop + hero.offsetHeight;
+      if ((y + h + 10) < bottom) return true;
+    }
+    return false;
+  };
+
+  let io, currentId = null, ratios = new Map();
+  let lastY = window.scrollY || 0;
+  let direction = 'down';
+
+  const ioMidFrac = () => isMobile() ? IO_MID_FRAC_MOBILE : IO_MID_FRAC_DESKTOP;
+  const minRatioDelta = () => isMobile() ? MIN_RATIO_DELTA_MOBILE : MIN_RATIO_DELTA_DESKTOP;
+
+  function buildObserver(){
+    if (io) io.disconnect();
+    ratios.clear();
+
+    const h = getHeaderH();
+    const mid = ioMidFrac();
+    const top = Math.round(h + window.innerHeight * mid);
+    const bottom = Math.round(window.innerHeight * mid);
+
+    io = new IntersectionObserver(onIntersect, {
+      root: null,
+      rootMargin: `-${top}px 0px -${bottom}px 0px`,
+      threshold: Array.from({length: 21}, (_,i)=> i/20)
+    });
+
+    sections.forEach(s => io.observe(s));
+    requestAnimationFrame(updateActive);
+  }
+
+  function onIntersect(entries){
+    for (const e of entries){
+      const id = e.target.id;
+      if (!id) continue;
+      ratios.set(id, e.isIntersecting ? (e.intersectionRatio || 0) : 0);
+    }
+    requestAnimationFrame(updateActive);
+  }
+
+  function pickByProgress(dir){
+    const h = getHeaderH();
+    const frac = isMobile()
+      ? (dir === 'up' ? FALLBACK_UP_FRAC_MOBILE : FALLBACK_DOWN_FRAC_MOBILE)
+      : FALLBACK_ANCHOR_FRAC_DESKTOP;
+
+    const anchor = (window.scrollY || 0) + h + window.innerHeight * frac;
+
+    let cand = null;
+    for (const s of sections){
+      if (s.offsetTop <= anchor) cand = s;
+    }
+
+    if (cand && hasSelectedWork){
+      const sw = document.getElementById('selected-work');
+      if (sw){
+        const center = (window.scrollY||0) + window.innerHeight * (isMobile() ? 0.60 : 0.60);
+        const dCand = Math.abs(center - (cand.offsetTop + cand.offsetHeight*0.5));
+        const dSW   = Math.abs(center - (sw.offsetTop + sw.offsetHeight*0.5));
+        if (dSW < dCand * 0.88) cand = sw;
+      }
+    }
+    return cand ? cand.id : null;
+  }
+
+  function applyHysteresis(chosenId){
+    if (!isMobile() || !chosenId || !currentId || chosenId === currentId) return chosenId;
+
+    const newSec = document.getElementById(chosenId);
+    const curSec = document.getElementById(currentId);
+    if (!newSec || !curSec) return chosenId;
+
+    const y = window.scrollY || 0;
+    const h = getHeaderH();
+    const anchorLine = y + h + window.innerHeight * (direction === 'down' ? FALLBACK_DOWN_FRAC_MOBILE : FALLBACK_UP_FRAC_MOBILE);
+
+    const newDist = Math.abs((newSec.offsetTop + newSec.offsetHeight/2) - anchorLine);
+    const curDist = Math.abs((curSec.offsetTop + curSec.offsetHeight/2) - anchorLine);
+
+    if (newDist + HYSTERESIS_PX_MOBILE >= curDist) return currentId;
+    return chosenId;
+  }
+
+  function updateActive(){
+    const y = window.scrollY || 0;
+    direction = (y > lastY) ? 'down' : (y < lastY ? 'up' : direction);
+    lastY = y;
+
+    if (isInHeroZone()){
+      if (currentId !== null){ currentId = null; setActive(null); }
+      return;
+    }
+
+    let bestId = null, bestRatio = 0;
+    for (const s of sections){
+      const r = ratios.get(s.id) || 0;
+      if (r > bestRatio){ bestRatio = r; bestId = s.id; }
+    }
+
+    let chosen = bestId;
+    if (!chosen){
+      chosen = pickByProgress(direction);
+    } else if (currentId){
+      const cur = ratios.get(currentId) || 0;
+      if (bestRatio < cur + minRatioDelta()){
+        const byProg = pickByProgress(direction);
+        if (byProg) chosen = byProg;
+      }
+    } else {
+      const byProg = pickByProgress(direction);
+      if (byProg) chosen = byProg;
+    }
+
+    chosen = applyHysteresis(chosen);
+
+    if (!chosen) return;
+    if (chosen !== currentId){
+      currentId = chosen;
+      setActive(chosen);
+    }
+  }
+
+  linksAll.forEach(a => {
+    a.addEventListener('click', () => {
+      const id = a.getAttribute('href').slice(1);
+      if (!id || id === HERO_ID) { setActive(null); currentId = null; }
+      else { setActive(id); currentId = id; }
+    });
+  });
+
+  window.addEventListener('scroll', () => {
+    requestAnimationFrame(updateActive);
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    buildObserver();
+    requestAnimationFrame(updateActive);
+  }, { passive: true });
+
+  buildObserver();
+  setTimeout(() => { buildObserver(); requestAnimationFrame(updateActive); }, 250);
 })();
 </script>
 
