@@ -154,14 +154,14 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
 .site-toggle{
   /* center the whole control in the nav */
   position: absolute;
-  margin-left: 70px;
+  margin-left: 90px;
   display: grid;
   grid-template-columns: 1fr 1fr;   /* equal halves */
   align-items: center;
   justify-items: stretch;
   min-width: 20px;                 /* your “good width”, adjust if needed */
   text-transform: lowercase;
-  --toggle-gap: 0px;               /* fixed space from the center bar to text */
+  --toggle-gap: 5px;               /* fixed space from the center bar to text */
   --divider-w: 3px;
   --divider-h: 1.3em;
   --inactive: var(--muted);
@@ -206,12 +206,12 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
 .site-toggle > a[aria-current="page"]{
   color: var(--active);
   font-weight: 500;
-  transform: scale(1.08);
+  transform: scale(1.15);
 }
 
 /* make the left label grow to the LEFT, the right label to the RIGHT */
-.site-toggle > a:first-child[aria-current="page"]{ transform-origin: right center; }
-.site-toggle > a:last-child[aria-current="page"] { transform-origin: left  center; }
+.site-toggle > a:first-child[aria-current="page"]{ transform-origin: center; }
+.site-toggle > a:last-child[aria-current="page"] { transform-origin: center; }
 
 /* Pulse-Farbe wie beim Home-Icon */
 .site-toggle > a.tapped { 
@@ -220,7 +220,7 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
 }
 
 @media (max-width: 900px){
-  .site-toggle{ font-size: 1rem; --toggle-gap: 5px; margin-left: 0px; left: 53%; transform: translateX(-50%);}
+  .site-toggle{ font-size: 1rem; --toggle-gap: 8px; margin-left: 0px; left: 53%; transform: translateX(-50%);}
   .site-toggle > a{ font-size: 1.1rem;}
 }
 

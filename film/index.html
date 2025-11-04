@@ -1,472 +1,640 @@
 <!-- Ton & Audio-Post Branch -->
-<!doctype html>
-<html lang="de" data-size="M">
-  <head>
-    <meta charset="utf-8" />
-    <title>Jonathan Heart – Film / Audio‑Post</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Ton am Set, Dialogschnitt, Sound Design & Mischung – für Film, Serien & Werbung." />
+ <!DOCTYPE html>
 
-  <style>
-    :root { --muted:#bdbdbd; --accent:#235ac0 }
-    .home-link:link, .home-link:visited { color: var(--muted); text-decoration: none }
-    .home-icon { width:24px; height:24px; display:block }
-    @media (hover:hover){ .home-link:hover { color: var(--accent) } }
-  </style>
-    
-    <link rel="stylesheet" href="../styles.css" />
-  </head>
-  <body>
+<html data-size="M" lang="de">
+<head>
+<meta charset="utf-8"/>
+<title>Jonathan Heart - music</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="musician · producer · mixing engineer" name="description"/>
 
-    <!-- Fixed Top Navigation -->
-    <header class="site-nav">
-      <nav class="wrap">
-        <!-- Weißes Haus-Icon als SVG -->
-        <a href="#top" class="home-link" aria-label="Home">
-          <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-            <path d="M3 9.5l9-7 9 7V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"/>
-          </svg>
-        </a>
+<link href="../styles.css" rel="stylesheet"/>
+<link crossorigin="" href="https://www.youtube-nocookie.com" rel="preconnect"/>
+<link crossorigin="" href="https://www.youtube.com" rel="preconnect"/>
+<link crossorigin="" href="https://i.ytimg.com" rel="preconnect"/>
+<link crossorigin="" href="https://open.spotify.com" rel="preconnect"/>
+
+<style>/* consolidated inline styles */
+
+  :root { --muted:#bdbdbd; --accent:#235ac0 }
+      .home-icon { width:24px; height:24px; display:block }
+      @media (hover:hover){ .home-link:hover { color: var(--accent) } }
+
+  /* Overlay-Optik für blockierte Embeds */
+    .requires-consent {
+      display:block; width:100%; height:100%;
+      border:0; background:#000; opacity:.25; pointer-events:none;
+    }
+    .embed.consent-blocked { position:relative; }
+    .embed.consent-blocked::before {
+      content:"Externes Medium ist blockiert (YouTube/Spotify).";
+      position:absolute; inset:auto 12px 12px 12px;
+      padding:10px 12px; border-radius:10px;
+      background:rgba(0,0,0,.7); color:#fff; font-size:14px; line-height:1.4;
+    }
+
+    /* Mini-Popup unten rechts */
+    .consent-pop {
+      position: fixed; right: 16px; bottom: 16px; z-index: 9999;
+      max-width: 360px; background: rgba(20,20,20,.98); color:#eee;
+      border:1px solid rgba(255,255,255,.12); border-radius: 12px;
+      padding: 14px 14px 12px; box-shadow: 0 10px 30px rgba(0,0,0,.4);
+      font: 14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+    }
+    .consent-pop h3 { margin: 0 0 6px; font-size: 15px; }
+    .consent-pop p  { margin: 0 0 10px; color:#cfcfcf; }
+    .consent-pop .row { display:flex; gap:8px; flex-wrap:wrap; margin-top: 8px; }
+    .consent-btn {
+      appearance: none; border:1px solid rgba(255,255,255,.16);
+      padding:8px 12px; border-radius:10px; background:#161616; color:#eee; cursor:pointer;
+    }
+    .consent-btn.primary { background:#235ac0; border-color:#235ac0; color:#fff; }
+    .consent-pop a { color:#cfe1ff; text-decoration:none; }
+    .consent-pop a:hover { text-decoration:underline; }
+
+    /* Optional: kleiner „Medien-Einstellungen“-Link im Footer kann diese Klasse nutzen */
+    .media-settings-link { opacity:.85 }
+    .media-settings-link:hover { opacity:1 }
+</style>
+
+</head>
+
+<body>
+
+
+  <div id="top" style="position:relative; inset:0; height:0;"></div>
+
+  <!-- Popup (wird per JS nur gezeigt, wenn noch keine Entscheidung vorliegt) -->
+  <div class="consent-pop" hidden="" id="media-consent">
+    <h3>Externe Medien</h3>
+    <p>Diese Seite kann Inhalte von <strong>YouTube</strong> &amp; <strong>Spotify</strong> laden. 
+            Mit „Akzeptieren“ erlaubst du die Datenübertragung an diese Anbieter. 
+            Du kannst das später im Footer unter „Medien-Einstellungen“ ändern.</p>
+    <div class="row">
+      <button class="consent-btn" data-action="deny">Nur notwendige</button>
+      <button class="consent-btn primary" data-action="allow">Akzeptieren</button>
+      <a class="consent-btn" href="../datenschutz.html" style="text-decoration:none">Mehr erfahren</a>
+    </div>
+  </div>
+
+  <!-- Fixed Top Navigation -->
+  <header class="site-nav">
+    <nav class="wrap">
+
+      <!-- Weißes Haus-Icon als SVG links -->
+      <a aria-label="Home" class="home-link" href="/">
+        <svg class="home-icon" fill="currentColor" height="24" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 9.5l9-7 9 7V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"></path>
+        </svg>
+      </a>
 
       <!-- zentraler Switch -->
       <div class="site-toggle" role="menubar" aria-label="Bereich wechseln">
-        <a href="/music/">music</a>
-        <a href="#top" aria-current="page">film</a>
+        <a href="/music/">music.</a>
+        <a href="#top" aria-current="page">film.</a>
       </div>
 
+      <!-- Rechts: Navigation-->
+      <ul class="nav-list">
+        <li><a href="#work">selected work.</a></li>
+        <li><a href="#services">services.</a></li>
+        <li><a href="#clients">clients.</a></li>
+        <li><a href="#studio">studio.</a></li>
+<!--    <li><a href="#music">music.</a></li> -->
+        <li><a href="#about">about.</a></li>
+        <li><a href="#contact">contact.</a></li>
+      </ul>
 
+      <!-- Burger-Button (nur sichtbar auf Mobilea) -->
+<button class="burger" aria-label="Menu" type="button">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round">
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <line x1="3" y1="12" x2="21" y2="12"></line>
+    <line x1="3" y1="18" x2="21" y2="18"></line>
+  </svg>
+</button>
 
-        <!-- Rechts: Navigation-->
-        <ul class="nav-list">
-          <li><a href="#about">about</a></li>
-          <li><a href="#work">selected work</a></li>
-          <li><a href="#film">film</a></li>
-          <li><a href="#studio">studio</a></li>
-          <li><a href="#services">services</a></li>
-          <li><a href="#clients">clients</a></li>
-          <li><a href="#contact">contact</a></li>
-        </ul>
+    </nav>
+  </header>
 
-        <!-- Burger-Button (nur sichtbar auf Mobilea) -->
-        <button class="burger" type="button"
-          aria-label="Menu"
-          aria-controls="mobile-menu"
-          aria-expanded="false">☰
-        </button>
-      </nav>
-    </header>
-
-    <!-- Landing Hero (zentriert, wie John Mayer) -->
-    <section class="hero landing">
-      <div class="hero-inner">
-        <h1 class="hero-title">Jonathan Heart</h1>
-        <p class="hero-subtitle">Ton &amp;&nbsp;Audio‑Postproduktion</p>
-        <div class="social-links">
-          <a href="https://instagram.com/deinprofil" target="_blank" aria-label="Instagram">
-            <span class="icon-mask" style="--icon: url('assets/icons/Instagram.svg')"></span>
-          </a>
-          <a href="https://open.spotify.com/artist/deinid" target="_blank" aria-label="Spotify">
-            <span class="icon-mask" style="--icon: url('assets/icons/Spotify.svg')"></span>
-          </a>
-          <a href="https://youtube.com/@deinprofil" target="_blank" aria-label="YouTube">
-            <span class="icon-mask" style="--icon: url('assets/icons/Youtube.svg'); width:44px;"></span>
-          </a>
-          <a href="mailto:deineadresse@email.com" target="_blank" aria-label="Email">
-            <span class="icon-mask" style="--icon: url('assets/icons/Mail.svg'); width:41px;"></span>
-          </a>
-        </div>
-       
+  <!-- Landing Hero -->
+  <section class="hero landing">
+    <div class="hero-inner">
+      <h1 class="hero-title">Jonathan Heart</h1>
+      <p class="hero-subtitle">musician · producer · mixing engineer</p>
+      <div class="social-links">
+        <a aria-label="Instagram" href="https://instagram.com/itsjonathanheart" target="_blank">
+        <span class="icon-mask" style="--icon: url('assets/icons/Instagram.svg')"></span>
+        </a>
+        <a aria-label="Spotify" href="https://open.spotify.com/artist/4jcReINTJLZewFgkzEqmxK?si=FpjnMYeQTrChplwueQZ5Dg" target="_blank">
+        <span class="icon-mask" style="--icon: url('assets/icons/Spotify.svg')"></span>
+        </a>
+        <a aria-label="YouTube" href="https://youtube.com/@jonathanheartmusic" target="_blank">
+        <span class="icon-mask" style="--icon: url('assets/icons/Youtube.svg'); width:44px;"></span>
+        </a>
+        <a aria-label="Email" href="mailto:jonath.heart@gmail.com" target="_blank">
+        <span class="icon-mask" style="--icon: url('assets/icons/Mail.svg'); width:41px;"></span>
+        </a>
       </div>
-    </section>
+          </div>
+  </section>
 
-    <!-- Erste Content Section -->
-    <section id="about" class="wrap section">
-      <h2>about.</h2>
-      <div>
+  <!-- Work Section -->
+  <section class="wrap section" id="work">
+    <h2>selected work.</h2>
+    <div class="media-grid">
+
+      <!-- YouTube Playlist (responsiv 16:9 via CSS) -->
+      <div class="embed youtube">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/hkcfdRgLheQ?si=AkYb-eO_d8HOrZc8" title="YouTube video player">
+        </iframe>
+        <p class="credit">[performance, bass composition]</p>
       </div>
-      <div class="split">
-        <img src="../assets/img/Rose Guitar Square.jpg" alt="Jonathan Heart" class="content-img">
-        <div>
-          <p class="slogan">clarity through distortion.</p>
-          <p>Jonathan Heart is a musician, producer and mixing engineer based in Berlin, Germany. His approach is shaped as much by instruments and live playing as by the technical craft of sound.</p>
-          <p>In the studio he is less interested in perfection than in presence, keeping the rough edges that carry emotion. Mixing and mastering are ways of listening closely to the stories of others and enhancing them without erasing what makes them human.</p>
-          <p>As part of <em>badbadbad.</em> and in support of <em>Joël João</em>, Jonathan extends this philosophy into collaboration. On stage he is not looking for praise but for resonance, using sound as a way to connect and communicate.</p>
-          <p>After years in the studio and on stage technical abilities have moved to the background and made way for an understanding of music as a means to evoke emotion.</p>
-        </div>
+      <div class="embed youtube">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/EthbAJ00iqg?si=SSlg-FPbyOAa0HfJ" title="YouTube video player">
+        </iframe>
+        <p class="credit">[co-written, co-produced, mix & master]</p>
       </div>
-    </section>
-
-    <section id="work" class="wrap section">
-      <h2>selected work.</h2>
-
-      <div class="media-grid">
-
-          <!-- Spotify Playlist (fixe Höhe via CSS-Variable; Größe mit .s/.m/.l steuerbar) -->
-          <div class="embed spotify">
-            <iframe
-              src="https://open.spotify.com/embed/playlist/3Dx1Mv3YxzqyDBACvLPxs4?utm_source=generator&theme=0"
-              loading="lazy"
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              allowfullscreen>
-            </iframe>
-          </div>
-          <!-- YouTube Playlist (responsiv 16:9 via CSS) -->
-          <div class="embed youtube">
-            <iframe
-              src="https://www.youtube.com/embed/hkcfdRgLheQ?si=AkYb-eO_d8HOrZc8"
-              title="YouTube Playlist"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen>
-            </iframe>
-          </div>
-
-          <div class="embed youtube">
-            <iframe
-              src="https://www.youtube.com/embed/EthbAJ00iqg?si=SSlg-FPbyOAa0HfJ"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen>
-            </iframe>
-          </div>
-
-          <div class="embed youtube">
-            <iframe
-              src="https://www.youtube.com/embed/DV68w9O-R9E?si=RhxlV3EuEdjDJdax"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen>
-            </iframe>
-          </div>
-
-          <div class="embed youtube">
-            <iframe
-              src="https://www.youtube.com/embed/REbrKoZy1YI?si=v2KlKfX2F-7jrz2e"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen>
-            </iframe>
-          </div>
-
-          <div class="embed youtube">
-            <iframe
-              src="https://www.youtube.com/embed/Ic5oqa0zLKM?si=HDdqKrm-X4Xc3vlZ"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen>
-            </iframe>
-          </div>
-
-          <div class="embed youtube">
-            <iframe
-              src="https://www.youtube.com/embed/Y3vEmhQQbto?si=yOWsaC8aVG_hCxOC"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen>
-            </iframe>
-          </div>
-
-          <div class="embed youtube">
-            <iframe
-              src="https://www.youtube.com/embed/RtfhpJwiSDU?si=RO1D4SPHQDZPzsBt"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen>
-            </iframe>
-          </div>     
+      <div class="embed youtube">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/DV68w9O-R9E?si=RhxlV3EuEdjDJdax" title="YouTube video player">
+        </iframe>
+        <p class="credit">[co-written, co-produced]</p>
       </div>
-    </section>
-
-    <section id="film" class="wrap section">
-      <h2>film.</h2>
-      <div class="media-grid">
-
-        <div class="embed video">
-          <video controls preload="none" playsinline webkit-playsinline data-autoposter>
-            <source src="../assets/video/Day_at_the_Stu_web.mp4" type="video/mp4" />
-          </video>
-        </div>
-
-        <div class="embed video">
-          <video controls preload="none" playsinline webkit-playsinline data-autoposter>
-            <source src="../assets/video/Just a little progression I came up with.mp4" type="video/mp4" />
-          </video>
-        </div>
-
-        <div class="embed video">
-          <video controls preload="none" playsinline webkit-playsinline data-autoposter>
-            <source src="../assets/video/six six strings v4.mp4" type="video/mp4" />
-          </video>
-        </div>
-
-        <div class="embed video">
-          <video controls preload="none" playsinline webkit-playsinline data-autoposter>
-            <source src="../assets/video/Bass playing/Is this hope.mp4" type="video/mp4" />
-          </video>
-        </div>
-
-        <div class="embed video">
-          <video controls preload="none" playsinline webkit-playsinline data-autoposter>
-            <source src="../assets/video/Bass playing/melody.mp4" type="video/mp4" />
-          </video>
-        </div>
-
-        <div class="embed video">
-          <video controls preload="none" playsinline webkit-playsinline data-autoposter>
-            <source src="../assets/video/Bass playing/Quicksand.mp4" type="video/mp4" />
-          </video>
-        </div>
-
+      <div class="embed youtube">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/REbrKoZy1YI?si=v2KlKfX2F-7jrz2e" title="YouTube video player">
+        </iframe>
+        <p class="credit">[mix & master]</p>
       </div>
-    </section>
-
-    <section id="studio" class="wrap section">
-      <h2>studio.</h2>
-
-      <div class="gallery-layout">
-        <div id="gallery" class="media-grid"></div>
-          <aside class="gallery-footer">
-            <button id="gallery-more" class="btn-more" hidden>Load more</button>
-          </aside>
-        </div>
-
-      <!-- Lightbox mit Navigation -->
-      <div id="lightbox" class="lightbox" hidden>
-        <button class="lb-close" aria-label="Close">×</button>
-        <button class="lb-nav lb-prev" aria-label="Previous">‹</button>
-        <img id="lightbox-img" alt="">
-        <button class="lb-nav lb-next" aria-label="Next">›</button>
-        <div class="lb-counter"><span id="lb-i">1</span>/<span id="lb-n">1</span></div>
+      <div class="embed youtube">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/Ic5oqa0zLKM?si=HDdqKrm-X4Xc3vlZ" title="YouTube video player">
+        </iframe>
+        <p class="credit">[written, produced, mix & master]</p>
       </div>
-        <!-- Leistungen/Referenzen -->
-    </section>
+      <div class="embed youtube">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/Y3vEmhQQbto?si=yOWsaC8aVG_hCxOC" title="YouTube video player">
+        </iframe>
+        <p class="credit">[mix & master]</p>
+      </div>
+      <div class="embed youtube center-single">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/RtfhpJwiSDU?si=RO1D4SPHQDZPzsBt" title="YouTube video player">
+        </iframe>
+        <p class="credit">[co-produced, mix & master]</p>
+      </div>
 
-    <section id="services" class="wrap section">
-  <h2>services.</h2>
+      <!-- Spotify Playlist (fixe Höhe via CSS-Variable; Größe mit .s/.m/.l steuerbar) -->
+        <div class="embed spotify">
+        <iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen="" class="requires-consent" data-src="https://open.spotify.com/embed/playlist/3Dx1Mv3YxzqyDBACvLPxs4?utm_source=generator&amp;theme=0">
+        </iframe>
+      </div>
 
-  <div class="services-grid">
-    <!-- Mixing & Mastering -->
-    <article class="service-card">
-      <h3>Mixing & Mastering</h3>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="wrap section" id="services">
+    <h2>services.</h2>
+    <div class="services-grid">
+
+      <!-- Mixing & Mastering -->
+      <article class="service-card">
+      <h3>Mixing &amp; Mastering</h3>
       <a class="service-img" href="#contact">
-        <img src="../assets/img/services/mixing.jpg" alt="Mixing console">
+      <img alt="Mixing console" src="../assets/img/services/mixing.jpg"/>
       </a>
-      <p class="service-desc">Single · EP · Album. Clean & punchy without losing the vibe.</p>
-    </article>
+      <p class="service-desc">Available for projects of any size. <br> From a quick vocal mix to a full album.
+      </article>
 
-    <!-- Recording & Producing -->
-    <article class="service-card">
-      <h3>Recording & Producing</h3>
+      <!-- Recording & Producing -->
+      <article class="service-card">
+      <h3> Producing &amp; Recording</h3>
       <a class="service-img" href="#contact">
-        <img src="../assets/img/services/recording.jpg" alt="Recording session">
+      <img alt="Recording session" src="../assets/img/services/recording.jpg"/>
       </a>
-      <p class="service-desc">Vocals, guitars, bass. Mobile or studio — capture with intent.</p>
-    </article>
+      <p class="service-desc">Capturing your performance. <br> In the studio or on location with a mobile rig.</p>
+      </article>
 
-    <!-- Session / Live Playing -->
-    <article class="service-card">
-      <h3>Session & Live</h3>
+      <!-- Session / Live Playing -->
+      <article class="service-card">
+      <h3>Session &amp; Live</h3>
       <a class="service-img" href="#contact">
-        <img src="../assets/img/services/session.png" alt="Session & live playing">
+      <img alt="Session &amp; live playing" src="../assets/img/services/session.png"/>
       </a>
-      <p class="service-desc">Bass & guitar for your track or stage — tight, musical, reliable.</p>
-    </article>
-  </div>
+      <p class="service-desc">Bass and guitar for studio or stage. <br> Tight and reliable.</p>
+      </article>
+
+    </div>
+
     <!-- zentraler Booking-Button -->
-  <aside class="gallery-footer">
-<a class="btn-more" href="#contact">Contact / Booking</a>
+    <aside class="gallery-footer">
+    <a class="btn-more" href="#contact">Get In Touch</a>
+    </aside>
+  </section>
+
+  <!-- Clients Section -->
+  <section class="wrap section" id="clients">
+    <h2>clients.</h2>
+    <ul class="clients-grid">
+      <li class="client-item">
+          badbadbad.
+      </li>
+      <li class="client-item">
+          JOËL - JOÃO
+      </li>
+      <li class="client-item">
+          TAMU
+      </li>
+      <li class="client-item">
+          NARÎNÊ
+      </li>
+      <li class="client-item">
+          Crime City Boyz
+      </li>
+      <li class="client-item">
+          Jan Scharfenberg
+      </li>
+      <li class="client-item">
+          Lost Tape
+      </li>
+      <li class="client-item">
+          Topgolf
+      </li>
+      <li class="client-item">
+          Zalando
+      </li>
+      <li class="client-item">
+          AS Audio
+      </li>
+      <li class="client-item">
+          Songsterr
+      </li>
+      <li class="client-item">
+          Spaghettieis 
+          <span class="line">(Musical)</span>
+        </li>
+      <li class="client-item">
+            Sterben ohne Gott
+            <span class="line">(Dokumentarfilm)</span>
+      </li>
+      <li class="client-item">Joshua Karp
+        <span class="line">(LinkedIn Coaching Videos)</span>
+      </li>
+      <li class="client-item">
+            Pur Abenteuerland -
+            <span class="line">Das Musical</span>
+            <span class="line">(Premiere Aftermovie)</span>
+      </li>
+      <li class="client-item">
+            Die Landarztpraxis
+      <span class="line">(Daily Soap)</span>
+      </li>
+      <li class="client-item">
+            30 and Wild 
+            <span class="line">(Spielfilm)</span>
+      </li>
+      <li class="client-item">
+            Schlangenjunge 
+            <span class="line">(Spielfilm)</span>
+      </li>
+            <li class="client-item">
+            Popcorn Himmel
+            <span class="line">(Musical)</span>
+      </li>
+            </li>
+            <li class="client-item">
+            Toni
+            <span class="line">(Kurzfilm)</span>
+      </li>
+      <!-- … beliebig erweitern … -->
+    </ul>
+  </section>
+
+  <!-- Studio Section -->
+  <section class="wrap section" id="studio">
+    <h2>studio.</h2>
+    <div class="gallery-layout">
+      <div class="media-grid js-gallery"
+          data-base="../assets/img/gallery/Studio%20Bilder/"
+          data-ext="jpg"
+          data-page="6"
+          data-chunk="3"></div>
+
+      <aside class="gallery-footer">
+        <button class="btn-more js-gallery-more" hidden>Load more</button>
+      </aside>
+    </div>
+
+  </section>
+
+  <!-- Music Section -->
+  <!--
+  <section class="wrap section" id="music">
+    <h2>music.</h2>
+    <div class="media-grid">
+      <div class="embed video">
+        <video controls="" data-autoposter="" playsinline="" preload="none" webkit-playsinline="">
+        <source src="../assets/video/Day_at_the_Stu_web.mp4" type="video/mp4"/>
+        </video>
+      </div>
+      <div class="embed video">
+        <video controls="" data-autoposter="" playsinline="" preload="none" webkit-playsinline="">
+        <source src="../assets/video/Just a little progression I came up with.mp4" type="video/mp4"/>
+        </video>
+      </div>
+      <div class="embed video">
+        <video controls="" data-autoposter="" playsinline="" preload="none" webkit-playsinline="">
+        <source src="../assets/video/six six strings v4.mp4" type="video/mp4"/>
+        </video>
+      </div>
+      <div class="embed video">
+        <video controls="" data-autoposter="" playsinline="" preload="none" webkit-playsinline="">
+        <source src="../assets/video/Bass playing/Is this hope.mp4" type="video/mp4"/>
+        </video>
+      </div>
+      <div class="embed video">
+        <video controls="" data-autoposter="" playsinline="" preload="none" webkit-playsinline="">
+        <source src="../assets/video/Bass playing/melody.mp4" type="video/mp4"/>
+        </video>
+      </div>
+      <div class="embed video">
+        <video controls="" data-autoposter="" playsinline="" preload="none" webkit-playsinline="">
+        <source src="../assets/video/Bass playing/Quicksand.mp4" type="video/mp4"/>
+        </video>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- About Section -->
+<section class="wrap section" id="about">
+  <h2>about.</h2>
+
+  <article class="about-flow">
+    <figure class="about-photo">
+      <img src="../assets/img/Rose Guitar Square.jpg" alt="Jonathan Heart">
+    </figure>
+
+    <p class="slogan">clarity through distortion.</p>
+    <p>Jonathan Heart is a musician, producer and mixing engineer based in Berlin, Germany. His approach is shaped as much by instruments and live playing as by the technical craft of sound.</p>
+    <p>In the studio he is less interested in perfection than in presence, keeping the rough edges that carry emotion. Mixing and mastering are ways of listening closely to the stories of others and enhancing them without erasing what makes them human.</p>
+    <p>As part of <em>badbadbad.</em> and in support of <em>Joël João</em>, Jonathan extends this philosophy into collaboration. On stage he is not looking for praise but for resonance, using sound as a way to connect and communicate.</p>
+    <p>After years in the studio and on stage technical abilities have moved to the background and made way for an understanding of music as a means to evoke emotion.</p>
+  </article>
+  
+  <!-- About: Gallery -->
+    <div class="gallery-layout">
+      <div class="media-grid js-gallery"
+          data-base="../assets/img/gallery/About%20Bilder/"
+          data-ext="jpg"
+          data-page="0"
+          data-chunk="3"
+          data-lightbox="false">
+      </div>
+          
+      <aside class="gallery-footer">
+        <button class="btn-more js-gallery-more" hidden>Load more</button>
+      </aside>
+    </div>
+
 </section>
 
-<section id="clients" class="wrap section">
-  <h2>clients.</h2>
-  <ul class="clients-grid">
-    <li class="client-item">Artist / Band 1</li>
-    <li class="client-item">Artist / Band 2</li>
-    <li class="client-item">Artist / Band 3</li>
-    <li class="client-item">Artist / Band 4</li>
-    <li class="client-item">Artist / Band 5</li>
-    <li class="client-item">Artist / Band 6</li>
-    <li class="client-item">Artist / Band 7</li>
-    <li class="client-item">Artist / Band 8</li>
-    <li class="client-item">Artist / Band 9</li>
-    <!-- … beliebig erweitern … -->
-  </ul>
-</section>
 
-<section id="contact" class="wrap section">
-  <h2>contact.</h2>
-  <div class="contact-info">
-    <p><strong>Jonathan Heart</strong></p>
-    <p><a href="mailto:booking@deinedomain.com">booking@deinedomain.com</a></p>
-    <p>Telefon: +49 123 456789</p>
-  </div>
-</section>
+  <!-- Contact Section -->
+  <section class="wrap section" id="contact">
+    <h2>contact.</h2>
+    <div class="contact-info">
+      <p><strong>Jonathan Heart</strong></p>
+      <p><a href="mailto:jonath.heart@gmail.com">jonath.heart@gmail.com</a></p>
+      <p><strong>Phone / Whatsapp:</strong></p>
+      <p>+49 178 406 10 20</p>
+    </div>
+  </section>
 
+  <!-- Footer -->
+  <footer class="footer">
+    <p class="social-links">
+      <a aria-label="Instagram" href="https://instagram.com/itsjonathanheart" target="_blank">
+      <span class="icon-mask" style="--icon: url('assets/icons/Instagram.svg'); width: 25px;"></span>
+      </a>
+      <a aria-label="Spotify" href="https://open.spotify.com/artist/4jcReINTJLZewFgkzEqmxK?si=FpjnMYeQTrChplwueQZ5Dg" target="_blank">
+      <span class="icon-mask" style="--icon: url('assets/icons/Spotify.svg'); width: 25px"></span>
+      </a>
+      <a aria-label="YouTube" href="https://youtube.com/@jonathanheartmusic" target="_blank">
+      <span class="icon-mask" style="--icon: url('assets/icons/Youtube.svg'); width: 28px;"></span>
+      </a>
+      <a aria-label="Email" href="mailto:jonath.heart@gmail.com" target="_blank">
+      <span class="icon-mask" style="--icon: url('assets/icons/Mail.svg'); width: 28px;"></span>
+      </a>
+    </p>
 
-    <footer class="footer">
-      <p class="social-links">
-        <a href="https://instagram.com/deinprofil" target="_blank" aria-label="Instagram">
-          <span class="icon-mask" style="--icon: url('assets/icons/Instagram.svg'); width: 25px;"></span>
-        </a>
-        <a href="https://open.spotify.com/artist/deinid" target="_blank" aria-label="Spotify">
-          <span class="icon-mask" style="--icon: url('assets/icons/Spotify.svg'); width: 25px"></span>
-        </a>
-        <a href="https://youtube.com/@deinprofil" target="_blank" aria-label="YouTube">
-          <span class="icon-mask" style="--icon: url('assets/icons/Youtube.svg'); width: 28px;"></span>
-        </a>
-        <a href="mailto:deineadresse@email.com" target="_blank" aria-label="Email">
-          <span class="icon-mask" style="--icon: url('assets/icons/Mail.svg'); width: 28px;"></span>
-        </a>
-      </p>
+    <!-- Desktop-Version -->
+    <p class="footer-links desktop-only">
+      <a href="../impressum.html">Impressum</a> | 
+      <a href="../datenschutz.html">Datenschutzerklärung</a> | 
+      <a class="media-settings-link" href="javascript:void(0)" onclick="resetMediaConsent()">Medien-Einstellungen</a>
+    </p>
 
-      <p>
-        <a href="../impressum.html">Impressum</a> | 
-        <a href="../datenschutz.html">Datenschutzerklärung</a>
-      </p>
+    <!-- Mobile-Version ohne Trennstrich hinter Datenschutzerklärung -->
+    <p class="footer-links mobile-only">
+      <a href="../impressum.html">Impressum</a> |
+      <a href="../datenschutz.html">Datenschutzerklärung</a>
+      <a class="media-settings-link" href="javascript:void(0)" onclick="resetMediaConsent()">Medien-Einstellungen</a>
+    </p>
 
-      <p>© <span id="y"></span> Jonathan Heart
-      </p>
+    <style>
+      /* Standard: Desktop sichtbar, Mobile versteckt */
+      .desktop-only { display: block; }
+      .mobile-only { display: none; }
 
-    </footer>
+      /* Unter 900px: Mobile sichtbar, Desktop versteckt */
+      @media (max-width: 900px) {
+        .desktop-only { display: none; }
+        .mobile-only { display: block; }
+      }
+    </style>
 
-    <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
+    <p>© <span id="y"></span> Jonathan Heart</p>
+
+        <!-- Lightbox mit Navigation -->
+    <div class="lightbox" hidden="" id="lightbox">
+      <button aria-label="Close" class="lb-close">×</button>
+      <button aria-label="Previous" class="lb-nav lb-prev">‹</button>
+      <img alt="" id="lightbox-img"/>
+      <button aria-label="Next" class="lb-nav lb-next">›</button>
+      <div class="lb-counter"><span id="lb-i">1</span>/<span id="lb-n">1</span></div>
+    </div>
+    
+  </footer>
 
 <!-- Java Scripts-->
 
 <script>
-(() => {
-  const burger  = document.querySelector('.burger');
-  const srcList = document.querySelector('.site-nav .nav-list');
-  if (!burger || !srcList) return;
-
-  let overlay = null;         // <- außerhalb, damit resize ihn sieht
-  let initialized = false;
-
-  function isOpen() { return overlay && overlay.hasAttribute('data-open'); }
-
-  function openMenu() {
-    if (!overlay) return;
-    overlay.setAttribute('data-open', '');
-    overlay.removeAttribute('aria-hidden');
-    document.body.classList.add('menu-open');
-    burger.setAttribute('aria-expanded', 'true');
-    burger.classList.add('active');
-  }
-
-  function closeMenu(animated = true) {
-    if (!overlay) return;
-    if (!animated) overlay.classList.add('no-anim');
-    overlay.removeAttribute('data-open');
-    overlay.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('menu-open');
-    burger.setAttribute('aria-expanded', 'false');
-    burger.classList.remove('active');
-    if (!animated) requestAnimationFrame(() => overlay.classList.remove('no-anim'));
-  }
-
-  function handleBurgerClick() {
-    isOpen() ? closeMenu(true) : openMenu();
-  }
-  function handleOverlayClick(e) {
-    if (e.target.closest('a')) closeMenu(true);
-  }
-  function handleKeydown(e) {
-    if (e.key === 'Escape' && isOpen()) closeMenu(true);
-  }
-
-  // --- nur auf Mobile initialisieren ---
-  function initMobile() {
-    if (initialized) return;
-
-    // Overlay erzeugen (ohne .nav-list, sonst erbt es Desktop-Styles)
-    overlay = document.getElementById('mobile-menu');
-    if (!overlay) {
-      overlay = document.createElement('ul');
-      overlay.id = 'mobile-menu';
-      overlay.className = 'nav-overlay';
-      overlay.innerHTML = `${srcList.innerHTML}
-        <li class="nav-footer">
-          <p>© ${new Date().getFullYear()} Jonathan Heart<br>
-          Ton & Audio‑Postproduktion</p>
-        </li>`;
-      overlay.setAttribute('aria-hidden', 'true');
-      document.body.appendChild(overlay);
-    }
-
-    // Listener binden
-    burger.addEventListener('click', handleBurgerClick);
-    overlay.addEventListener('click', handleOverlayClick);
-    window.addEventListener('keydown', handleKeydown);
-
-    // ARIA
-    if (!burger.hasAttribute('type')) burger.setAttribute('type', 'button');
-    burger.setAttribute('aria-controls', 'mobile-menu');
-    burger.setAttribute('aria-expanded', 'false');
-
-    initialized = true;
-  }
-
-  // --- beim Wechsel auf Desktop wieder abbauen ---
-  function teardownDesktop() {
-    if (!initialized) return;
-    closeMenu(true);
-    burger.removeEventListener('click', handleBurgerClick);
-    if (overlay) overlay.removeEventListener('click', handleOverlayClick);
-    window.removeEventListener('keydown', handleKeydown);
-    if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
-    overlay = null;
-    initialized = false;
-  }
-
-  // Breite beobachten und Zustand synchronisieren
-  function syncStateToViewport() {
-    if (window.innerWidth <= 900) {
-      initMobile();
-    } else {
-      teardownDesktop();
-    }
-  }
-
-    // Home-Icon/Link: immer (auch auf Desktop) sofort schließen, falls offen
-  const home = document.querySelector('.home-link');
-  if (home) {
-    home.addEventListener('click', () => { if (isOpen()) closeMenu(false); });
-    home.addEventListener('touchend', () => { if (isOpen()) closeMenu(false); }, { passive: true });
-  }
-
-
-  // Start + live auf Resize
-  syncStateToViewport();
-  window.addEventListener('resize', syncStateToViewport, { passive: true });
-})();
+  document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById("y").textContent = new Date().getFullYear();
+  });
 </script>
 
+<script>
+  document.addEventListener('DOMContentLoaded',function(){
 
+  (function(){
+    // Erkenne, wo wir sind:
+    const section =
+      location.pathname.startsWith('/music/') ? 'music' :
+      location.pathname.startsWith('/film/')  ? 'film'  :
+      'home';
+
+    // Hänge ?from=… an alle Impressum/Datenschutz-Links auf dieser Seite an
+    document.querySelectorAll('a[href$="impressum.html"], a[href$="datenschutz.html"]').forEach(a => {
+      try {
+        const url = new URL(a.getAttribute('href'), location.origin);
+        if (!url.searchParams.has('from')) url.searchParams.set('from', section);
+        // schreibe relative Form zurück (ohne Origin)
+        a.setAttribute('href', url.pathname + '?' + url.searchParams.toString());
+      } catch {}
+    });
+  })();
+  });
+</script>
+
+<script>
+
+  document.addEventListener('DOMContentLoaded',function(){
+
+  (() => {
+    const burger  = document.querySelector('.burger');
+    const srcList = document.querySelector('.site-nav .nav-list');
+    if (!burger || !srcList) return;
+
+    let overlay = null;         // <- außerhalb, damit resize ihn sieht
+    let initialized = false;
+
+    function isOpen() { return overlay && overlay.hasAttribute('data-open'); }
+
+    function openMenu() {
+      if (!overlay) return;
+      overlay.setAttribute('data-open', '');
+      overlay.removeAttribute('aria-hidden');
+      document.body.classList.add('menu-open');
+      burger.setAttribute('aria-expanded', 'true');
+      burger.classList.add('active');
+    }
+
+    function closeMenu(animated = true) {
+      if (!overlay) return;
+      if (!animated) overlay.classList.add('no-anim');
+      overlay.removeAttribute('data-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('menu-open');
+      burger.setAttribute('aria-expanded', 'false');
+      burger.classList.remove('active');
+      if (!animated) requestAnimationFrame(() => overlay.classList.remove('no-anim'));
+    }
+
+    function handleBurgerClick() {
+      isOpen() ? closeMenu(true) : openMenu();
+    }
+    function handleOverlayClick(e) {
+      if (e.target.closest('a')) closeMenu(true);
+    }
+    function handleKeydown(e) {
+      if (e.key === 'Escape' && isOpen()) closeMenu(true);
+    }
+
+    // --- nur auf Mobile initialisieren ---
+    function initMobile() {
+      if (initialized) return;
+
+      // Overlay erzeugen (ohne .nav-list, sonst erbt es Desktop-Styles)
+      overlay = document.getElementById('mobile-menu');
+      if (!overlay) {
+        overlay = document.createElement('ul');
+        overlay.id = 'mobile-menu';
+        overlay.className = 'nav-overlay';
+        overlay.innerHTML = `${srcList.innerHTML}
+          <li class="nav-footer">
+            <p>© ${new Date().getFullYear()} Jonathan Heart<br>
+            musician · producer · mixing engineer</p>
+          </li>`;
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(overlay);
+      }
+
+      // Listener binden
+      burger.addEventListener('click', handleBurgerClick);
+      overlay.addEventListener('click', handleOverlayClick);
+      window.addEventListener('keydown', handleKeydown);
+
+      // ARIA
+      if (!burger.hasAttribute('type')) burger.setAttribute('type', 'button');
+      burger.setAttribute('aria-controls', 'mobile-menu');
+      burger.setAttribute('aria-expanded', 'false');
+
+      initialized = true;
+    }
+
+    // --- beim Wechsel auf Desktop wieder abbauen ---
+    function teardownDesktop() {
+      if (!initialized) return;
+      closeMenu(true);
+      burger.removeEventListener('click', handleBurgerClick);
+      if (overlay) overlay.removeEventListener('click', handleOverlayClick);
+      window.removeEventListener('keydown', handleKeydown);
+      if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      overlay = null;
+      initialized = false;
+    }
+
+    // Breite beobachten und Zustand synchronisieren
+    function syncStateToViewport() {
+      if (window.innerWidth <= 900) {
+        initMobile();
+      } else {
+        teardownDesktop();
+      }
+    }
+
+      // Home-Icon/Link: immer (auch auf Desktop) sofort schließen, falls offen
+    const home = document.querySelector('.home-link');
+    if (home) {
+      home.addEventListener('click', () => { if (isOpen()) closeMenu(false); });
+      home.addEventListener('touchend', () => { if (isOpen()) closeMenu(false); }, { passive: true });
+    }
+
+
+    // Start + live auf Resize
+    syncStateToViewport();
+    window.addEventListener('resize', syncStateToViewport, { passive: true });
+  })();
+
+  });
+</script>
+
+<script>
+  (function () {
+    var isMobile = window.matchMedia('(max-width: 900px)').matches;
+
+    document.querySelectorAll('.js-gallery').forEach(function (gal) {
+      // nur Studio begrenzen:
+      if (gal.closest('#studio')) {
+        // Desktop-Werte aus dem HTML lesen:
+        var basePage  = parseInt(gal.dataset.page  || '3', 10);
+        var baseChunk = parseInt(gal.dataset.chunk || '3', 10);
+
+        // Mobile reduzieren (Beispiel: halbieren, mind. 1)
+        var newPage  = isMobile ? Math.max(1, Math.ceil(basePage  / 2)) : basePage;
+        var newChunk = isMobile ? Math.max(1, Math.ceil(baseChunk / 3)) : baseChunk;
+
+        gal.setAttribute('data-page',  String(newPage));
+        gal.setAttribute('data-chunk', String(newChunk));
+      }
+    });
+  })();
+</script>
 
 
 <script>
-(function(){
-  // Erkenne, wo wir sind:
-  const section =
-    location.pathname.startsWith('/music/') ? 'music' :
-    location.pathname.startsWith('/film/')  ? 'film'  :
-    'home';
+  document.addEventListener('DOMContentLoaded',function(){
 
-  // Hänge ?from=… an alle Impressum/Datenschutz-Links auf dieser Seite an
-  document.querySelectorAll('a[href$="impressum.html"], a[href$="datenschutz.html"]').forEach(a => {
-    try {
-      const url = new URL(a.getAttribute('href'), location.origin);
-      if (!url.searchParams.has('from')) url.searchParams.set('from', section);
-      // schreibe relative Form zurück (ohne Origin)
-      a.setAttribute('href', url.pathname + '?' + url.searchParams.toString());
-    } catch {}
-  });
-})();
-</script>
-
-
-
-
-    <script>
     (() => {
       const vids = [...document.querySelectorAll('video[data-autoposter]')];
 
@@ -523,411 +691,888 @@
 
       vids.forEach(v => io.observe(v));
     })();
-    </script>
-
-    <!-- Bilder Gallery Studio Script-->
-    <script>
-    (async () => {
-      const grid = document.querySelector('#gallery');
-      const btn  = document.querySelector('#gallery-more');
-
-      const PAGE = 4; // initial 6 Bilder, bleibt wie bei dir
-      const BASE = '../assets/img/gallery/Studio%20Bilder/';
-      const EXT  = 'jpg';
-
-      let items = [], i = 0;
-      let anchors = [];   // <a.photo>-Liste
-      let idx = 0;        // aktueller Index in Lightbox
-      let touchStartX = null;
-
-      try {
-        const res = await fetch(`${BASE}manifest.json`);
-        items = await res.json();
-      } catch (e) {
-        console.warn('No gallery manifest', e);
-      }
-
-      const fullPath = id => `${BASE}full/${id}.${EXT}`;
-
-      function refreshAnchors(){
-        anchors = Array.from(grid.querySelectorAll('a.photo'));
-        anchors.forEach((a, k) => a.dataset.index = String(k)); // k == Index in items für bisher gerenderte
-        // lbN NICHT hier setzen
-      }
-
-      grid.addEventListener('click', (e) => {
-        const a = e.target.closest('a.photo');
-        if (!a) return;
-        e.preventDefault();
-        openLightbox(parseInt(a.dataset.index || '0', 10)); // <- dieser Index gilt jetzt global in items
-      });
-
-      function renderNext(n = PAGE) {
-        const slice = items.slice(i, i + n);
-        slice.forEach((it) => {
-          const id  = it.id || it.file?.replace(/\.\w+$/, '');
-          const alt = it.alt || '';
-          const a = document.createElement('a');
-          a.className = 'photo';
-          a.href = fullPath(id);
-          a.dataset.full = a.href;
-          a.innerHTML = `<img loading="lazy" decoding="async" src="${fullPath(id)}" alt="${alt}">`;
-          grid.appendChild(a);
-        });
-        i += slice.length;
-        btn.hidden = i >= items.length;
-        refreshAnchors();
-      }
-
-      // --- Lightbox Logik ---
-      const lb    = document.getElementById('lightbox');
-      const lbImg = document.getElementById('lightbox-img');
-      const lbClose = document.querySelector('.lb-close');
-      const lbPrev  = document.querySelector('.lb-prev');
-      const lbNext  = document.querySelector('.lb-next');
-      const lbI     = document.getElementById('lb-i');
-      const lbN     = document.getElementById('lb-n');
-      if (lbN) lbN.textContent = String(items.length);
-
-      function show(index){
-        if (!items.length) return;
-
-        // wrap-around über die *gesamte* Anzahl
-        if (index < 0) index = items.length - 1;
-        if (index >= items.length) index = 0;
-        idx = index;
-
-        // aktuellen Eintrag aus items holen
-        const it = items[idx];
-        const id  = it.id || it.file?.replace(/\.\w+$/, '');
-        const alt = it.alt || '';
-
-        const src = fullPath(id);
-
-        lbImg.src = '';
-        lbImg.alt = alt;
-        lbImg.src = src;
-
-        // Counter: aktuelle Position / Gesamt
-        lbI.textContent = String(idx + 1);
-        lbN.textContent = String(items.length);
-
-        // Preload next/prev (ebenfalls über items, nicht anchors)
-        const nextIdx = (idx + 1) % items.length;
-        const prevIdx = (idx - 1 + items.length) % items.length;
-        const nextId  = items[nextIdx].id || items[nextIdx].file?.replace(/\.\w+$/, '');
-        const prevId  = items[prevIdx].id || items[prevIdx].file?.replace(/\.\w+$/, '');
-        new Image().src = fullPath(nextId);
-        new Image().src = fullPath(prevId);
-      }
-
-      function openLightbox(index){
-        document.body.classList.add('lb-open');
-        lb.hidden = false;
-        show(index);
-      }
-
-      function closeLightbox(){
-        lb.hidden = true;
-        lbImg.src = '';
-        document.body.classList.remove('lb-open');
-      }
-
-      // Klick auf Thumbnail -> Lightbox öffnen
-      grid.addEventListener('click', (e) => {
-        const a = e.target.closest('a.photo');
-        if (!a) return;
-        e.preventDefault();
-        openLightbox(parseInt(a.dataset.index || '0', 10));
-      });
-
-      // Buttons
-      lbClose.addEventListener('click', closeLightbox);
-      lbPrev.addEventListener('click', () => show(idx - 1));
-      lbNext.addEventListener('click', () => show(idx + 1));
-
-      // Overlay-Klick schließt
-      lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
-
-      // Keyboard: ESC, ← →
-      // document.addEventListener('keydown', (e) => {
-      //  if (lb.hidden) return;
-      //  if (e.key === 'Escape') closeLightbox();
-      //  if (e.key === 'ArrowLeft') show(idx - 1);
-      //  if (e.key === 'ArrowRight') show(idx + 1);
-      // });
-
-      function onLightboxKeydown(e) {
-        if (lb.hidden) return;
-
-        // Harte Blockade für Safari/macOS, damit ESC nicht das App-Vollbild verlässt
-        if (e.key === 'Escape' || e.key === 'Esc') {
-          e.preventDefault();
-          e.stopPropagation();
-          if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
-          closeLightbox();
-          return;
-        }
-
-        if (e.key === 'ArrowLeft') {
-          e.preventDefault();
-          e.stopPropagation();
-          show(idx - 1);
-        } else if (e.key === 'ArrowRight') {
-          e.preventDefault();
-          e.stopPropagation();
-          show(idx + 1);
-        }
-      }
-
-      // WICHTIG: capture:true, damit wir vor anderen Listenern/Browserevents drankommen
-      window.addEventListener('keydown', onLightboxKeydown, { capture: true });
-
-      // Touch-Swipe
-      lb.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
-      }, {passive:true});
-      lb.addEventListener('touchend', (e) => {
-        if (touchStartX == null) return;
-        const dx = e.changedTouches[0].clientX - touchStartX;
-        touchStartX = null;
-        if (Math.abs(dx) > 40) {
-          if (dx > 0) show(idx - 1); else show(idx + 1);
-        }
-      });
-
-      // Initial
-      renderNext();
-      btn.hidden = items.length <= PAGE;
-      btn.addEventListener('click', () => renderNext());
-    })();
-    </script>
-
-    <script>
-document.querySelectorAll('#film .embed.video video').forEach(v => {
-  // Initial: alle als Thumbnail markieren
-  v.classList.add('thumb');
-
-  v.addEventListener('play', () => {
-    v.classList.remove('thumb');
-    v.classList.add('playing');
   });
-
-  v.addEventListener('pause', () => {
-    // Wenn wieder gestoppt/neu gestartet wird, zurück zu Thumb-Ansicht
-    if (v.currentTime === 0 || v.ended) {
-      v.classList.remove('playing');
-      v.classList.add('thumb');
-    }
-  });
-
-  v.addEventListener('ended', () => {
-    v.classList.remove('playing');
-    v.classList.add('thumb');
-    v.currentTime = 0;
-  });
-});
 </script>
 
 <script>
+document.addEventListener('DOMContentLoaded', function(){
 (() => {
-  const vids = Array.from(document.querySelectorAll('#film .embed.video video'));
+  const galleries = Array.from(document.querySelectorAll('.js-gallery'));
+  if (!galleries.length) return;
 
-  // Alle Videos bekommen initial die Thumb-Optik (füllt die 16:9-Kachel)
-  vids.forEach(v => v.classList.add('thumb'));
+  // Lightbox (einmal global)
+  const lb       = document.getElementById('lightbox');
+  const lbImg    = document.getElementById('lightbox-img');
+  const lbClose  = document.querySelector('.lb-close');
+  const lbPrev   = document.querySelector('.lb-prev');
+  const lbNext   = document.querySelector('.lb-next');
+  const lbI      = document.getElementById('lb-i');
+  const lbN      = document.getElementById('lb-n');
+  let   active   = null;   // aktive Instanz (für Prev/Next)
+  let   touchX   = null;
 
-  vids.forEach(v => {
+  function fullPath(base, id, ext){ return `${base}full/${id}.${ext}`; }
+
+  function makeInstance(grid){
+    const base = grid.dataset.base || '../assets/img/gallery/Studio%20Bilder/';
+    const ext  = grid.dataset.ext  || 'jpg';
+    const page = Math.max(0, parseInt(grid.dataset.page || '3', 10));
+    const chunk = Math.max(1, parseInt(grid.dataset.chunk || '3', 10));
+
+    // “Load more” Button ist das nächste .js-gallery-more in derselben .gallery-layout
+    const scope = grid.closest('.gallery-layout') || document;
+    const btn   = scope.querySelector('.js-gallery-more');
+
+    let items = [];
+    let rendered = 0;
+    let anchors = [];
+    let idx = 0;
+    let didInitial = false;
+
+    async function loadManifest(){
+      try{
+        const res = await fetch(`${base}manifest.json`);
+        items = await res.json();
+      }catch(e){
+        console.warn('No gallery manifest for', base, e);
+        items = [];
+      }
+      if (lbN) lbN.textContent = String(items.length);
+    }
+
+    function refreshAnchors(){
+      anchors = Array.from(grid.querySelectorAll('a.photo'));
+      anchors.forEach((a,k) => a.dataset.index = String(k));
+    }
+
+function renderNext(n){
+  const take = Math.max(0, n ?? page);
+  const slice = items.slice(rendered, rendered + take);
+  slice.forEach(it => {
+    const id  = it.id || (it.file || '').replace(/\.\w+$/, '');
+    const alt = it.alt || '';
+
+    // Wenn Lightbox aktiv: <a>, sonst <div>
+    const el = enableLightbox ? document.createElement('a')
+                              : document.createElement('div');
+
+    el.className = 'photo';
+
+    if (enableLightbox) {
+      el.href = `${base}full/${id}.${ext}`;
+      el.dataset.full = el.href;
+    }
+
+el.innerHTML = `
+  <img loading="lazy" decoding="async"
+       src="${base}thumbs/${id}.${ext}"
+       onerror="this.onerror=null;this.src='${base}full/${id}.${ext}'"
+       alt="${alt}">
+`;
+
+    grid.appendChild(el);
+  });
+
+  rendered += slice.length;
+  if (btn) btn.hidden = rendered >= items.length;
+  refreshAnchors();
+}
+
+if (btn){
+  btn.addEventListener('click', (e) => {
+    e.preventDefault(); e.stopPropagation();
+    renderNext(chunk);     // <<< pro Klick ganz klar: chunk
+    btn.blur();
+  });
+}
+
+loadManifest().then(() => {
+  if (page > 0) {
+    renderNext(page);      // <<< initial render
+    didInitial = true;
+
+    // >>> HIER: nach dem ersten Render gezielt zum Hash springen
+    if (window.__scrollToHashNow) {
+      // a) sofort (falls schon alles da ist)
+      window.__scrollToHashNow();
+
+      // b) noch ein paar Frames nachziehen, falls Bilder/Aspect-Ratio Layout noch wachsen
+      let tries = 0;
+      const maxTries = 12; // ~200 ms
+      (function nudge(){
+        if (++tries > maxTries) return;
+        requestAnimationFrame(() => {
+          window.__scrollToHashNow && window.__scrollToHashNow();
+          nudge();
+        });
+      })();
+    }
+  } else {
+    // initial 0 → Button zeigen, falls es überhaupt Items gibt
+    if (btn) btn.hidden = items.length === 0;
+  }
+});
+
+
+    function show(index){
+      if (!items.length) return;
+      if (index < 0) index = items.length - 1;
+      if (index >= items.length) index = 0;
+      idx = index;
+
+      const it  = items[idx];
+      const id  = it.id || (it.file || '').replace(/\.\w+$/, '');
+      const alt = it.alt || '';
+      const src = fullPath(base, id, ext);
+
+      lbImg.src = '';
+      lbImg.alt = alt;
+      lbImg.src = src;
+
+      if (lbI) lbI.textContent = String(idx + 1);
+      if (lbN) lbN.textContent = String(items.length);
+
+      // Preload neighbors
+      const n1 = items[(idx + 1) % items.length];
+      const p1 = items[(idx - 1 + items.length) % items.length];
+      if (n1){ new Image().src = fullPath(base, n1.id || (n1.file || '').replace(/\.\w+$/, ''), ext); }
+      if (p1){ new Image().src = fullPath(base, p1.id || (p1.file || '').replace(/\.\w+$/, ''), ext); }
+    }
+
+    function openLightbox(index){
+      active = { show, next: ()=>show(idx+1), prev: ()=>show(idx-1) };
+      document.body.classList.add('lb-open');
+      lb.hidden = false;
+      show(index);
+    }
+
+    const enableLightbox = grid.dataset.lightbox !== 'false';
+
+    // Delegation: Klick auf Kachel öffnet Lightbox
+    grid.addEventListener('click', (e) => {
+      if (!enableLightbox) return;      // <— lightbox ausgeschaltet
+      const a = e.target.closest('a.photo');
+      if (!a) return;
+      e.preventDefault();
+      openLightbox(parseInt(a.dataset.index || '0', 10));
+    });
+
+
+    return { openLightbox, show };
+  }
+
+  // Eine globale Lightbox-Bedienung, aber für die “aktive” Instanz
+  lbClose.addEventListener('click', () => {
+    lb.hidden = true;
+    lbImg.src = '';
+    document.body.classList.remove('lb-open');
+    active = null;
+  });
+  lbPrev.addEventListener('click', () => active && active.prev());
+  lbNext.addEventListener('click', () => active && active.next());
+  lb.addEventListener('click', (e) => { if (e.target === lb) lbClose.click(); });
+
+  window.addEventListener('keydown', (e) => {
+    if (lb.hidden) return;
+    if (e.key === 'Escape' || e.key === 'Esc'){ e.preventDefault(); lbClose.click(); }
+    if (e.key === 'ArrowLeft'){  e.preventDefault(); active && active.prev(); }
+    if (e.key === 'ArrowRight'){ e.preventDefault(); active && active.next(); }
+  }, { capture: true });
+
+  lb.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, {passive:true});
+  lb.addEventListener('touchend', (e) => {
+    if (touchX == null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    touchX = null;
+    if (Math.abs(dx) > 40){ dx > 0 ? (active && active.prev()) : (active && active.next()); }
+  });
+
+  // Alle Instanzen booten
+  galleries.forEach(makeInstance);
+})();
+});
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded',function(){
+
+  document.querySelectorAll('#music .embed.video video').forEach(v => {
+    // Initial: alle als Thumbnail markieren
+    v.classList.add('thumb');
+
     v.addEventListener('play', () => {
-      // Nur ein Video "aktiv" halten
-      vids.forEach(o => { if (o !== v) o.pause(); });
-
-      v.classList.add('playing');   // echte Ratio
-      v.classList.remove('thumb');  // keine 16:9-Thumb-Optik mehr
+      v.classList.remove('thumb');
+      v.classList.add('playing');
     });
 
     v.addEventListener('pause', () => {
-      if (v.currentTime === 0) {
-        // Wenn direkt am Anfang gestoppt -> wieder Thumb/Poster zeigen
+      // Wenn wieder gestoppt/neu gestartet wird, zurück zu Thumb-Ansicht
+      if (v.currentTime === 0 || v.ended) {
         v.classList.remove('playing');
         v.classList.add('thumb');
-      } else {
-        // Wichtig: playing NICHT entfernen -> Freeze-Frame bleibt sichtbar
-        v.classList.add('playing');
-        v.classList.remove('thumb');
       }
     });
 
     v.addEventListener('ended', () => {
-      // Standard: auch am Ende den letzten Frame stehenlassen
-      v.classList.add('playing');
-      v.classList.remove('thumb');
-
-      // Falls du lieber zurück zum Poster möchtest, nimm stattdessen:
-      // v.classList.remove('playing');
-      // v.currentTime = 0;
-      // v.classList.add('thumb');
+      v.classList.remove('playing');
+      v.classList.add('thumb');
+      v.currentTime = 0;
     });
   });
-})();
-</script>  
 
-<script>
-/* Expand-only the pulse zone (not the link hitbox) */
-(() => {
-  const home = document.querySelector('.home-link');
-  if (!home) return;
-
-  const pulseOn = () => {
-    home.classList.add('tapped');
-    // Keep the pulse a bit longer so it’s visible during the scroll-to-#top jump
-    clearTimeout(pulseOn._t);
-    pulseOn._t = setTimeout(() => home.classList.remove('tapped'), 100);
-  };
-
-  // helper: is a touch within an expanded rectangle around the home link?
-  function nearHome(touch, expand = 14) {
-    const r = home.getBoundingClientRect();
-    return (
-      touch.clientX >= r.left - expand &&
-      touch.clientX <= r.right + expand &&
-      touch.clientY >= r.top - expand &&
-      touch.clientY <= r.bottom + expand
-    );
-  }
-
-  // Global touchstart: if finger lands near the home icon, show pulse.
-  // We do NOT preventDefault — links behave exactly the same.
-  window.addEventListener('touchstart', (e) => {
-    const t = e.touches && e.touches[0];
-    if (!t) return;
-    if (nearHome(t, 10)) pulseOn();
-  }, { passive: true });
-
-  // Keep your existing listeners working too:
-  home.addEventListener('touchstart', () => pulseOn(), { passive: true });
-  home.addEventListener('mousedown', () => pulseOn());
-})();
+  });
 </script>
 
 <script>
-(() => {
-  if (window.innerWidth > 900) return;
-  // CSS-Empfehlung: html { scroll-behavior: auto; } (verhindert Konflikte)
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let rafId = null;
-  let cancelers = [];
+  document.addEventListener('DOMContentLoaded',function(){
 
-  // 🎬 Cinematic easing – sanftes Beschleunigen & Abbremsen
-  function easeInOutQuint(t){
-    return t < 0.5
-      ? 16 * t * t * t * t * t
-      : 1 - Math.pow(-2 * t + 2, 5) / 2;
+  (() => {
+    const vids = Array.from(document.querySelectorAll('#music .embed.video video'));
+
+    // Alle Videos bekommen initial die Thumb-Optik (füllt die 16:9-Kachel)
+    vids.forEach(v => v.classList.add('thumb'));
+
+    vids.forEach(v => {
+      v.addEventListener('play', () => {
+        // Nur ein Video "aktiv" halten
+        vids.forEach(o => { if (o !== v) o.pause(); });
+
+        v.classList.add('playing');   // echte Ratio
+        v.classList.remove('thumb');  // keine 16:9-Thumb-Optik mehr
+      });
+
+      v.addEventListener('pause', () => {
+        if (v.currentTime === 0) {
+          // Wenn direkt am Anfang gestoppt -> wieder Thumb/Poster zeigen
+          v.classList.remove('playing');
+          v.classList.add('thumb');
+        } else {
+          // Wichtig: playing NICHT entfernen -> Freeze-Frame bleibt sichtbar
+          v.classList.add('playing');
+          v.classList.remove('thumb');
+        }
+      });
+
+      v.addEventListener('ended', () => {
+        // Standard: auch am Ende den letzten Frame stehenlassen
+        v.classList.add('playing');
+        v.classList.remove('thumb');
+
+        // Falls du lieber zurück zum Poster möchtest, nimm stattdessen:
+        // v.classList.remove('playing');
+        // v.currentTime = 0;
+        // v.classList.add('thumb');
+      });
+    });
+  })();
+
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded',function(){
+
+  /* Expand-only the pulse zone (not the link hitbox) */
+  (() => {
+    const home = document.querySelector('.home-link');
+    if (!home) return;
+
+    const pulseOn = () => {
+      home.classList.add('tapped');
+      // Keep the pulse a bit longer so it’s visible during the scroll-to-#top jump
+      clearTimeout(pulseOn._t);
+      pulseOn._t = setTimeout(() => home.classList.remove('tapped'), 100);
+    };
+
+    // helper: is a touch within an expanded rectangle around the home link?
+    function nearHome(touch, expand = 14) {
+      const r = home.getBoundingClientRect();
+      return (
+        touch.clientX >= r.left - expand &&
+        touch.clientX <= r.right + expand &&
+        touch.clientY >= r.top - expand &&
+        touch.clientY <= r.bottom + expand
+      );
+    }
+
+    // Global touchstart: if finger lands near the home icon, show pulse.
+    // We do NOT preventDefault — links behave exactly the same.
+    window.addEventListener('touchstart', (e) => {
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+      if (nearHome(t, 10)) pulseOn();
+    }, { passive: true });
+
+    // Keep your existing listeners working too:
+    home.addEventListener('touchstart', () => pulseOn(), { passive: true });
+    home.addEventListener('mousedown', () => pulseOn());
+  })();
+
+  });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const links = document.querySelectorAll('.site-toggle > a');
+
+  // genau wie beim Home-Icon: kurzer Pulse beim Touch/Click
+  links.forEach(link => {
+    const pulse = () => {
+      link.classList.add('tapped');
+      clearTimeout(link._t);
+      link._t = setTimeout(() => link.classList.remove('tapped'), 120);
+    };
+    link.addEventListener('touchstart', pulse, { passive: true });
+    link.addEventListener('mousedown',  pulse);
+  });
+
+  // Bonus: „#top“-Link verliert den UA-Visited-Einfluss
+  // (nicht zwingend nötig dank CSS oben, aber hilft iOS-Safari)
+  const music = document.querySelector('.site-toggle > a[href="#top"]');
+  if (music) {
+    // nach Navigation einmal den Hash entfernen, damit iOS das nicht als 'visited' einfärbt
+    music.addEventListener('click', () => {
+      // UI bleibt gleich; wir resetten nur den History-Eintrag dezent
+      try { history.replaceState(null, '', location.pathname + location.search); } catch {}
+    });
+  }
+});
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded',function(){
+
+  (() => {
+    if (window.innerWidth > 900) return;
+    // CSS-Empfehlung: html { scroll-behavior: auto; } (verhindert Konflikte)
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let rafId = null;
+    let cancelers = [];
+
+    // 🎬 Cinematic easing – sanftes Beschleunigen & Abbremsen
+    function easeInOutQuint(t){
+      return t < 0.5
+        ? 16 * t * t * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 5) / 2;
+    }
+
+    function getHeaderOffset(){
+      const val = getComputedStyle(document.documentElement).getPropertyValue('--header-h').trim();
+      const n = parseFloat(val || '0');
+      return Number.isFinite(n) ? n : 0;
+    }
+
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+    // 🎥 Dauer dynamisch mit Strecke: langsam, filmisch
+    function durationFor(distancePx){
+      // 0.8 ms pro px, min 420 ms, max 1800 ms
+      return clamp(Math.round(distancePx * 0.8), 420, 1800);
+    }
+
+    function cancelOnUserInput(){
+      const stop = () => { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } cleanup(); };
+      const optsPassive = { passive: true };
+      const optsActive  = { passive: false };
+
+      const list = [
+        ['wheel', stop, optsActive],
+        ['touchstart', stop, optsPassive],
+        ['touchmove', stop, optsPassive],
+        ['keydown', (e) => {
+          const keys = ['ArrowUp','ArrowDown','PageUp','PageDown','Home','End','Space',' '];
+          if (keys.includes(e.key)) stop();
+        }, optsPassive],
+        ['mousedown', stop, optsPassive]
+      ];
+
+      list.forEach(([ev, fn, opts]) => {
+        window.addEventListener(ev, fn, opts);
+        cancelers.push(() => window.removeEventListener(ev, fn, opts));
+      });
+
+      function cleanup(){ cancelers.splice(0).forEach(off => off()); }
+      return cleanup;
+    }
+
+    function smoothScrollTo(targetY, dur){
+      if (rafId) cancelAnimationFrame(rafId);
+      const startY = window.scrollY || window.pageYOffset;
+      const diff   = targetY - startY;
+      if (Math.abs(diff) < 1) return; // already there
+
+      const start  = performance.now();
+      const cleanup = cancelOnUserInput();
+
+      const step = (now) => {
+        const t = clamp((now - start) / dur, 0, 1);
+        const y = startY + diff * easeInOutQuint(t);
+        window.scrollTo(0, y);
+        if (t < 1 && rafId !== null) {
+          rafId = requestAnimationFrame(step);
+        } else {
+          rafId = null;
+          cleanup();
+        }
+      };
+      rafId = requestAnimationFrame(step);
+    }
+
+    // 🎯 Klicks auf interne Anker-Links abfangen
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      const hash = a.getAttribute('href');
+      const id   = hash.slice(1);
+      const target = id ? document.getElementById(id) : document.body;
+      if (!target) return;
+
+      e.preventDefault();
+
+      // Menü ggf. schließen (instant)
+      const overlay = document.getElementById('mobile-menu');
+      const burger  = document.querySelector('.burger');
+      if (overlay && overlay.hasAttribute('data-open')) {
+        overlay.removeAttribute('data-open');
+        document.body.classList.remove('menu-open');
+        if (burger) { burger.setAttribute('aria-expanded','false'); burger.classList.remove('active'); }
+      }
+
+      const headerH = getHeaderOffset() + 15;
+      const startY  = window.scrollY || window.pageYOffset;
+      const targetY = Math.max(0, target.getBoundingClientRect().top + startY - headerH + 15);
+      const distance = Math.abs(targetY - startY);
+
+      if (prefersReduced) {
+        window.scrollTo(0, targetY);
+      } else {
+        smoothScrollTo(targetY, durationFor(distance));
+      }
+
+      // Fokus/URL ohne Sprung
+      if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex','-1');
+      target.focus?.({ preventScroll: true });
+      if (history.pushState) history.pushState(null, '', hash);
+      else location.hash = hash;
+    }, { passive: false });
+  })();
+
+  });
+</script>
+
+<script>
+  (() => {
+    const KEY = 'mediaConsentV1'; // 'allow' | 'deny'
+    const EXT_SRC = /^(https?:\/\/(?:www\.)?(?:youtube(?:-nocookie)?\.com|youtu\.be|open\.spotify\.com))/i;
+
+    // ---------- persistence (LS + cookie fallback) ----------
+    function setConsent(val){
+      try { localStorage.setItem(KEY, val); } catch(_) {}
+      // cookie for Safari / private mode / sub-doc reloads
+      document.cookie = KEY + '=' + encodeURIComponent(val) + '; Max-Age='+(3600*24*365)+'; Path=/; SameSite=Lax';
+    }
+    function getConsent(){
+      let v = null;
+      try { v = localStorage.getItem(KEY); } catch(_) {}
+      if (!v) {
+        const m = document.cookie.match(new RegExp('(?:^|; )' + KEY + '=([^;]*)'));
+        if (m) v = decodeURIComponent(m[1]);
+      }
+      return v;
+    }
+    function clearConsent(){
+      try { localStorage.removeItem(KEY); } catch(_) {}
+      document.cookie = KEY + '=; Max-Age=0; Path=/; SameSite=Lax';
+    }
+
+    // ---------- DOM helpers ----------
+    function markBlocked(ifr){
+      if (!ifr.classList.contains('requires-consent')) {
+        ifr.classList.add('requires-consent');
+      }
+      const wrap = ifr.closest('.embed') || ifr.parentElement;
+      if (wrap) wrap.classList.add('consent-blocked');
+    }
+    function unmarkBlocked(ifr){
+      ifr.classList.remove('requires-consent');
+      const wrap = ifr.closest('.embed') || ifr.parentElement;
+      if (wrap) wrap.classList.remove('consent-blocked');
+      ifr.style.opacity = ''; ifr.style.pointerEvents = '';
+    }
+
+    // Move src->data-src and mark for consent
+    function prepareIframes(root=document){
+      root.querySelectorAll('iframe').forEach(ifr => {
+        const src = ifr.getAttribute('src');
+        const ds  = ifr.getAttribute('data-src');
+        // Normalize: any external src or data-src gets moved to data-src and blocked
+        if (src && EXT_SRC.test(src)) {
+          ifr.setAttribute('data-src', src);
+          ifr.removeAttribute('src');
+        }
+        const finalDS = ifr.getAttribute('data-src');
+        if (finalDS && EXT_SRC.test(finalDS)) {
+          markBlocked(ifr);
+        }
+      });
+    }
+
+    // Load all permitted iframes
+    function loadAll(){
+      document.querySelectorAll('iframe.requires-consent[data-src]').forEach(ifr => {
+        const ds = ifr.getAttribute('data-src');
+        if (!ds) return;
+        ifr.src = ds;
+        ifr.removeAttribute('data-src');
+        unmarkBlocked(ifr);
+      });
+    }
+
+    // Ensure state after short delays (covers late/slow DOM work)
+    function ensureEmbeds(){
+      const consent = getConsent();
+      if (consent === 'allow') {
+        prepareIframes();
+        loadAll();
+      } else {
+        prepareIframes();
+        // keep blocked
+      }
+    }
+
+    // Popup wiring (expecting your #media-consent box from earlier)
+  // Popup wiring (expecting your #media-consent box from earlier)
+  function initPopup(){
+    const pop = document.getElementById('media-consent');
+    if (!pop) return;
+
+    // ⬅️ Listener EINMALIG verdrahten – unabhängig vom aktuellen Consent
+    if (!pop.__wired) {
+      pop.addEventListener('click', e => {
+        const btn = e.target.closest('[data-action]');
+        if (!btn) return;
+        const action = btn.getAttribute('data-action'); // 'allow' | 'deny'
+        setConsent(action);
+        if (action === 'allow') loadAll();   // bei allow sofort Embeds laden
+        pop.hidden = true;                   // Popup schließen
+      });
+      pop.__wired = true; // Merker, damit nicht doppelt verdrahtet wird
+    }
+
+    // ⬅️ Sichtbarkeit NUR togglen (kein frühes return mehr!)
+    // allow => verstecken, sonst zeigen
+    pop.hidden = (getConsent() === 'allow');
   }
 
-  function getHeaderOffset(){
-    const val = getComputedStyle(document.documentElement).getPropertyValue('--header-h').trim();
-    const n = parseFloat(val || '0');
-    return Number.isFinite(n) ? n : 0;
-  }
 
-  function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+    // Expose reset for your footer link
+  window.resetMediaConsent = () => {
+    try { localStorage.removeItem('mediaConsentV1'); } catch(_) {}
+    document.cookie = 'mediaConsentV1=; Max-Age=0; Path=/; SameSite=Lax';
 
-  // 🎥 Dauer dynamisch mit Strecke: langsam, filmisch
-  function durationFor(distancePx){
-    // 0.8 ms pro px, min 420 ms, max 1800 ms
-    return clamp(Math.round(distancePx * 0.8), 420, 1800);
-  }
-
-  function cancelOnUserInput(){
-    const stop = () => { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } cleanup(); };
-    const optsPassive = { passive: true };
-    const optsActive  = { passive: false };
-
-    const list = [
-      ['wheel', stop, optsActive],
-      ['touchstart', stop, optsPassive],
-      ['touchmove', stop, optsPassive],
-      ['keydown', (e) => {
-        const keys = ['ArrowUp','ArrowDown','PageUp','PageDown','Home','End','Space',' '];
-        if (keys.includes(e.key)) stop();
-      }, optsPassive],
-      ['mousedown', stop, optsPassive]
-    ];
-
-    list.forEach(([ev, fn, opts]) => {
-      window.addEventListener(ev, fn, opts);
-      cancelers.push(() => window.removeEventListener(ev, fn, opts));
+    // iframes wieder blockieren
+    document.querySelectorAll('iframe').forEach(ifr => {
+      const src = ifr.getAttribute('src');
+      const EXT_SRC = /^(https?:\/\/(?:www\.)?(?:youtube(?:-nocookie)?\.com|youtu\.be|open\.spotify\.com))/i;
+      if (src && EXT_SRC.test(src)) { ifr.setAttribute('data-src', src); ifr.removeAttribute('src'); }
+      if (ifr.getAttribute('data-src')) {
+        ifr.classList.add('requires-consent');
+        ifr.closest('.embed')?.classList.add('consent-blocked');
+      }
     });
 
-    function cleanup(){ cancelers.splice(0).forEach(off => off()); }
-    return cleanup;
-  }
+    // Popup zeigen (Listener ist ja jetzt immer verdrahtet)
+    const pop = document.getElementById('media-consent');
+    if (pop) pop.hidden = false;
+  };
 
-  function smoothScrollTo(targetY, dur){
-    if (rafId) cancelAnimationFrame(rafId);
-    const startY = window.scrollY || window.pageYOffset;
-    const diff   = targetY - startY;
-    if (Math.abs(diff) < 1) return; // already there
 
-    const start  = performance.now();
-    const cleanup = cancelOnUserInput();
 
-    const step = (now) => {
-      const t = clamp((now - start) / dur, 0, 1);
-      const y = startY + diff * easeInOutQuint(t);
-      window.scrollTo(0, y);
-      if (t < 1 && rafId !== null) {
-        rafId = requestAnimationFrame(step);
-      } else {
-        rafId = null;
-        cleanup();
-      }
-    };
-    rafId = requestAnimationFrame(step);
-  }
+    // ---------- boot sequence ----------
+    function boot(){
+      // 1) prep existing iframes immediately
+      prepareIframes();
 
-  // 🎯 Klicks auf interne Anker-Links abfangen
-  document.addEventListener('click', (e) => {
-    const a = e.target.closest('a[href^="#"]');
-    if (!a) return;
-    const hash = a.getAttribute('href');
-    const id   = hash.slice(1);
-    const target = id ? document.getElementById(id) : document.body;
-    if (!target) return;
+      // 2) load (if already allowed)
+      if (getConsent() === 'allow') loadAll();
 
-    e.preventDefault();
+      // 3) wire popup
+      initPopup();
 
-    // Menü ggf. schließen (instant)
-    const overlay = document.getElementById('mobile-menu');
-    const burger  = document.querySelector('.burger');
-    if (overlay && overlay.hasAttribute('data-open')) {
-      overlay.removeAttribute('data-open');
-      document.body.classList.remove('menu-open');
-      if (burger) { burger.setAttribute('aria-expanded','false'); burger.classList.remove('active'); }
+      // 4) watch for dynamically added iframes (cms, tabs, etc.)
+      const mo = new MutationObserver(muts => {
+        let needEnsure = false;
+        muts.forEach(m => {
+          m.addedNodes.forEach(n => {
+            if (n.nodeType === 1) {
+              if (n.tagName === 'IFRAME' || n.querySelector?.('iframe')) needEnsure = true;
+            }
+          });
+        });
+        if (needEnsure) ensureEmbeds();
+      });
+      mo.observe(document.documentElement, { childList:true, subtree:true });
+
+      // 5) safety re-checks (timing robustness)
+      setTimeout(ensureEmbeds, 50);
+      setTimeout(ensureEmbeds, 300);
+      window.addEventListener('load', () => setTimeout(ensureEmbeds, 0));
     }
 
-    const headerH = getHeaderOffset();
-    const startY  = window.scrollY || window.pageYOffset;
-    const targetY = Math.max(0, target.getBoundingClientRect().top + startY - headerH);
-    const distance = Math.abs(targetY - startY);
-
-    if (prefersReduced) {
-      window.scrollTo(0, targetY);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', boot, { once:true });
     } else {
-      smoothScrollTo(targetY, durationFor(distance));
+      boot();
     }
-
-    // Fokus/URL ohne Sprung
-    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex','-1');
-    target.focus?.({ preventScroll: true });
-    if (history.pushState) history.pushState(null, '', hash);
-    else location.hash = hash;
-  }, { passive: false });
-})();
+  })();
 </script>
 
+<script>
+  document.addEventListener('DOMContentLoaded',function(){
 
+  (() => {
+    // Deaktiviere Browser-Auto-Restore
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
 
+    const headerOffset = () => {
+      const val = getComputedStyle(document.documentElement).getPropertyValue('--header-h').trim();
+      const n = parseFloat(val || '0');
+      return Number.isFinite(n) ? n : 0;
+    };
+
+function scrollToHash() {
+  if (!location.hash) return;
+  const el = document.getElementById(location.hash.slice(1));
+  if (!el) return;
+
+  // Nutzt CSS scroll-margin-top → gleiche Position wie bei Klick
+  // (kein smooth, damit es direkt sitzt)
+  try {
+    el.scrollIntoView({ block: 'start', inline: 'nearest' });
+  } catch {
+    // Fallback (sehr alt): minimaler manueller Scroll
+    const rect = el.getBoundingClientRect();
+    const y = window.scrollY + rect.top; // KEIN eigener Offset hier!
+    window.scrollTo(0, Math.max(0, Math.round(y)));
+  }
+}
+
+    // 1️⃣ Beim ersten DOM-Ready merken, ob ein Hash existiert
+    let pendingHash = location.hash ? location.hash : null;
+
+    // 2️⃣ Sobald alles geladen ist (inkl. Bilder / Gallery), einmal korrekt springen
+    window.addEventListener('load', () => {
+      if (pendingHash) scrollToHash();
+    });
+
+    // 3️⃣ Falls dein JS dynamisch nachlädt (z. B. Gallery), kannst du von dort manuell triggern:
+    window.__scrollToHashNow = scrollToHash;
+  })();
+
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded',function(){
+
+  (() => {
+    const HERO_ID = 'top';
+    const hero = document.getElementById(HERO_ID);
+
+    // === Desktop (unverändert) ===
+    const MIN_RATIO_DELTA_DESKTOP = 0.16;
+    const IO_MID_FRAC_DESKTOP = 0.46;
+    const FALLBACK_ANCHOR_FRAC_DESKTOP = 0.58;
+
+    // === Mobile (deutlich später) ===
+    const MIN_RATIO_DELTA_MOBILE = 0.22;   // größerer Vorsprung nötig
+    const IO_MID_FRAC_MOBILE = 0.50;       // IO-Korridor tiefer → später
+    const FALLBACK_DOWN_FRAC_MOBILE = 0.62; // Runter: später
+    const FALLBACK_UP_FRAC_MOBILE   = 0.58; // Hoch: später
+    const HYSTERESIS_PX_MOBILE = 24;        // Puffer gegen frühes Umschalten
+
+    const isMobile = () => window.innerWidth <= 768;
+
+    const getHeaderH = () => {
+      const v = getComputedStyle(document.documentElement)
+        .getPropertyValue('--header-h').trim();
+      const n = parseFloat(v || '0');
+      return Number.isFinite(n) ? n : 0;
+    };
+
+    const linksAll = Array.from(document.querySelectorAll('a[href^="#"]'))
+      .filter(a => {
+        const id = a.getAttribute('href').slice(1);
+        return !!id && !!document.getElementById(id);
+      });
+
+    const sections = Array.from(document.querySelectorAll('section[id]'))
+      .filter(s => s.id !== HERO_ID);
+
+    const hasSelectedWork = !!document.getElementById('selected-work');
+
+    const setActive = (idOrNull) => {
+      linksAll.forEach(a => {
+        const hit = idOrNull && a.getAttribute('href') === `#${idOrNull}`;
+        a.classList.toggle('active', !!hit);
+      });
+    };
+
+    const isInHeroZone = () => {
+      const h = getHeaderH();
+      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      if (y <= (h + 4)) return true;
+      if (hero) {
+        const bottom = hero.offsetTop + hero.offsetHeight;
+        if ((y + h + 10) < bottom) return true;
+      }
+      return false;
+    };
+
+    let io, currentId = null, ratios = new Map();
+    let lastY = window.scrollY || 0;
+    let direction = 'down';
+
+    const ioMidFrac = () => isMobile() ? IO_MID_FRAC_MOBILE : IO_MID_FRAC_DESKTOP;
+    const minRatioDelta = () => isMobile() ? MIN_RATIO_DELTA_MOBILE : MIN_RATIO_DELTA_DESKTOP;
+
+    function buildObserver(){
+      if (io) io.disconnect();
+      ratios.clear();
+
+      const h = getHeaderH();
+      const mid = ioMidFrac();
+      const top = Math.round(h + window.innerHeight * mid);
+      const bottom = Math.round(window.innerHeight * mid);
+
+      io = new IntersectionObserver(onIntersect, {
+        root: null,
+        rootMargin: `-${top}px 0px -${bottom}px 0px`,
+        threshold: Array.from({length: 21}, (_,i)=> i/20)
+      });
+
+      sections.forEach(s => io.observe(s));
+      requestAnimationFrame(updateActive);
+    }
+
+    function onIntersect(entries){
+      for (const e of entries){
+        const id = e.target.id;
+        if (!id) continue;
+        ratios.set(id, e.isIntersecting ? (e.intersectionRatio || 0) : 0);
+      }
+      requestAnimationFrame(updateActive);
+    }
+
+    function pickByProgress(dir){
+      const h = getHeaderH();
+      const frac = isMobile()
+        ? (dir === 'up' ? FALLBACK_UP_FRAC_MOBILE : FALLBACK_DOWN_FRAC_MOBILE)
+        : FALLBACK_ANCHOR_FRAC_DESKTOP;
+
+      const anchor = (window.scrollY || 0) + h + window.innerHeight * frac;
+
+      let cand = null;
+      for (const s of sections){
+        if (s.offsetTop <= anchor) cand = s;
+      }
+
+      if (cand && hasSelectedWork){
+        const sw = document.getElementById('selected-work');
+        if (sw){
+          const center = (window.scrollY||0) + window.innerHeight * (isMobile() ? 0.60 : 0.60);
+          const dCand = Math.abs(center - (cand.offsetTop + cand.offsetHeight*0.5));
+          const dSW   = Math.abs(center - (sw.offsetTop + sw.offsetHeight*0.5));
+          if (dSW < dCand * 0.88) cand = sw;
+        }
+      }
+      return cand ? cand.id : null;
+    }
+
+    function applyHysteresis(chosenId){
+      if (!isMobile() || !chosenId || !currentId || chosenId === currentId) return chosenId;
+
+      const newSec = document.getElementById(chosenId);
+      const curSec = document.getElementById(currentId);
+      if (!newSec || !curSec) return chosenId;
+
+      const y = window.scrollY || 0;
+      const h = getHeaderH();
+      const anchorLine = y + h + window.innerHeight * (direction === 'down' ? FALLBACK_DOWN_FRAC_MOBILE : FALLBACK_UP_FRAC_MOBILE);
+
+      const newDist = Math.abs((newSec.offsetTop + newSec.offsetHeight/2) - anchorLine);
+      const curDist = Math.abs((curSec.offsetTop + curSec.offsetHeight/2) - anchorLine);
+
+      if (newDist + HYSTERESIS_PX_MOBILE >= curDist) return currentId;
+      return chosenId;
+    }
+
+    function updateActive(){
+      const y = window.scrollY || 0;
+      direction = (y > lastY) ? 'down' : (y < lastY ? 'up' : direction);
+      lastY = y;
+
+      if (isInHeroZone()){
+        if (currentId !== null){ currentId = null; setActive(null); }
+        return;
+      }
+
+      let bestId = null, bestRatio = 0;
+      for (const s of sections){
+        const r = ratios.get(s.id) || 0;
+        if (r > bestRatio){ bestRatio = r; bestId = s.id; }
+      }
+
+      let chosen = bestId;
+      if (!chosen){
+        chosen = pickByProgress(direction);
+      } else if (currentId){
+        const cur = ratios.get(currentId) || 0;
+        if (bestRatio < cur + minRatioDelta()){
+          const byProg = pickByProgress(direction);
+          if (byProg) chosen = byProg;
+        }
+      } else {
+        const byProg = pickByProgress(direction);
+        if (byProg) chosen = byProg;
+      }
+
+      chosen = applyHysteresis(chosen);
+
+      if (!chosen) return;
+      if (chosen !== currentId){
+        currentId = chosen;
+        setActive(chosen);
+      }
+    }
+
+    linksAll.forEach(a => {
+      a.addEventListener('click', () => {
+        const id = a.getAttribute('href').slice(1);
+        if (!id || id === HERO_ID) { setActive(null); currentId = null; }
+        else { setActive(id); currentId = id; }
+      });
+    });
+
+    window.addEventListener('scroll', () => {
+      requestAnimationFrame(updateActive);
+    }, { passive: true });
+
+    window.addEventListener('resize', () => {
+      buildObserver();
+      requestAnimationFrame(updateActive);
+    }, { passive: true });
+
+    buildObserver();
+    setTimeout(() => { buildObserver(); requestAnimationFrame(updateActive); }, 250);
+  })();
+
+  });
+</script>
 
 </body>
 </html>
