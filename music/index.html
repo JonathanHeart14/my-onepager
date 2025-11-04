@@ -62,10 +62,6 @@
 
 
   <div id="top" style="position:relative; inset:0; height:0;"></div>
-  <!-- Fixed Top Navigation -->
-  <header class="site-nav">…</header>
-
-
 
   <!-- Popup (wird per JS nur gezeigt, wenn noch keine Entscheidung vorliegt) -->
   <div class="consent-pop" hidden="" id="media-consent">
@@ -205,16 +201,16 @@
       <a class="service-img" href="#contact">
       <img alt="Mixing console" src="../assets/img/services/mixing.jpg"/>
       </a>
-      <p class="service-desc">Single · EP · Album. Clean &amp; punchy without losing the vibe.</p>
+      <p class="service-desc">Available for projects of any size. <br> From a quick vocal mix to a full album.
       </article>
 
       <!-- Recording & Producing -->
       <article class="service-card">
-      <h3>Recording &amp; Producing</h3>
+      <h3> Producing &amp; Recording</h3>
       <a class="service-img" href="#contact">
       <img alt="Recording session" src="../assets/img/services/recording.jpg"/>
       </a>
-      <p class="service-desc">Vocals, guitars, bass. Mobile or studio — capture with intent.</p>
+      <p class="service-desc">Capturing your performance. <br> In the studio or on location with a mobile rig.</p>
       </article>
 
       <!-- Session / Live Playing -->
@@ -223,14 +219,14 @@
       <a class="service-img" href="#contact">
       <img alt="Session &amp; live playing" src="../assets/img/services/session.png"/>
       </a>
-      <p class="service-desc">Bass &amp; guitar for your track or stage — tight, musical, reliable.</p>
+      <p class="service-desc">Bass and guitar for studio or stage. <br> Tight and reliable.</p>
       </article>
 
     </div>
 
     <!-- zentraler Booking-Button -->
     <aside class="gallery-footer">
-    <a class="btn-more" href="#contact">Contact / Booking</a>
+    <a class="btn-more" href="#contact">get in touch here.</a>
     </aside>
   </section>
 
@@ -316,19 +312,17 @@
   <section class="wrap section" id="studio">
     <h2>studio.</h2>
     <div class="gallery-layout">
-      <div class="media-grid" id="gallery"></div>
+      <div class="media-grid js-gallery"
+          data-base="../assets/img/gallery/Studio%20Bilder/"
+          data-ext="jpg"
+          data-page="6"
+          data-chunk="3"></div>
+
       <aside class="gallery-footer">
-      <button class="btn-more" hidden="" id="gallery-more">Load more</button>
+        <button class="btn-more js-gallery-more" hidden>Load more</button>
       </aside>
     </div>
-    <!-- Lightbox mit Navigation -->
-    <div class="lightbox" hidden="" id="lightbox">
-      <button aria-label="Close" class="lb-close">×</button>
-      <button aria-label="Previous" class="lb-nav lb-prev">‹</button>
-      <img alt="" id="lightbox-img"/>
-      <button aria-label="Next" class="lb-nav lb-next">›</button>
-      <div class="lb-counter"><span id="lb-i">1</span>/<span id="lb-n">1</span></div>
-    </div>
+
   </section>
 
   <!-- Music Section -->
@@ -385,6 +379,21 @@
     <p>After years in the studio and on stage technical abilities have moved to the background and made way for an understanding of music as a means to evoke emotion.</p>
   </article>
   
+  <!-- About: Gallery -->
+    <div class="gallery-layout">
+      <div class="media-grid js-gallery"
+          data-base="../assets/img/gallery/About%20Bilder/"
+          data-ext="jpg"
+          data-page="0"
+          data-chunk="3"
+          data-lightbox="false">
+      </div>
+          
+      <aside class="gallery-footer">
+        <button class="btn-more js-gallery-more" hidden>Load more</button>
+      </aside>
+    </div>
+
 </section>
 
 
@@ -394,7 +403,8 @@
     <div class="contact-info">
       <p><strong>Jonathan Heart</strong></p>
       <p><a href="mailto:jonath.heart@gmail.com">jonath.heart@gmail.com</a></p>
-      <p>Phone: +49 178 406 10 20</p>
+      <p><strong>Phone / Whatsapp:</strong></p>
+      <p>+49 178 406 10 20</p>
     </div>
   </section>
 
@@ -442,6 +452,15 @@
     </style>
 
     <p>© <span id="y"></span> Jonathan Heart</p>
+
+        <!-- Lightbox mit Navigation -->
+    <div class="lightbox" hidden="" id="lightbox">
+      <button aria-label="Close" class="lb-close">×</button>
+      <button aria-label="Previous" class="lb-nav lb-prev">‹</button>
+      <img alt="" id="lightbox-img"/>
+      <button aria-label="Next" class="lb-nav lb-next">›</button>
+      <div class="lb-counter"><span id="lb-i">1</span>/<span id="lb-n">1</span></div>
+    </div>
     
   </footer>
 
@@ -590,6 +609,29 @@
 </script>
 
 <script>
+  (function () {
+    var isMobile = window.matchMedia('(max-width: 900px)').matches;
+
+    document.querySelectorAll('.js-gallery').forEach(function (gal) {
+      // nur Studio begrenzen:
+      if (gal.closest('#studio')) {
+        // Desktop-Werte aus dem HTML lesen:
+        var basePage  = parseInt(gal.dataset.page  || '3', 10);
+        var baseChunk = parseInt(gal.dataset.chunk || '3', 10);
+
+        // Mobile reduzieren (Beispiel: halbieren, mind. 1)
+        var newPage  = isMobile ? Math.max(1, Math.ceil(basePage  / 2)) : basePage;
+        var newChunk = isMobile ? Math.max(1, Math.ceil(baseChunk / 3)) : baseChunk;
+
+        gal.setAttribute('data-page',  String(newPage));
+        gal.setAttribute('data-chunk', String(newChunk));
+      }
+    });
+  })();
+</script>
+
+
+<script>
   document.addEventListener('DOMContentLoaded',function(){
 
     (() => {
@@ -652,193 +694,204 @@
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded',function(){
+document.addEventListener('DOMContentLoaded', function(){
+(() => {
+  const galleries = Array.from(document.querySelectorAll('.js-gallery'));
+  if (!galleries.length) return;
 
-      (async () => {
-        const grid = document.querySelector('#gallery');
-        const btn  = document.querySelector('#gallery-more');
+  // Lightbox (einmal global)
+  const lb       = document.getElementById('lightbox');
+  const lbImg    = document.getElementById('lightbox-img');
+  const lbClose  = document.querySelector('.lb-close');
+  const lbPrev   = document.querySelector('.lb-prev');
+  const lbNext   = document.querySelector('.lb-next');
+  const lbI      = document.getElementById('lb-i');
+  const lbN      = document.getElementById('lb-n');
+  let   active   = null;   // aktive Instanz (für Prev/Next)
+  let   touchX   = null;
 
-        const PAGE = 3; // initial 6 Bilder, bleibt wie bei dir
-        const BASE = '../assets/img/gallery/Studio%20Bilder/';
-        const EXT  = 'jpg';
+  function fullPath(base, id, ext){ return `${base}full/${id}.${ext}`; }
 
-        let items = [], i = 0;
-        let anchors = [];   // <a.photo>-Liste
-        let idx = 0;        // aktueller Index in Lightbox
-        let touchStartX = null;
+  function makeInstance(grid){
+    const base = grid.dataset.base || '../assets/img/gallery/Studio%20Bilder/';
+    const ext  = grid.dataset.ext  || 'jpg';
+    const page = Math.max(0, parseInt(grid.dataset.page || '3', 10));
+    const chunk = Math.max(1, parseInt(grid.dataset.chunk || '3', 10));
 
-        try {
-          const res = await fetch(`${BASE}manifest.json`);
-          items = await res.json();
-        } catch (e) {
-          console.warn('No gallery manifest', e);
-        }
+    // “Load more” Button ist das nächste .js-gallery-more in derselben .gallery-layout
+    const scope = grid.closest('.gallery-layout') || document;
+    const btn   = scope.querySelector('.js-gallery-more');
 
-        const fullPath = id => `${BASE}full/${id}.${EXT}`;
+    let items = [];
+    let rendered = 0;
+    let anchors = [];
+    let idx = 0;
+    let didInitial = false;
 
-        function refreshAnchors(){
-          anchors = Array.from(grid.querySelectorAll('a.photo'));
-          anchors.forEach((a, k) => a.dataset.index = String(k)); // k == Index in items für bisher gerenderte
-          // lbN NICHT hier setzen
-        }
+    async function loadManifest(){
+      try{
+        const res = await fetch(`${base}manifest.json`);
+        items = await res.json();
+      }catch(e){
+        console.warn('No gallery manifest for', base, e);
+        items = [];
+      }
+      if (lbN) lbN.textContent = String(items.length);
+    }
 
-        grid.addEventListener('click', (e) => {
-          const a = e.target.closest('a.photo');
-          if (!a) return;
-          e.preventDefault();
-          openLightbox(parseInt(a.dataset.index || '0', 10)); // <- dieser Index gilt jetzt global in items
-        });
+    function refreshAnchors(){
+      anchors = Array.from(grid.querySelectorAll('a.photo'));
+      anchors.forEach((a,k) => a.dataset.index = String(k));
+    }
 
-        function renderNext(n = PAGE) {
-          const slice = items.slice(i, i + n);
-          slice.forEach((it) => {
-            const id  = it.id || it.file?.replace(/\.\w+$/, '');
-            const alt = it.alt || '';
-            const a = document.createElement('a');
-            a.className = 'photo';
-            a.href = fullPath(id);
-            a.dataset.full = a.href;
-            a.innerHTML = `<img loading="lazy" decoding="async" src="${fullPath(id)}" alt="${alt}">`;
-            grid.appendChild(a);
-          });
-          i += slice.length;
-          btn.hidden = i >= items.length;
-          refreshAnchors();
+function renderNext(n){
+  const take = Math.max(0, n ?? page);
+  const slice = items.slice(rendered, rendered + take);
+  slice.forEach(it => {
+    const id  = it.id || (it.file || '').replace(/\.\w+$/, '');
+    const alt = it.alt || '';
 
-          // ⬇️ neu: nach jedem Render ggf. Hash-Scroll präzise korrigieren
-          if (location.hash) window.__scrollToHashNow?.();
-        }
+    // Wenn Lightbox aktiv: <a>, sonst <div>
+    const el = enableLightbox ? document.createElement('a')
+                              : document.createElement('div');
 
-        // --- Lightbox Logik ---
-        const lb    = document.getElementById('lightbox');
-        const lbImg = document.getElementById('lightbox-img');
-        const lbClose = document.querySelector('.lb-close');
-        const lbPrev  = document.querySelector('.lb-prev');
-        const lbNext  = document.querySelector('.lb-next');
-        const lbI     = document.getElementById('lb-i');
-        const lbN     = document.getElementById('lb-n');
-        if (lbN) lbN.textContent = String(items.length);
+    el.className = 'photo';
 
-        function show(index){
-          if (!items.length) return;
+    if (enableLightbox) {
+      el.href = `${base}full/${id}.${ext}`;
+      el.dataset.full = el.href;
+    }
 
-          // wrap-around über die *gesamte* Anzahl
-          if (index < 0) index = items.length - 1;
-          if (index >= items.length) index = 0;
-          idx = index;
+el.innerHTML = `
+  <img loading="lazy" decoding="async"
+       src="${base}thumbs/${id}.${ext}"
+       onerror="this.onerror=null;this.src='${base}full/${id}.${ext}'"
+       alt="${alt}">
+`;
 
-          // aktuellen Eintrag aus items holen
-          const it = items[idx];
-          const id  = it.id || it.file?.replace(/\.\w+$/, '');
-          const alt = it.alt || '';
-
-          const src = fullPath(id);
-
-          lbImg.src = '';
-          lbImg.alt = alt;
-          lbImg.src = src;
-
-          // Counter: aktuelle Position / Gesamt
-          lbI.textContent = String(idx + 1);
-          lbN.textContent = String(items.length);
-
-          // Preload next/prev (ebenfalls über items, nicht anchors)
-          const nextIdx = (idx + 1) % items.length;
-          const prevIdx = (idx - 1 + items.length) % items.length;
-          const nextId  = items[nextIdx].id || items[nextIdx].file?.replace(/\.\w+$/, '');
-          const prevId  = items[prevIdx].id || items[prevIdx].file?.replace(/\.\w+$/, '');
-          new Image().src = fullPath(nextId);
-          new Image().src = fullPath(prevId);
-        }
-
-        function openLightbox(index){
-          document.body.classList.add('lb-open');
-          lb.hidden = false;
-          show(index);
-        }
-
-        function closeLightbox(){
-          lb.hidden = true;
-          lbImg.src = '';
-          document.body.classList.remove('lb-open');
-        }
-
-        // Klick auf Thumbnail -> Lightbox öffnen
-        grid.addEventListener('click', (e) => {
-          const a = e.target.closest('a.photo');
-          if (!a) return;
-          e.preventDefault();
-          openLightbox(parseInt(a.dataset.index || '0', 10));
-        });
-
-        // Buttons
-        lbClose.addEventListener('click', closeLightbox);
-        lbPrev.addEventListener('click', () => show(idx - 1));
-        lbNext.addEventListener('click', () => show(idx + 1));
-
-        // Overlay-Klick schließt
-        lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
-
-        // Keyboard: ESC, ← →
-        // document.addEventListener('keydown', (e) => {
-        //  if (lb.hidden) return;
-        //  if (e.key === 'Escape') closeLightbox();
-        //  if (e.key === 'ArrowLeft') show(idx - 1);
-        //  if (e.key === 'ArrowRight') show(idx + 1);
-        // });
-
-        function onLightboxKeydown(e) {
-          if (lb.hidden) return;
-
-          // Harte Blockade für Safari/macOS, damit ESC nicht das App-Vollbild verlässt
-          if (e.key === 'Escape' || e.key === 'Esc') {
-            e.preventDefault();
-            e.stopPropagation();
-            if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
-            closeLightbox();
-            return;
-          }
-
-          if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            e.stopPropagation();
-            show(idx - 1);
-          } else if (e.key === 'ArrowRight') {
-            e.preventDefault();
-            e.stopPropagation();
-            show(idx + 1);
-          }
-        }
-
-        // WICHTIG: capture:true, damit wir vor anderen Listenern/Browserevents drankommen
-        window.addEventListener('keydown', onLightboxKeydown, { capture: true });
-
-        // Touch-Swipe
-        lb.addEventListener('touchstart', (e) => {
-          touchStartX = e.touches[0].clientX;
-        }, {passive:true});
-        lb.addEventListener('touchend', (e) => {
-          if (touchStartX == null) return;
-          const dx = e.changedTouches[0].clientX - touchStartX;
-          touchStartX = null;
-          if (Math.abs(dx) > 40) {
-            if (dx > 0) show(idx - 1); else show(idx + 1);
-          }
-        });
-
-        // Initial
-  // Initial Render
-  renderNext();
-
-  // Hash-Scroll nachladen (z. B. wenn #clients / #contact aufgerufen wird)
-  if (location.hash) window.__scrollToHashNow?.();
-
-  btn.hidden = items.length <= PAGE;
-  btn.addEventListener('click', () => renderNext());
-      })();
-      
+    grid.appendChild(el);
   });
+
+  rendered += slice.length;
+  if (btn) btn.hidden = rendered >= items.length;
+  refreshAnchors();
+}
+
+if (btn){
+  btn.addEventListener('click', (e) => {
+    e.preventDefault(); e.stopPropagation();
+    renderNext(chunk);     // <<< pro Klick ganz klar: chunk
+    btn.blur();
+  });
+}
+
+loadManifest().then(() => {
+  if (page > 0) {
+    renderNext(page);      // <<< initial render
+    didInitial = true;
+
+    // >>> HIER: nach dem ersten Render gezielt zum Hash springen
+    if (window.__scrollToHashNow) {
+      // a) sofort (falls schon alles da ist)
+      window.__scrollToHashNow();
+
+      // b) noch ein paar Frames nachziehen, falls Bilder/Aspect-Ratio Layout noch wachsen
+      let tries = 0;
+      const maxTries = 12; // ~200 ms
+      (function nudge(){
+        if (++tries > maxTries) return;
+        requestAnimationFrame(() => {
+          window.__scrollToHashNow && window.__scrollToHashNow();
+          nudge();
+        });
+      })();
+    }
+  } else {
+    // initial 0 → Button zeigen, falls es überhaupt Items gibt
+    if (btn) btn.hidden = items.length === 0;
+  }
+});
+
+
+    function show(index){
+      if (!items.length) return;
+      if (index < 0) index = items.length - 1;
+      if (index >= items.length) index = 0;
+      idx = index;
+
+      const it  = items[idx];
+      const id  = it.id || (it.file || '').replace(/\.\w+$/, '');
+      const alt = it.alt || '';
+      const src = fullPath(base, id, ext);
+
+      lbImg.src = '';
+      lbImg.alt = alt;
+      lbImg.src = src;
+
+      if (lbI) lbI.textContent = String(idx + 1);
+      if (lbN) lbN.textContent = String(items.length);
+
+      // Preload neighbors
+      const n1 = items[(idx + 1) % items.length];
+      const p1 = items[(idx - 1 + items.length) % items.length];
+      if (n1){ new Image().src = fullPath(base, n1.id || (n1.file || '').replace(/\.\w+$/, ''), ext); }
+      if (p1){ new Image().src = fullPath(base, p1.id || (p1.file || '').replace(/\.\w+$/, ''), ext); }
+    }
+
+    function openLightbox(index){
+      active = { show, next: ()=>show(idx+1), prev: ()=>show(idx-1) };
+      document.body.classList.add('lb-open');
+      lb.hidden = false;
+      show(index);
+    }
+
+    const enableLightbox = grid.dataset.lightbox !== 'false';
+
+    // Delegation: Klick auf Kachel öffnet Lightbox
+    grid.addEventListener('click', (e) => {
+      if (!enableLightbox) return;      // <— lightbox ausgeschaltet
+      const a = e.target.closest('a.photo');
+      if (!a) return;
+      e.preventDefault();
+      openLightbox(parseInt(a.dataset.index || '0', 10));
+    });
+
+
+    return { openLightbox, show };
+  }
+
+  // Eine globale Lightbox-Bedienung, aber für die “aktive” Instanz
+  lbClose.addEventListener('click', () => {
+    lb.hidden = true;
+    lbImg.src = '';
+    document.body.classList.remove('lb-open');
+    active = null;
+  });
+  lbPrev.addEventListener('click', () => active && active.prev());
+  lbNext.addEventListener('click', () => active && active.next());
+  lb.addEventListener('click', (e) => { if (e.target === lb) lbClose.click(); });
+
+  window.addEventListener('keydown', (e) => {
+    if (lb.hidden) return;
+    if (e.key === 'Escape' || e.key === 'Esc'){ e.preventDefault(); lbClose.click(); }
+    if (e.key === 'ArrowLeft'){  e.preventDefault(); active && active.prev(); }
+    if (e.key === 'ArrowRight'){ e.preventDefault(); active && active.next(); }
+  }, { capture: true });
+
+  lb.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, {passive:true});
+  lb.addEventListener('touchend', (e) => {
+    if (touchX == null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    touchX = null;
+    if (Math.abs(dx) > 40){ dx > 0 ? (active && active.prev()) : (active && active.next()); }
+  });
+
+  // Alle Instanzen booten
+  galleries.forEach(makeInstance);
+})();
+});
 </script>
+
 
 <script>
   document.addEventListener('DOMContentLoaded',function(){
@@ -1290,13 +1343,22 @@ document.addEventListener('DOMContentLoaded', function () {
       return Number.isFinite(n) ? n : 0;
     };
 
-    function scrollToHash() {
-      if (!location.hash) return;
-      const el = document.getElementById(location.hash.slice(1));
-      if (!el) return;
-      const y = el.getBoundingClientRect().top + window.scrollY - headerOffset();
-      window.scrollTo({ top: y, behavior: 'instant' });
-    }
+function scrollToHash() {
+  if (!location.hash) return;
+  const el = document.getElementById(location.hash.slice(1));
+  if (!el) return;
+
+  // Nutzt CSS scroll-margin-top → gleiche Position wie bei Klick
+  // (kein smooth, damit es direkt sitzt)
+  try {
+    el.scrollIntoView({ block: 'start', inline: 'nearest' });
+  } catch {
+    // Fallback (sehr alt): minimaler manueller Scroll
+    const rect = el.getBoundingClientRect();
+    const y = window.scrollY + rect.top; // KEIN eigener Offset hier!
+    window.scrollTo(0, Math.max(0, Math.round(y)));
+  }
+}
 
     // 1️⃣ Beim ersten DOM-Ready merken, ob ein Hash existiert
     let pendingHash = location.hash ? location.hash : null;
