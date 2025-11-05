@@ -367,6 +367,7 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
  /* Mobile/Tablet: stacken, Float aufheben */
 @media (max-width: 900px) {
   
+  .section {margin-bottom: 100px}
   .section:last-of-type { margin-bottom: 120px}
   }
 
