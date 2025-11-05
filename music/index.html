@@ -481,13 +481,16 @@
       document.querySelector('.site-toggle a[aria-current="page"]')
         ?.textContent.replace('.', '') || 'home';
 
-    // Hänge ?from=… an alle Impressum/Datenschutz-Links auf dieser Seite an
+    // Hänge ?from=… an alle Impressum/Datenschutz-Links (pfadsicher, auch unter /my-onepager/)
     document.querySelectorAll('a[href$="impressum.html"], a[href$="datenschutz.html"]').forEach(a => {
       try {
-        const url = new URL(a.getAttribute('href'), location.origin);
+        // WICHTIG: relativ zur aktuellen Seite (location.href), NICHT location.origin
+        const url = new URL(a.getAttribute('href'), location.href);
         if (!url.searchParams.has('from')) url.searchParams.set('from', section);
-        // schreibe relative Form zurück (ohne Origin)
-        a.setAttribute('href', url.pathname + '?' + url.searchParams.toString());
+
+        // Relative URL zurückschreiben (Pfad + Query, Hash falls vorhanden)
+        const rel = url.pathname.replace(location.origin, '') + (url.search || '') + (url.hash || '');
+        a.setAttribute('href', rel);
       } catch {}
     });
   })();
@@ -608,26 +611,32 @@
 </script>
 
 <script>
-  (function () {
-    var isMobile = window.matchMedia('(max-width: 900px)').matches;
+(function () {
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
 
-    document.querySelectorAll('.js-gallery').forEach(function (gal) {
-      // nur bestimmte Gallerien begrenzen:
-      const limitedSections = ['#about'];
-      if (limitedSections.some(sel => gal.closest(sel))) {
-        // Desktop-Werte aus dem HTML lesen:
-        var basePage  = parseInt(gal.dataset.page  || '3', 10);
-        var baseChunk = parseInt(gal.dataset.chunk || '3', 10);
+  document.querySelectorAll('.js-gallery').forEach(gal => {
 
-        // Mobile reduzieren (Beispiel: halbieren, mind. 1)
-        var newPage  = isMobile ? Math.max(0, Math.ceil(basePage  / 1)) : basePage;
-        var newChunk = isMobile ? Math.max(1, Math.ceil(baseChunk / 3)) : baseChunk;
+    // sections that should get different initial amount
+    const limitedStart = ['#about','#studio'];
+    // sections that should get different "load more" amount
+    const limitedMore = ['#about'];
 
-        gal.setAttribute('data-page',  String(newPage));
-        gal.setAttribute('data-chunk', String(newChunk));
-      }
-    });
-  })();
+    // === initial visible items ===
+    if (limitedStart.some(sel => gal.closest(sel))) {
+      const basePage = parseInt(gal.dataset.page || '3', 10);
+      const newPage  = isMobile ? Math.max(0, Math.ceil(basePage / 2)) : basePage;
+      gal.dataset.page = String(newPage);
+    }
+
+    // === items added per "more" click ===
+    if (limitedMore.some(sel => gal.closest(sel))) {
+      const baseChunk = parseInt(gal.dataset.chunk || '3', 10);
+      const newChunk  = isMobile ? Math.max(1, Math.ceil(baseChunk / 3)) : baseChunk;
+      gal.dataset.chunk = String(newChunk);
+    }
+
+  });
+})();
 </script>
 
 

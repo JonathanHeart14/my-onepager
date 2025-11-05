@@ -214,10 +214,10 @@
   const label2 = isPrivacy ? 'Impressum' : 'Datenschutzerklärung';
   const holder = document.getElementById('legalSwitch');
   if (holder){
-    const u = new URL(target, location.origin);
-    if (from) u.searchParams.set('from', from);
-    holder.innerHTML = `<a href="${u.pathname}${u.search}">${label2}</a>`;
+    const href = from ? `${target}?from=${encodeURIComponent(from)}` : target;
+    holder.innerHTML = `<a href="${href}">${label2}</a>`;
   }
+
 })();
 </script>
 
