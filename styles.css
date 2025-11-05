@@ -590,11 +590,11 @@ footer a:hover{ color:var(--accent) }
   width: calc((100% - var(--tile-gap) * 2) / 1.5);
   max-width: none;
   aspect-ratio: 1.5;
-  min-height: 352px; max-height: 400px; height: 100%;
+  min-height: 352px; max-height: 4px; height: 100%;
   overflow:hidden;
 }
 @media (max-width:900px){
-  .embed.spotify{ width:100%; max-width:100%; margin:0 auto; max-height:352px; height:auto }
+  .embed.spotify{ width:100%; margin:0 auto; max-height: 600px; height:550px; }
   .embed{margin-bottom: 30px;}
 }
 
@@ -664,7 +664,7 @@ footer a:hover{ color:var(--accent) }
     gap:var(--tile-gap);
     padding-left:0; padding-right:0;
     max-width:var(--tile-w);
-    margin: 0 auto 30px;
+    margin: 0 auto 0px;
   }
   .media-grid > *, .media-grid :is(.embed, a.photo){
     width:100%; max-width:100%;
@@ -718,6 +718,7 @@ body.lb-open{ overflow:hidden }
 @media (max-width:900px){
   .embed.spotify{ min-width:0px }
   .section::after{ width: calc(var(--tile-w)/1.5 - var(--mobile-pad)) }
+  .btn-more{margin-top: 30px;}
 }
 
 /* =========================

@@ -1,5 +1,5 @@
 <!-- Ton & Audio-Post Branch -->
- <!DOCTYPE html>
+<!DOCTYPE html>
 
 <html data-size="M" lang="de">
 <head>
@@ -88,7 +88,7 @@
         </svg>
       </a>
 
-      <!-- zentraler Switch -->
+       <!-- zentraler Switch -->
       <div class="site-toggle" role="menubar" aria-label="Bereich wechseln">
         <a href="/music/">music.</a>
         <a href="#top" aria-current="page">film.</a>
@@ -316,7 +316,7 @@
       <div class="media-grid js-gallery"
           data-base="../assets/img/gallery/Studio%20Bilder/"
           data-ext="jpg"
-          data-page="6"
+          data-page="3"
           data-chunk="3"></div>
 
       <aside class="gallery-footer">
@@ -615,13 +615,13 @@
 
     document.querySelectorAll('.js-gallery').forEach(function (gal) {
       // nur Studio begrenzen:
-      if (gal.closest('#studio')) {
+      if (gal.closest('#sstudio') || gal.closest('#about')){
         // Desktop-Werte aus dem HTML lesen:
         var basePage  = parseInt(gal.dataset.page  || '3', 10);
         var baseChunk = parseInt(gal.dataset.chunk || '3', 10);
 
         // Mobile reduzieren (Beispiel: halbieren, mind. 1)
-        var newPage  = isMobile ? Math.max(1, Math.ceil(basePage  / 2)) : basePage;
+        var newPage  = isMobile ? Math.max(0, Math.ceil(basePage  / 1)) : basePage;
         var newChunk = isMobile ? Math.max(1, Math.ceil(baseChunk / 3)) : baseChunk;
 
         gal.setAttribute('data-page',  String(newPage));
