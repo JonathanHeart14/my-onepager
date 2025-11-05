@@ -177,9 +177,9 @@
   const from = params.get('from');
 
   // Ziel & Label aus ?from ableiten
-  let fallback = './', label = 'back to home';
-  if (from === 'music') { fallback = 'music/'; label = 'back to music'; }
-  if (from === 'film')  { fallback = 'film/';  label = 'back to film'; }
+  let fallback = './', label = 'back to home.';
+  if (from === 'music') { fallback = 'music/'; label = 'back to music.'; }
+  if (from === 'film')  { fallback = 'film/';  label = 'back to film.'; }
 
   // Back-Link setzen
   const link = document.getElementById('backLink');
