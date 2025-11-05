@@ -82,7 +82,7 @@
 <body>
 
   <header class="legal-topbar">
-  <a id="backLink" href="./">← Zurück</a>
+  <a id="backLink" href="/">← Zurück</a>
   </header>
 
 
@@ -115,7 +115,7 @@
         E-Mail: <a href="mailto:j.roeseberg@googlemail.com">j.roeseberg@googlemail.com</a>
       </span><br>
       <span class="impressum-links">
-        Website: <a href="https://www.jonathanheart.de" target="_blank" rel="noopener">www.jonathanheart.de</a>
+        Website: <a href="/">jonathanheart.de</a>
       </span>
     </p>
 
@@ -205,9 +205,9 @@
   const from = params.get('from');
 
   // Ziel & Label aus ?from ableiten
-  let fallback = './', label = 'back to home';
-  if (from === 'music') { fallback = 'music/'; label = 'back to music'; }
-  if (from === 'film')  { fallback = 'film/';  label = 'back to film'; }
+  let fallback = '/', label = 'back to home';
+  if (from === 'music') { fallback = '/music/'; label = 'back to music'; }
+  if (from === 'film')  { fallback = '/film/';  label = 'back to film'; }
 
   // Back-Link setzen
   const link = document.getElementById('backLink');
@@ -242,8 +242,9 @@
   const label2 = isPrivacy ? 'Impressum' : 'Datenschutzerklärung';
   const holder = document.getElementById('legalSwitch');
   if (holder){
-    const href = from ? `${target}?from=${encodeURIComponent(from)}` : target;
-    holder.innerHTML = `<a href="${href}">${label2}</a>`;
+    const u = new URL(target, location.origin);
+    if (from) u.searchParams.set('from', from);
+    holder.innerHTML = `<a href="${u.pathname}${u.search}">${label2}</a>`;
   }
 })();
 </script>

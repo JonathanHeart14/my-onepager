@@ -1,10 +1,9 @@
-<!-- Ton & Audio-Post Branch -->
 <!DOCTYPE html>
 
 <html data-size="M" lang="de">
 <head>
 <meta charset="utf-8"/>
-<title>Jonathan Heart - film.</title>
+<title>Jonathan Heart - music</title>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="musician · producer · mixing engineer" name="description"/>
 
@@ -82,16 +81,16 @@
     <nav class="wrap">
 
       <!-- Weißes Haus-Icon als SVG links -->
-      <a aria-label="Home" class="home-link" href="../">
+      <a aria-label="Home" class="home-link" href="/">
         <svg class="home-icon" fill="currentColor" height="24" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
         <path d="M3 9.5l9-7 9 7V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z"></path>
         </svg>
       </a>
 
-       <!-- zentraler Switch -->
+      <!-- zentraler Switch -->
       <div class="site-toggle" role="menubar" aria-label="Bereich wechseln">
-        <a href="../music/">music.</a>
-        <a href="#top" aria-current="page">film.</a>
+        <a href="#top" aria-current="page">music.</a>
+        <a href="/film/">film.</a>
       </div>
 
       <!-- Rechts: Navigation-->
@@ -125,16 +124,16 @@
       <p class="hero-subtitle">musician · producer · mixing engineer</p>
       <div class="social-links">
         <a aria-label="Instagram" href="https://instagram.com/itsjonathanheart" target="_blank">
-        <span class="icon-mask" style="--icon: url('../assets/icons/Instagram.svg')"></span>
+        <span class="icon-mask" style="--icon: url('assets/icons/Instagram.svg')"></span>
         </a>
         <a aria-label="Spotify" href="https://open.spotify.com/artist/4jcReINTJLZewFgkzEqmxK?si=FpjnMYeQTrChplwueQZ5Dg" target="_blank">
-        <span class="icon-mask" style="--icon: url('../assets/icons/Spotify.svg')"></span>
+        <span class="icon-mask" style="--icon: url('assets/icons/Spotify.svg')"></span>
         </a>
         <a aria-label="YouTube" href="https://youtube.com/@jonathanheartmusic" target="_blank">
-        <span class="icon-mask" style="--icon: url('../assets/icons/Youtube.svg'); width:44px;"></span>
+        <span class="icon-mask" style="--icon: url('assets/icons/Youtube.svg'); width:44px;"></span>
         </a>
         <a aria-label="Email" href="mailto:jonath.heart@gmail.com" target="_blank">
-        <span class="icon-mask" style="--icon: url('../assets/icons/Mail.svg'); width:41px;"></span>
+        <span class="icon-mask" style="--icon: url('assets/icons/Mail.svg'); width:41px;"></span>
         </a>
       </div>
           </div>
@@ -413,16 +412,16 @@
   <footer class="footer">
     <p class="social-links">
       <a aria-label="Instagram" href="https://instagram.com/itsjonathanheart" target="_blank">
-      <span class="icon-mask" style="--icon: url('../assets/icons/Instagram.svg'); width: 25px;"></span>
+      <span class="icon-mask" style="--icon: url('assets/icons/Instagram.svg'); width: 25px;"></span>
       </a>
       <a aria-label="Spotify" href="https://open.spotify.com/artist/4jcReINTJLZewFgkzEqmxK?si=FpjnMYeQTrChplwueQZ5Dg" target="_blank">
-      <span class="icon-mask" style="--icon: url('../assets/icons/Spotify.svg'); width: 25px"></span>
+      <span class="icon-mask" style="--icon: url('assets/icons/Spotify.svg'); width: 25px"></span>
       </a>
       <a aria-label="YouTube" href="https://youtube.com/@jonathanheartmusic" target="_blank">
-      <span class="icon-mask" style="--icon: url('../assets/icons/Youtube.svg'); width: 28px;"></span>
+      <span class="icon-mask" style="--icon: url('assets/icons/Youtube.svg'); width: 28px;"></span>
       </a>
       <a aria-label="Email" href="mailto:jonath.heart@gmail.com" target="_blank">
-      <span class="icon-mask" style="--icon: url('../assets/icons/Mail.svg'); width: 28px;"></span>
+      <span class="icon-mask" style="--icon: url('assets/icons/Mail.svg'); width: 28px;"></span>
       </a>
     </p>
 
@@ -479,8 +478,9 @@
   (function(){
     // Erkenne, wo wir sind:
     const section =
-      document.querySelector('.site-toggle a[aria-current="page"]')
-        ?.textContent.replace('.', '') || 'home';
+      location.pathname.startsWith('/music/') ? 'music' :
+      location.pathname.startsWith('/film/')  ? 'film'  :
+      'home';
 
     // Hänge ?from=… an alle Impressum/Datenschutz-Links auf dieser Seite an
     document.querySelectorAll('a[href$="impressum.html"], a[href$="datenschutz.html"]').forEach(a => {
@@ -613,9 +613,8 @@
     var isMobile = window.matchMedia('(max-width: 900px)').matches;
 
     document.querySelectorAll('.js-gallery').forEach(function (gal) {
-      // nur bestimmte Gallerien begrenzen:
-      const limitedSections = ['#about'];
-      if (limitedSections.some(sel => gal.closest(sel))) {
+      // nur Studio begrenzen:
+      if (gal.closest('#sstudio') || gal.closest('#about')){
         // Desktop-Werte aus dem HTML lesen:
         var basePage  = parseInt(gal.dataset.page  || '3', 10);
         var baseChunk = parseInt(gal.dataset.chunk || '3', 10);
