@@ -553,7 +553,7 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
 ========================= */
 footer{
   text-align:center;
-  padding: 60px 0 132px;
+  padding: 60px 0 160px;
 }
 footer p{ margin:0 0 18px 0 }
 footer a{ color:var(--fg); text-decoration:underline }

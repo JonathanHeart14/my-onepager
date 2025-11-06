@@ -746,17 +746,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const HERO_ID = 'top';
     const hero = document.getElementById(HERO_ID);
 
-    const MIN_RATIO_DELTA_DESKTOP = 0.16;
-    const IO_MID_FRAC_DESKTOP = 0.46;
-    const FALLBACK_ANCHOR_FRAC_DESKTOP = 0.58;
+    /* ===== Desktop-Tuning ===== */
+    const MIN_RATIO_DELTA_DESKTOP = 0.99;   // Ratio praktisch aushebeln
+    const IO_MID_FRAC_DESKTOP     = 0.30;   // unkritisch, nur für IO rootMargin
+    // Getrennte Fallback-Fracs für Richtung:
+    const FALLBACK_ANCHOR_FRAC_DESKTOP_DOWN = 0.25; // späterer Wechsel beim Runter-Scrollen
+    const FALLBACK_ANCHOR_FRAC_DESKTOP_UP   = 0.45; // späterer Rücksprung beim Hoch-Scrollen
+    const HYSTERESIS_PX_DESKTOP   = 32;     // kleine Totzone für Desktop
 
+    /* ===== Mobile bleibt wie bei dir ===== */
     const MIN_RATIO_DELTA_MOBILE = 0.22;
     const IO_MID_FRAC_MOBILE = 0.50;
     const FALLBACK_DOWN_FRAC_MOBILE = 0.62;
     const FALLBACK_UP_FRAC_MOBILE = 0.58;
     const HYSTERESIS_PX_MOBILE = 24;
 
-    const isMobile = () => window.innerWidth <= 768;
+    const isMobile = () => window.innerWidth <= 900;
 
     const getHeaderH = () => {
       const v = getComputedStyle(document.documentElement).getPropertyValue('--header-h').trim();
@@ -832,7 +837,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const h = getHeaderH();
       const frac = isMobile()
         ? (dir === 'up' ? FALLBACK_UP_FRAC_MOBILE : FALLBACK_DOWN_FRAC_MOBILE)
-        : FALLBACK_ANCHOR_FRAC_DESKTOP;
+        : (dir === 'up' ? FALLBACK_ANCHOR_FRAC_DESKTOP_UP : FALLBACK_ANCHOR_FRAC_DESKTOP_DOWN);
 
       const anchor = (window.scrollY || 0) + h + window.innerHeight * frac;
 
@@ -854,7 +859,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function applyHysteresis(chosenId) {
-      if (!isMobile() || !chosenId || !currentId || chosenId === currentId) return chosenId;
+      // Desktop jetzt NICHT mehr ausschließen
+      if (!chosenId || !currentId || chosenId === currentId) return chosenId;
 
       const newSec = document.getElementById(chosenId);
       const curSec = document.getElementById(currentId);
@@ -862,12 +868,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const y = window.scrollY || 0;
       const h = getHeaderH();
-      const anchorLine = y + h + window.innerHeight * (direction === 'down' ? FALLBACK_DOWN_FRAC_MOBILE : FALLBACK_UP_FRAC_MOBILE);
+
+      const frac = isMobile()
+        ? (direction === 'down' ? FALLBACK_DOWN_FRAC_MOBILE : FALLBACK_UP_FRAC_MOBILE)
+        : (direction === 'down' ? FALLBACK_ANCHOR_FRAC_DESKTOP_DOWN : FALLBACK_ANCHOR_FRAC_DESKTOP_UP);
+
+      const anchorLine = y + h + window.innerHeight * frac;
 
       const newDist = Math.abs((newSec.offsetTop + newSec.offsetHeight / 2) - anchorLine);
       const curDist = Math.abs((curSec.offsetTop + curSec.offsetHeight / 2) - anchorLine);
 
-      if (newDist + HYSTERESIS_PX_MOBILE >= curDist) return currentId;
+      const hyst = isMobile() ? HYSTERESIS_PX_MOBILE : HYSTERESIS_PX_DESKTOP;
+      if (newDist + hyst >= curDist) return currentId;
       return chosenId;
     }
 
