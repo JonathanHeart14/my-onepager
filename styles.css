@@ -73,6 +73,13 @@ p + p { margin-top: 1em }
 /* Sprungziele: nie Outline, wenn Fokus nicht via Tastatur kam */
 [id]:focus:not(:focus-visible),
 section[id]:focus:not(:focus-visible) { outline: none }
+/* Keine Outline für fokussierte Anchor-Sections */
+section[id]:focus,
+[id]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 
 /* Auf Touch-Geräten: keine Outline für Sektionen, wenn sie Fokus bekommen */
 @media (hover:none) and (pointer:coarse){
@@ -367,7 +374,7 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
  /* Mobile/Tablet: stacken, Float aufheben */
 @media (max-width: 900px) {
   
-  .section {margin-bottom: 100px}
+  .section {margin-bottom: 100px; scroll-margin-top: calc(var(--header-h) + 0px);}
   .section:last-of-type { margin-bottom: 120px}
   }
 
@@ -546,7 +553,7 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
 ========================= */
 footer{
   text-align:center;
-  padding: 60px 0 120px;
+  padding: 60px 0 132px;
 }
 footer p{ margin:0 0 18px 0 }
 footer a{ color:var(--fg); text-decoration:underline }
