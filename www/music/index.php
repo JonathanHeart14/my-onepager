@@ -4,6 +4,14 @@
 <html data-size="M" lang="de">
 <head>
 
+<!-- Preload Hero Background -->
+<link
+  rel="preload"
+  as="image"
+  href="/assets/img/Background_blended.jpg"
+  fetchpriority="high">
+
+
 <?php require $_SERVER['DOCUMENT_ROOT'].'/includes/head.php'; ?>
 
 <title>Jonathan Heart - music.</title>
@@ -144,42 +152,40 @@
 
       <!-- YouTube Playlist (responsiv 16:9 via CSS) -->
       <div class="embed youtube">
-        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/hkcfdRgLheQ?si=AkYb-eO_d8HOrZc8" title="YouTube video player" loading="lazy">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/hkcfdRgLheQ?si=AkYb-eO_d8HOrZc8" title="YouTube video player" loading="eager">
         </iframe>
         <p class="credit">[performance, bass composition]</p>
       </div>
       <div class="embed youtube">
-        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/EthbAJ00iqg?si=SSlg-FPbyOAa0HfJ" title="YouTube video player" loading="lazy">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/EthbAJ00iqg?si=SSlg-FPbyOAa0HfJ" title="YouTube video player" loading="eager">
         </iframe>
         <p class="credit">[co-written, co-produced, mix & master]</p>
       </div>
       <div class="embed youtube">
-        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/DV68w9O-R9E?si=RhxlV3EuEdjDJdax" title="YouTube video player" loading="lazy">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/DV68w9O-R9E?si=RhxlV3EuEdjDJdax" title="YouTube video player" loading="eager">
         </iframe>
         <p class="credit">[co-written, co-produced]</p>
       </div>
       <div class="embed youtube">
-        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/REbrKoZy1YI?si=v2KlKfX2F-7jrz2e" title="YouTube video player" loading="lazy">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/REbrKoZy1YI?si=v2KlKfX2F-7jrz2e" title="YouTube video player" loading="eager">
         </iframe>
         <p class="credit">[mix & master]</p>
       </div>
       <div class="embed youtube">
-        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/Ic5oqa0zLKM?si=HDdqKrm-X4Xc3vlZ" title="YouTube video player" loading="lazy">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/Ic5oqa0zLKM?si=HDdqKrm-X4Xc3vlZ" title="YouTube video player" loading="eager">
         </iframe>
         <p class="credit">[written, produced, mix & master]</p>
       </div>
       <div class="embed youtube">
-        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/Y3vEmhQQbto?si=yOWsaC8aVG_hCxOC" title="YouTube video player" loading="lazy">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/Y3vEmhQQbto?si=yOWsaC8aVG_hCxOC" title="YouTube video player" loading="eager">
         </iframe>
         <p class="credit">[mix & master]</p>
       </div>
       <div class="embed youtube center-single">
-        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/RtfhpJwiSDU?si=RO1D4SPHQDZPzsBt" title="YouTube video player" loading="lazy">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/RtfhpJwiSDU?si=RO1D4SPHQDZPzsBt" title="YouTube video player" loading="eager">
         </iframe>
         <p class="credit">[co-produced, mix & master]</p>
       </div>
-
-      <div><lite-youtube videoid="goiWrNiaT0I" playlabel="Play: Crayon Physics Deluxe - Trailer HD"></lite-youtube></div>
 
       <!-- Spotify Playlist (fixe Höhe via CSS-Variable; Größe mit .s/.m/.l steuerbar) -->
         <div class="embed spotify">
@@ -316,8 +322,8 @@
           data-base="/assets/img/gallery/Studio%20Bilder/"
           data-ext="jpg"
           data-page="6"
-          data-chunk="3"
-      ></div>
+          data-chunk="3">
+      </div>
 
       <aside class="gallery-footer">
         <button class="btn-more js-gallery-more" hidden>Load more</button>

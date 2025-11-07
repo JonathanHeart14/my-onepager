@@ -2,6 +2,10 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  // verhindert hartes Aufpoppen beim Seitenwechsel
+  document.documentElement.classList.add('booting');
+</script>
 <link rel="stylesheet" href="/styles.css?v=<?= htmlspecialchars($ASSET_VERSION) ?>">
 <script src="/assets/js/main.js?v=<?= htmlspecialchars($ASSET_VERSION) ?>" defer></script>
 

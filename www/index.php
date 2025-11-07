@@ -19,15 +19,15 @@
 
     <main class="landing-chooser" aria-label="Choose domain">
       <a class="choice" href="https://jonathan-heart.com/" aria-label="Go to Music site">
-        <figure class="choice-figure" style="--bg:url('assets/img/Background.png')">
-          <img src="assets/img/Background.png" alt="" loading="eager" />
+        <figure class="choice-figure" style="--bg:url('assets/img/Background_blended.jpg')">
+          <img src="assets/img/Background_blended.jpg" alt="" loading="eager" />
           <figcaption>music.</figcaption>
         </figure>
       </a>
 
       <a class="choice" href="film/" aria-label="Go to Film site">
-        <figure class="choice-figure" style="--bg:url('assets/img/Background_blended.png')">
-          <img src="assets/img/Background_blended.png" alt="" loading="eager" />
+        <figure class="choice-figure" style="--bg:url('assets/img/Background_blended.jpg')">
+          <img src="assets/img/Background_blended.jpg" alt="" loading="eager" />
           <figcaption>film.</figcaption>
         </figure>
       </a>
