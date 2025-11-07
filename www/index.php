@@ -6,8 +6,8 @@
 
     <?php require $_SERVER['DOCUMENT_ROOT'].'/includes/head.php'; ?>
  
-    <title>Jonathan Heart – Select</title>
-    <meta name="description" content="Choose your path: Music or Film." />
+    <title>Jonas Röseberg – select</title>
+    <meta name="description" content="choose your path: music or film." />
     <link rel="canonical" href="https://jonasroeseberg.com/">
 
     <style>
@@ -36,8 +36,8 @@
       <!-- Dein normaler Footer unten ohne padding-top -->
   <footer class="footer-landing">
       <p>
-        <a href="impressum.html">Imprint</a> | 
-        <a href="datenschutz.html">Privacy Policy</a>
+        <a href="impressum.html">imprint</a> | 
+        <a href="datenschutz.html">privacy policy</a>
       </p>
 
       <p class="footer-credit">

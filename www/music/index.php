@@ -11,7 +11,6 @@
   href="/assets/img/Background_blended.jpg"
   fetchpriority="high">
 
-
 <?php require $_SERVER['DOCUMENT_ROOT'].'/includes/head.php'; ?>
 
 <title>Jonathan Heart - music.</title>
@@ -74,7 +73,7 @@
   <h3>External Media</h3>
   <p>This site may load content from <strong>YouTube</strong> &amp; <strong>Spotify</strong>. 
      By clicking “Accept”, you allow data to be transferred to these providers. 
-     You can change this later in the footer under “Media Settings”.</p>
+     You can change this later in the footer under “media settings”.</p>
   <div class="row">
     <button class="consent-btn" data-action="deny">Essential only</button>
     <button class="consent-btn primary" data-action="allow">Accept</button>
@@ -435,16 +434,16 @@
 
     <!-- Desktop-Version -->
     <p class="footer-links desktop-only">
-      <a href="/impressum.html">Imprint</a> | 
-      <a href="/datenschutz.html">Privacy Policy</a> | 
-      <a class="media-settings-link" href="javascript:void(0)" onclick="resetMediaConsent()">Media Settings</a>
+      <a href="/impressum.html">imprint</a> | 
+      <a href="/datenschutz.html">privacy policy</a> | 
+      <a class="media-settings-link" href="javascript:void(0)" onclick="resetMediaConsent()">media settings</a>
     </p>
 
     <!-- Mobile-Version ohne Trennstrich hinter Datenschutzerklärung -->
     <p class="footer-links mobile-only">
-      <a href="/impressum.html">Imprint</a> |
-      <a href="/datenschutz.html">Privacy Policy</a>
-      <a class="media-settings-link" href="javascript:void(0)" onclick="resetMediaConsent()">Media Settings</a>
+      <a href="/impressum.html">imprint</a> |
+      <a href="/datenschutz.html">privacy policy</a>
+      <a class="media-settings-link" href="javascript:void(0)" onclick="resetMediaConsent()">media settings</a>
     </p>
 
     <style>
