@@ -1,7 +1,7 @@
 <!-- Musik Branch -->
 <!DOCTYPE html>
 
-<html data-size="M" lang="de">
+<html data-size="M" lang="en">
 <head>
 
 <!-- Preload Hero Background -->
@@ -69,18 +69,19 @@
 
   <div id="top" style="position:relative; inset:0; height:0;"></div>
 
-  <!-- Popup (wird per JS nur gezeigt, wenn noch keine Entscheidung vorliegt) -->
-  <div class="consent-pop" hidden="" id="media-consent">
-    <h3>Externe Medien</h3>
-    <p>Diese Seite kann Inhalte von <strong>YouTube</strong> &amp; <strong>Spotify</strong> laden. 
-            Mit „Akzeptieren“ erlaubst du die Datenübertragung an diese Anbieter. 
-            Du kannst das später im Footer unter „Medien-Einstellungen“ ändern.</p>
-    <div class="row">
-      <button class="consent-btn" data-action="deny">Nur notwendige</button>
-      <button class="consent-btn primary" data-action="allow">Akzeptieren</button>
-      <a class="consent-btn" href="/datenschutz.html" style="text-decoration:none">Mehr erfahren</a>
-    </div>
+<!-- Popup (wird per JS nur gezeigt, wenn noch keine Entscheidung vorliegt) -->
+<div class="consent-pop" hidden="" id="media-consent">
+  <h3>External Media</h3>
+  <p>This site may load content from <strong>YouTube</strong> &amp; <strong>Spotify</strong>. 
+     By clicking “Accept”, you allow data to be transferred to these providers. 
+     You can change this later in the footer under “Media Settings”.</p>
+  <div class="row">
+    <button class="consent-btn" data-action="deny">Essential only</button>
+    <button class="consent-btn primary" data-action="allow">Accept</button>
+    <a class="consent-btn" href="/datenschutz.html" style="text-decoration:none">Learn more</a>
   </div>
+</div>
+
 
   <!-- Fixed Top Navigation -->
   <header class="site-nav">
@@ -434,16 +435,16 @@
 
     <!-- Desktop-Version -->
     <p class="footer-links desktop-only">
-      <a href="/impressum.html">Impressum</a> | 
-      <a href="/datenschutz.html">Datenschutzerklärung</a> | 
-      <a class="media-settings-link" href="javascript:void(0)" onclick="resetMediaConsent()">Medien-Einstellungen</a>
+      <a href="/impressum.html">Imprint</a> | 
+      <a href="/datenschutz.html">Privacy Policy</a> | 
+      <a class="media-settings-link" href="javascript:void(0)" onclick="resetMediaConsent()">Media Settings</a>
     </p>
 
     <!-- Mobile-Version ohne Trennstrich hinter Datenschutzerklärung -->
     <p class="footer-links mobile-only">
-      <a href="/impressum.html">Impressum</a> |
-      <a href="/datenschutz.html">Datenschutzerklärung</a>
-      <a class="media-settings-link" href="javascript:void(0)" onclick="resetMediaConsent()">Medien-Einstellungen</a>
+      <a href="/impressum.html">Imprint</a> |
+      <a href="/datenschutz.html">Privacy Policy</a>
+      <a class="media-settings-link" href="javascript:void(0)" onclick="resetMediaConsent()">Media Settings</a>
     </p>
 
     <style>

@@ -1,7 +1,7 @@
 <!-- Ton & Audio-Post Branch -->
 <!DOCTYPE html>
 
-<html data-size="M" lang="de">
+<html data-size="M" lang="en">
 <head>
 
 <!-- Preload Hero Background -->
@@ -13,7 +13,7 @@
 
 <?php require $_SERVER['DOCUMENT_ROOT'].'/includes/head.php'; ?>
 
-<title>Jonas Röseberg - film.</title>
+<title>Jonathan Heart — Location Sound & Film Audio</title>
 <meta name="description" content="musician · producer · mixing engineer" />
 <link rel="canonical" href="https://jonasroeseberg.com/film/">
 
@@ -68,18 +68,19 @@
 
   <div id="top" style="position:relative; inset:0; height:0;"></div>
 
-  <!-- Popup (wird per JS nur gezeigt, wenn noch keine Entscheidung vorliegt) -->
-  <div class="consent-pop" hidden="" id="media-consent">
-    <h3>Externe Medien</h3>
-    <p>Diese Seite kann Inhalte von <strong>YouTube</strong> &amp; <strong>Spotify</strong> laden. 
-            Mit „Akzeptieren“ erlaubst du die Datenübertragung an diese Anbieter. 
-            Du kannst das später im Footer unter „Medien-Einstellungen“ ändern.</p>
-    <div class="row">
-      <button class="consent-btn" data-action="deny">Nur notwendige</button>
-      <button class="consent-btn primary" data-action="allow">Akzeptieren</button>
-      <a class="consent-btn" href="/datenschutz.html" style="text-decoration:none">Mehr erfahren</a>
-    </div>
+<!-- Popup (wird per JS nur gezeigt, wenn noch keine Entscheidung vorliegt) -->
+<div class="consent-pop" hidden="" id="media-consent">
+  <h3>External Media</h3>
+  <p>This site may load content from <strong>YouTube</strong> &amp; <strong>Spotify</strong>. 
+     By clicking “Accept”, you allow data to be transferred to these providers. 
+     You can change this later in the footer under “Media Settings”.</p>
+  <div class="row">
+    <button class="consent-btn" data-action="deny">Essential only</button>
+    <button class="consent-btn primary" data-action="allow">Accept</button>
+    <a class="consent-btn" href="/datenschutz.html" style="text-decoration:none">Learn more</a>
   </div>
+</div>
+
 
   <!-- Fixed Top Navigation -->
   <header class="site-nav">
@@ -125,8 +126,8 @@
   <!-- Landing Hero -->
   <section class="hero landing">
     <div class="hero-inner">
-      <h1 class="hero-title">Jonathan Heart</h1>
-      <p class="hero-subtitle">musician · producer · mixing engineer</p>
+      <h1 class="hero-title">Jonas Röseberg</h1>
+      <p class="hero-subtitle">location sound · sound design · post production</p>
       <div class="social-links">
         <a aria-label="Instagram" href="https://instagram.com/itsjonathanheart" target="_blank">
         <span class="icon-mask" style="--icon: url('/assets/icons/Instagram.svg')"></span>
@@ -379,10 +380,9 @@
       </figure>
 
       <p class="slogan">clarity through distortion.</p>
-      <p>Jonathan Heart is a musician, producer and mixing engineer based in Berlin, Germany. His approach is shaped as much by instruments and live playing as by the technical craft of sound.</p>
-      <p>In the studio he is less interested in perfection than in presence, keeping the rough edges that carry emotion. Mixing and mastering are ways of listening closely to the stories of others and enhancing them without erasing what makes them human.</p>
-      <p>As part of <em>badbadbad.</em> and in support of <em>Joël João</em>, Jonathan extends this philosophy into collaboration. On stage he is not looking for praise but for resonance, using sound as a way to connect and communicate.</p>
-      <p>After years in the studio and on stage technical abilities have moved to the background and made way for an understanding of music as a means to evoke emotion.</p>
+    <p>Hi, I’m Jonathan (Jonas Röseberg) — a location sound recordist based near Dortmund and active in Berlin. I focus on calm sets and intelligible dialogue: clear gain structure, proper mic placement, and fast troubleshooting so camera and talent can work without waiting for sound.</p>
+    <p>I’m comfortable with timecode (LTC & metadata), multi‑wireless setups, and quick hand‑offs to DIT or post. For smaller projects I also handle dialogue edit, cleanup, and delivery to spec.</p>
+    <p>Credits include indie narrative, short films, branded content and doc pieces. I’m happy to jump in early to plan lav/boom strategy and reduce fix‑it‑in‑post.</p>
     
     </article>
 
@@ -433,16 +433,16 @@
 
     <!-- Desktop-Version -->
     <p class="footer-links desktop-only">
-      <a href="/impressum.html">Impressum</a> | 
-      <a href="/datenschutz.html">Datenschutzerklärung</a> | 
-      <a class="media-settings-link" href="javascript:void(0)" onclick="resetMediaConsent()">Medien-Einstellungen</a>
+      <a href="/impressum.html">Imprint</a> | 
+      <a href="/datenschutz.html">Privacy Policy</a> | 
+      <a class="media-settings-link" href="javascript:void(0)" onclick="resetMediaConsent()">Media Settings</a>
     </p>
 
     <!-- Mobile-Version ohne Trennstrich hinter Datenschutzerklärung -->
     <p class="footer-links mobile-only">
-      <a href="/impressum.html">Impressum</a> |
-      <a href="/datenschutz.html">Datenschutzerklärung</a>
-      <a class="media-settings-link" href="javascript:void(0)" onclick="resetMediaConsent()">Medien-Einstellungen</a>
+      <a href="/impressum.html">Imprint</a> |
+      <a href="/datenschutz.html">Privacy Policy</a>
+      <a class="media-settings-link" href="javascript:void(0)" onclick="resetMediaConsent()">Media Settings</a>
     </p>
 
     <style>
@@ -457,7 +457,7 @@
       }
     </style>
 
-    <p>© <span id="y"></span> Jonathan Heart</p>
+    <p>© <span id="y"></span> Jonas Röseberg</p>
 
         <!-- Lightbox mit Navigation -->
     <div class="lightbox" hidden="" id="lightbox">

@@ -1,7 +1,7 @@
 <!-- Landing Page -->
 <!doctype html>
 
-<html lang="de" data-size="M">
+<html lang="en" data-size="M">
   <head>
 
     <?php require $_SERVER['DOCUMENT_ROOT'].'/includes/head.php'; ?>
@@ -36,8 +36,8 @@
       <!-- Dein normaler Footer unten ohne padding-top -->
   <footer class="footer-landing">
       <p>
-        <a href="impressum.html">Impressum</a> | 
-        <a href="datenschutz.html">Datenschutzerklärung</a>
+        <a href="impressum.html">Imprint</a> | 
+        <a href="datenschutz.html">Privacy Policy</a>
       </p>
 
       <p class="footer-credit">
