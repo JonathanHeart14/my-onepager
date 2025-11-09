@@ -14,7 +14,7 @@
 <?php require $_SERVER['DOCUMENT_ROOT'].'/includes/head.php'; ?>
 
 <title>Jonathan Heart — Location Sound & Film Audio</title>
-<meta name="description" content="location sound · sound design · post production" />
+<meta name="description" content="location sound · sound design · composition" />
 <link rel="canonical" href="https://jonasroeseberg.com/film/">
 
 <link crossorigin="" href="https://www.youtube-nocookie.com" rel="preconnect"/>
@@ -103,8 +103,8 @@
       <ul class="nav-list">
         <li><a href="#work">selected work.</a></li>
         <li><a href="#services">services.</a></li>
-        <li><a href="#clients">clients.</a></li>
-        <li><a href="#studio">studio.</a></li>
+        <li><a href="#references">references.</a></li>
+        <li><a href="#gallery">gallery.</a></li>
 <!--    <li><a href="#music">music.</a></li> -->
         <li><a href="#about">about.</a></li>
         <li><a href="#contact">contact.</a></li>
@@ -132,9 +132,6 @@
         <a aria-label="Instagram" href="https://instagram.com/itsjonathanheart" target="_blank">
         <span class="icon-mask" style="--icon: url('/assets/icons/Instagram.svg')"></span>
         </a>
-        <a aria-label="Spotify" href="https://open.spotify.com/artist/4jcReINTJLZewFgkzEqmxK?si=FpjnMYeQTrChplwueQZ5Dg" target="_blank">
-        <span class="icon-mask" style="--icon: url('/assets/icons/Spotify.svg')"></span>
-        </a>
         <a aria-label="YouTube" href="https://youtube.com/@jonathanheartmusic" target="_blank">
         <span class="icon-mask" style="--icon: url('/assets/icons/Youtube.svg'); width:45px;"></span>
         </a>
@@ -152,83 +149,86 @@
 
       <!-- YouTube Playlist (responsiv 16:9 via CSS) -->
       <div class="embed youtube">
-        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/hkcfdRgLheQ?si=AkYb-eO_d8HOrZc8" title="YouTube video player" loading="eager">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/iFoiUMEusVo?si=j9wQeuHNlm6yoHij" title="YouTube video player" loading="eager">
         </iframe>
-        <p class="credit">[performance, bass composition]</p>
-      </div>
-      <div class="embed youtube">
-        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/EthbAJ00iqg?si=SSlg-FPbyOAa0HfJ" title="YouTube video player" loading="eager">
-        </iframe>
-        <p class="credit">[co-written, co-produced, mix & master]</p>
-      </div>
-      <div class="embed youtube">
-        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/DV68w9O-R9E?si=RhxlV3EuEdjDJdax" title="YouTube video player" loading="eager">
-        </iframe>
-        <p class="credit">[co-written, co-produced]</p>
-      </div>
-      <div class="embed youtube">
-        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/REbrKoZy1YI?si=v2KlKfX2F-7jrz2e" title="YouTube video player" loading="eager">
-        </iframe>
-        <p class="credit">[mix & master]</p>
-      </div>
-      <div class="embed youtube">
-        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/Ic5oqa0zLKM?si=HDdqKrm-X4Xc3vlZ" title="YouTube video player" loading="eager">
-        </iframe>
-        <p class="credit">[written, produced, mix & master]</p>
-      </div>
-      <div class="embed youtube">
-        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/Y3vEmhQQbto?si=yOWsaC8aVG_hCxOC" title="YouTube video player" loading="eager">
-        </iframe>
-        <p class="credit">[mix & master]</p>
-      </div>
-      <div class="embed youtube center-single">
-        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/RtfhpJwiSDU?si=RO1D4SPHQDZPzsBt" title="YouTube video player" loading="eager">
-        </iframe>
-        <p class="credit">[co-produced, mix & master]</p>
+        <p class="credit">[location sound]</p>
       </div>
 
-      <!-- Spotify Playlist (fixe Höhe via CSS-Variable; Größe mit .s/.m/.l steuerbar) -->
-        <div class="embed spotify">
-        <iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen="" class="requires-consent" data-src="https://open.spotify.com/embed/playlist/3Dx1Mv3YxzqyDBACvLPxs4?utm_source=generator&amp;theme=0">
+      <div class="embed youtube">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/g0Gb0Xr-8Zg?si=c-bingUoxB1wIX_7" title="YouTube video player" loading="eager">
         </iframe>
+        <p class="credit">[location sound, guitar performance]</p>
+      </div>
+
+      <div class="embed youtube">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/7G2HD3-i-M8?si=8wNlxVkcQHxao7uL" title="YouTube video player" loading="eager">
+        </iframe>
+        <p class="credit">[location sound]</p>
+      </div>
+
+      <div class="embed youtube">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/Iu_Ku4pFh1A?si=2xI_5ygJkHNUk_l4" title="YouTube video player" loading="eager">
+        </iframe>
+        <p class="credit">[location sound]</p>
+      </div>
+
+      <div class="embed youtube">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/3mEipvT5p-Q?si=I0QxDv7rft2pm8cj" title="YouTube video player" loading="eager">
+        </iframe>
+        <p class="credit">[co-composition for music]</p>
+      </div>
+      
+      <div class="embed youtube">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/PJ5_d925Mcc?si=az_tmn222Xtgf8-k" title="YouTube video player" loading="eager">
+        </iframe>
+        <p class="credit">[guitar composition]</p>
       </div>
 
     </div>
   </section>
 
-  <!-- Services Section -->
-  <section class="wrap section" id="services">
-    <h2>services.</h2>
-    <div class="services-grid">
+<!-- Services Section -->
+<section class="wrap section" id="services">
+  <h2>services.</h2>
+  <div class="services-grid">
 
-      <!-- Mixing & Mastering -->
-      <article class="service-card">
-      <h3>Mixing &amp; Mastering</h3>
+    <!-- Location Sound -->
+    <article class="service-card">
+      <h3>Location Sound</h3>
       <a class="service-img" href="#contact">
-      <img alt="Mixing console" src="/assets/img/services/mixing.jpg" loading="lazy"/>
+        <img alt="Location Sound" src="/assets/img/services/sound.jpg" loading="lazy"/>
       </a>
-      <p class="service-desc">Available for projects of any size. <br> From a quick vocal mix to a full album.
-      </article>
+      <p class="service-desc">
+        Capturing production sound on set. <br>
+        From setup to recording and handoff.
+      </p>
+    </article>
 
-      <!-- Recording & Producing -->
-      <article class="service-card">
-      <h3> Producing &amp; Recording</h3>
+    <!-- Sound Design -->
+    <article class="service-card">
+      <h3>Sound Design</h3>
       <a class="service-img" href="#contact">
-      <img alt="Recording session" src="/assets/img/services/recording.jpg" loading="lazy"/>
+        <img alt="Sound Design" src="/assets/img/services/sound_design.jpg" loading="lazy"/>
       </a>
-      <p class="service-desc">Capturing your performance. <br> In the studio or on location with a mobile rig.</p>
-      </article>
+      <p class="service-desc">
+        Designing and editing sound for picture. <br>
+        Effects, Foley, and atmospheres ready for post.
+      </p>
+    </article>
 
-      <!-- Session / Live Playing -->
-      <article class="service-card">
-      <h3>Session &amp; Live</h3>
+    <!-- Composition -->
+    <article class="service-card">
+      <h3>Composition</h3>
       <a class="service-img" href="#contact">
-      <img alt="Session &amp; live playing" src="/assets/img/services/session.png" loading="lazy"/>
+        <img alt="Composition" src="/assets/img/services/composition.jpg" loading="lazy"/>
       </a>
-      <p class="service-desc">Bass and guitar for studio or stage. <br> Tight and reliable.</p>
-      </article>
+      <p class="service-desc">
+        Writing and producing original music for film. <br>
+        Delivered as synced stems or full scores.
+      </p>
+    </article>
 
-    </div>
+  </div>
 
     <!-- zentraler Booking-Button -->
     <aside class="gallery-footer">
@@ -237,42 +237,9 @@
   </section>
 
   <!-- Clients Section -->
-  <section class="wrap section" id="clients">
-    <h2>clients.</h2>
+  <section class="wrap section" id="references">
+    <h2>references.</h2>
     <ul class="clients-grid">
-      <li class="client-item">
-          badbadbad.
-      </li>
-      <li class="client-item">
-          JOËL - JOÃO
-      </li>
-      <li class="client-item">
-          TAMU
-      </li>
-      <li class="client-item">
-          NARÎNÊ
-      </li>
-      <li class="client-item">
-          Crime City Boyz
-      </li>
-      <li class="client-item">
-          Jan Scharfenberg
-      </li>
-      <li class="client-item">
-          Lost Tape
-      </li>
-      <li class="client-item">
-          Topgolf
-      </li>
-      <li class="client-item">
-          Zalando
-      </li>
-      <li class="client-item">
-          AS Audio
-      </li>
-      <li class="client-item">
-          Songsterr
-      </li>
       <li class="client-item">
           Spaghettieis 
           <span class="line">(Musical)</span>
@@ -290,7 +257,7 @@
             <span class="line">(Premiere Aftermovie)</span>
       </li>
       <li class="client-item">
-            Die Landarztpraxis
+            Die Landarztpraxis - Sat1 -
       <span class="line">(Daily Soap)</span>
       </li>
       <li class="client-item">
@@ -310,18 +277,34 @@
             Toni
             <span class="line">(Kurzfilm)</span>
       </li>
+            <li class="client-item">
+          Jan Scharfenberg
+      </li>
+      <li class="client-item">
+          Lost Tape
+      </li>
+      <li class="client-item">
+          Topgolf
+      </li>
+      <li class="client-item">
+          AS Audio
+      </li>
+      <li class="client-item">
+          Songsterr
+      </li>
       <!-- … beliebig erweitern … -->
     </ul>
   </section>
 
-  <!-- Studio Section -->
-  <section class="wrap section" id="studio">
-    <h2>studio.</h2>
+  <!-- gallery Section -->
+  <section class="wrap section" id="gallery">
+    <h2>gallery.</h2>
     <div class="gallery-layout">
-      <div class="media-grid js-gallery"
-          data-base="/assets/img/gallery/Studio%20Bilder/"
+      <div class="media-grid js-gallery" 
+          style="--gallery-ar: 4/5"
+          data-base="/assets/img/gallery/Film%20Bilder/"
           data-ext="jpg"
-          data-page="6"
+          data-page="3"
           data-chunk="3">
       </div>
 
@@ -370,45 +353,43 @@
     </div>
   </section> -->
 
-  <!-- About Section -->
-  <section class="wrap section" id="about">
-    <h2>about.</h2>
+<!-- About Section -->
+<section class="wrap section" id="about">
+  <h2>about.</h2>
 
-    <article class="about-flow">
-      <figure class="about-photo">
-        <img src="/assets/img/Rose Guitar Square.jpg" alt="Jonathan Heart" loading="lazy">
-      </figure>
+  <article class="about-flow">
+    <figure class="about-photo">
+      <img src="/assets/img/film_about.jpg" alt="Jonas Röseberg Portrait" loading="lazy">
+    </figure>
 
-      <p class="slogan">clarity through distortion.</p>
-    <p>Hi, I’m Jonathan (Jonas Röseberg) — a location sound recordist based near Dortmund and active in Berlin. I focus on calm sets and intelligible dialogue: clear gain structure, proper mic placement, and fast troubleshooting so camera and talent can work without waiting for sound.</p>
-    <p>I’m comfortable with timecode (LTC & metadata), multi‑wireless setups, and quick hand‑offs to DIT or post. For smaller projects I also handle dialogue edit, cleanup, and delivery to spec.</p>
-    <p>Credits include indie narrative, short films, branded content and doc pieces. I’m happy to jump in early to plan lav/boom strategy and reduce fix‑it‑in‑post.</p>
-    
-    </article>
+    <p class="slogan">sound that tells the story.</p>
+    <p>I’m <strong>Jonas Röseberg</strong>, a <strong>location sound recordist</strong> and <strong>production sound mixer</strong> based in Berlin, working on projects throughout Germany and abroad.</p>
+    <p>Alongside production sound, I work as a <strong>composer</strong> and <strong>sound designer</strong>. My background in music gives me a trained sense for tone, timing, and space, while years of on-set experience have shaped a precise and reliable workflow. I approach every project with attention to detail and a clear understanding of how sound shapes emotion and narrative, with a consistent sound image from set to final mix.</p>
+    <p>I work on <strong>films</strong>, <strong>independent productionss</strong>, <strong>documentaries</strong>, <strong>commercials</strong>, and <strong>musical productions</strong>, focusing on natural dialogue, balanced sound, and smooth collaboration.</p>
+  </article>
 
-      <!-- About: Gallery -->
-      <div class="gallery-layout">
+    <!-- About: Gallery -->
+<!--      <div class="gallery-layout">
         <div class="media-grid js-gallery"
             data-base="/assets/img/gallery/About%20Bilder/"
             data-ext="jpg"
             data-page="0"
-            data-chunk="3"
+            data-chunk="0"
             data-lightbox="false">
         </div>
             
         <aside class="gallery-footer">
           <button class="btn-more js-gallery-more" hidden>Load more</button>
         </aside>
-      </div>
-
+      </div> -->
   </section>
 
   <!-- Contact Section -->
   <section class="wrap section" id="contact">
     <h2>contact.</h2>
     <div class="contact-info">
-      <p><strong>Jonathan Heart</strong></p>
-      <p><a href="mailto:jonath.heart@gmail.com">jonath.heart@gmail.com</a></p>
+      <p><strong>Jonas Röseberg</strong></p>
+      <p><a href="mailto:jonas.roesebergt@gmail.com">jonas.roeseberg@gmail.com</a></p>
       <p><strong>Phone / Whatsapp:</strong></p>
       <p>+49 178 406 10 20</p>
     </div>
@@ -419,9 +400,6 @@
     <p class="social-links">
       <a aria-label="Instagram" href="https://instagram.com/itsjonathanheart" target="_blank">
       <span class="icon-mask" style="--icon: url('/assets/icons/Instagram.svg'); width: 25px;"></span>
-      </a>
-      <a aria-label="Spotify" href="https://open.spotify.com/artist/4jcReINTJLZewFgkzEqmxK?si=FpjnMYeQTrChplwueQZ5Dg" target="_blank">
-      <span class="icon-mask" style="--icon: url('/assets/icons/Spotify.svg'); width: 25px"></span>
       </a>
       <a aria-label="YouTube" href="https://youtube.com/@jonathanheartmusic" target="_blank">
       <span class="icon-mask" style="--icon: url('/assets/icons/Youtube.svg'); width: 28px;"></span>

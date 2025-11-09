@@ -181,11 +181,31 @@
         </iframe>
         <p class="credit">[mix & master]</p>
       </div>
-      <div class="embed youtube center-single">
+      <div class="embed youtube">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/PJ5_d925Mcc?si=az_tmn222Xtgf8-k" title="YouTube video player" loading="eager">
+        </iframe>
+        <p class="credit">[guitar composition]</p>
+      </div>
+
+       <div class="embed youtube">
         <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/RtfhpJwiSDU?si=RO1D4SPHQDZPzsBt" title="YouTube video player" loading="eager">
         </iframe>
         <p class="credit">[co-produced, mix & master]</p>
       </div>
+
+       <div class="embed youtube">
+        <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="requires-consent" data-src="https://www.youtube.com/embed/ouyFN0YHPyU?si=Y0oJJSM7-HepDOwf" title="YouTube video player" loading="eager">
+        </iframe>
+        <p class="credit">[co-produced, synthesizer recording]</p>
+      </div>
+
+      
+      
+
+
+
+
+
 
       <!-- Spotify Playlist (fixe Höhe via CSS-Variable; Größe mit .s/.m/.l steuerbar) -->
         <div class="embed spotify">
@@ -207,7 +227,7 @@
       <a class="service-img" href="#contact">
       <img alt="Mixing console" src="/assets/img/services/mixing.jpg" loading="lazy"/>
       </a>
-      <p class="service-desc">Available for projects of any size. <br> From a quick vocal mix to a full album.
+      <p class="service-desc">Available for projects of any size. <br> From a quick vocal mix to a full album.</p>
       </article>
 
       <!-- Recording & Producing -->
@@ -376,7 +396,7 @@
 
     <article class="about-flow">
       <figure class="about-photo">
-        <img src="/assets/img/Rose Guitar Square.jpg" alt="Jonathan Heart" loading="lazy">
+        <img src="/assets/img/music_about.jpg" alt="Jonathan Heart" loading="lazy">
       </figure>
 
       <p class="slogan">clarity through distortion.</p>
