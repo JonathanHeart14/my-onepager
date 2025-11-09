@@ -138,7 +138,7 @@
         <a aria-label="YouTube" href="https://youtube.com/@jonathanheartmusic" target="_blank">
         <span class="icon-mask" style="--icon: url('/assets/icons/Youtube.svg'); width:45px;"></span>
         </a>
-        <a aria-label="Email" href="mailto:jonath.heart@gmail.com" target="_blank">
+        <a aria-label="Email" href="mailto:info@jonathan-heart.com" target="_blank">
         <span class="icon-mask" style="--icon: url('/assets/icons/Mail.svg'); width:41px;"></span>
         </a>
       </div>
@@ -429,7 +429,7 @@
     <h2>contact.</h2>
     <div class="contact-info">
       <p><strong>Jonathan Heart</strong></p>
-      <p><a href="mailto:jonath.heart@gmail.com">jonath.heart@gmail.com</a></p>
+      <p><a href="mailto:info@jonathan-heart.com">info@jonathan-heart.com</a></p>
       <p><strong>Phone / Whatsapp:</strong></p>
       <p>+49 178 406 10 20</p>
     </div>
@@ -447,7 +447,7 @@
       <a aria-label="YouTube" href="https://youtube.com/@jonathanheartmusic" target="_blank">
       <span class="icon-mask" style="--icon: url('/assets/icons/Youtube.svg'); width: 28px;"></span>
       </a>
-      <a aria-label="Email" href="mailto:jonath.heart@gmail.com" target="_blank">
+      <a aria-label="Email" href="mailto:info@jonathan-heart.com" target="_blank">
       <span class="icon-mask" style="--icon: url('/assets/icons/Mail.svg'); width: 28px;"></span>
       </a>
     </p>

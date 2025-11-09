@@ -135,7 +135,7 @@
         <a aria-label="YouTube" href="https://youtube.com/@jonathanheartmusic" target="_blank">
         <span class="icon-mask" style="--icon: url('/assets/icons/Youtube.svg'); width:45px;"></span>
         </a>
-        <a aria-label="Email" href="mailto:jonath.heart@gmail.com" target="_blank">
+        <a aria-label="Email" href="mailto:info@jonasroeseberg.com" target="_blank">
         <span class="icon-mask" style="--icon: url('/assets/icons/Mail.svg'); width:41px;"></span>
         </a>
       </div>
@@ -389,7 +389,7 @@
     <h2>contact.</h2>
     <div class="contact-info">
       <p><strong>Jonas Röseberg</strong></p>
-      <p><a href="mailto:jonas.roesebergt@gmail.com">jonas.roeseberg@gmail.com</a></p>
+      <p><a href="mailto:info@jonasroeseberg.com">info@jonasroeseberg.com</a></p>
       <p><strong>Phone / Whatsapp:</strong></p>
       <p>+49 178 406 10 20</p>
     </div>
@@ -404,7 +404,7 @@
       <a aria-label="YouTube" href="https://youtube.com/@jonathanheartmusic" target="_blank">
       <span class="icon-mask" style="--icon: url('/assets/icons/Youtube.svg'); width: 28px;"></span>
       </a>
-      <a aria-label="Email" href="mailto:jonath.heart@gmail.com" target="_blank">
+      <a aria-label="Email" href="mailto:info@jonasroeseberg.com" target="_blank">
       <span class="icon-mask" style="--icon: url('/assets/icons/Mail.svg'); width: 28px;"></span>
       </a>
     </p>
