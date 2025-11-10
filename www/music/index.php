@@ -103,7 +103,7 @@
       <ul class="nav-list">
         <li><a href="#work">selected work.</a></li>
         <li><a href="#services">services.</a></li>
-        <li><a href="#clients">clients.</a></li>
+        <li><a href="#references">references.</a></li>
         <li><a href="#studio">studio.</a></li>
 <!--    <li><a href="#music">music.</a></li> -->
         <li><a href="#about">about.</a></li>
@@ -256,9 +256,9 @@
     </aside>
   </section>
 
-  <!-- Clients Section -->
-  <section class="wrap section" id="clients">
-    <h2>clients.</h2>
+  <!-- References Section -->
+  <section class="wrap section" id="references">
+    <h2>references.</h2>
     <ul class="clients-grid">
       <li class="client-item">
           badbadbad.
