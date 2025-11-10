@@ -1,0 +1,74 @@
+RewriteEngine On
+
+# 1) HTTPS erzwingen
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# 2) www -> non-www
+RewriteCond %{HTTP_HOST} ^www\.jonasroeseberg\.com$ [NC]
+RewriteRule ^ https://jonasroeseberg.com%{REQUEST_URI} [R=301,L]
+RewriteCond %{HTTP_HOST} ^www\.jonathan-heart\.com$ [NC]
+RewriteRule ^ https://jonathan-heart.com%{REQUEST_URI} [R=301,L]
+
+# 3) jonathan-heart.com Root intern aus /music/ liefern (ohne URL-Änderung)
+RewriteCond %{HTTP_HOST} ^jonathan-heart\.com$ [NC]
+RewriteRule ^$ music/ [L]
+
+# 4) /music auf jonasroeseberg.com → sauber zu jonathan-heart.com
+RewriteCond %{HTTP_HOST} ^jonasroeseberg\.com$ [NC]
+# exakt /music oder /music/
+RewriteRule ^music/?$ https://jonathan-heart.com/ [R=301,L]
+# alles darunter, Pfad ohne zusätzlichen Slash anhängen
+RewriteRule ^music/(.+)$ https://jonathan-heart.com/ [R=301,L]
+
+# 5) /film auf jonathan-heart.com → zu jonasroeseberg.com/film/
+RewriteCond %{HTTP_HOST} ^jonathan-heart\.com$ [NC]
+# exakt /film oder /film/
+RewriteRule ^film/?$ https://jonasroeseberg.com/film/ [R=301,L]
+# Unterpfade korrekt anhängen
+RewriteRule ^film/(.+)$ https://jonasroeseberg.com/film/$1 [R=301,L]
+
+# --- Caching / Expires (kompatibel) ---
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # HTML kaum cachen
+  ExpiresByType text/html "access plus 1 minute"
+
+  # CSS/JS: 7 Tage (Versionstring ?v=... erzwingt Updates)
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType text/javascript "access plus 7 days"
+
+  # Bilder & SVG: 30 Tage
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType image/png     "access plus 30 days"
+  ExpiresByType image/jpeg    "access plus 30 days"
+  ExpiresByType image/webp    "access plus 30 days"
+  ExpiresByType image/gif     "access plus 30 days"
+
+  # Fonts: 30 Tage
+  ExpiresByType font/woff2 "access plus 30 days"
+  ExpiresByType font/woff  "access plus 30 days"
+  ExpiresByType font/ttf   "access plus 30 days"
+  ExpiresByType font/otf   "access plus 30 days"
+</IfModule>
+
+# HTML nicht hart cachen
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  # Assets können public gecacht werden (wir nutzen ?v=...)
+  <FilesMatch "\.(css|js|png|jpe?g|gif|svg|webp|woff2?|ttf|otf)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+
+  # ETag sicher entfernen, falls erlaubt
+  Header unset ETag
+</IfModule>
+FileETag None
+
