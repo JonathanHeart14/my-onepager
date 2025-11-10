@@ -409,6 +409,15 @@ color: var(--accent);
   text-align:justify;
 }
 
+/* Mobile: sauberer Blocksatz */
+.about-flow p {
+  text-align: justify;
+  -webkit-hyphens: auto;
+          hyphens: auto;
+  overflow-wrap: anywhere;   /* falls mal ein langes Wort/URL kommt */
+  word-break: normal;        /* kein aggressives Brechen */
+}
+
 /* About-Container soll Floats „einsammeln“ */
 .about-flow::after {
   content: "";

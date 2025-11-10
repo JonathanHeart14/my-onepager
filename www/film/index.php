@@ -127,7 +127,7 @@
   <section class="hero landing">
     <div class="hero-inner">
       <h1 class="hero-title">Jonas Röseberg</h1>
-      <p class="hero-subtitle">location sound · sound design · post production</p>
+      <p class="hero-subtitle">location sound · sound design · composition</p>
       <div class="social-links">
         <a aria-label="Instagram" href="https://instagram.com/itsjonathanheart" target="_blank">
         <span class="icon-mask" style="--icon: url('/assets/icons/Instagram.svg')"></span>
@@ -212,7 +212,7 @@
       </a>
       <p class="service-desc">
         Designing and editing sound for picture. <br>
-        Effects, Foley, and atmospheres ready for post.
+        Effects, foley, and atmospheres ready for post.
       </p>
     </article>
 
@@ -357,7 +357,7 @@
 <section class="wrap section" id="about">
   <h2>about.</h2>
 
-  <article class="about-flow">
+  <article class="about-flow" lang="en">
     <figure class="about-photo">
       <img src="/assets/img/film_about.jpg" alt="Jonas Röseberg Portrait" loading="lazy">
     </figure>
@@ -365,7 +365,7 @@
     <p class="slogan">sound that tells the story.</p>
     <p>I’m <strong>Jonas Röseberg</strong>, a <strong>location sound recordist</strong> and <strong>production sound mixer</strong> based in Berlin, working on projects throughout Germany and abroad.</p>
     <p>Alongside production sound, I work as a <strong>composer</strong> and <strong>sound designer</strong>. My background in music gives me a trained sense for tone, timing, and space, while years of on-set experience have shaped a precise and reliable workflow. I approach every project with attention to detail and a clear understanding of how sound shapes emotion and narrative, with a consistent sound image from set to final mix.</p>
-    <p>I work on <strong>films</strong>, <strong>independent productionss</strong>, <strong>documentaries</strong>, <strong>commercials</strong>, and <strong>musical productions</strong>, focusing on natural dialogue, balanced sound, and smooth collaboration.</p>
+    <p>I work on <strong>films</strong>, <strong>independent productions</strong>, <strong>documentaries</strong>, <strong>commercials</strong>, and <strong>musical productions</strong>, focusing on natural dialogue, balanced sound, and smooth collaboration.</p>
   </article>
 
     <!-- About: Gallery -->

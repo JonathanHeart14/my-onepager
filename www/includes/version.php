@@ -1,3 +1,3 @@
 <?php
 // Ein Wert für alle Assets – änderst du nur, wenn CSS/JS geändert wurde
-$ASSET_VERSION = '2025-11-06v3';
+$ASSET_VERSION = '2025-11-10';

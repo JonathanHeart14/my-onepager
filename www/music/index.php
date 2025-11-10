@@ -310,7 +310,7 @@
             <span class="line">(Premiere Aftermovie)</span>
       </li>
       <li class="client-item">
-            Die Landarztpraxis
+            Die Landarztpraxis - Sat1 -
       <span class="line">(Daily Soap)</span>
       </li>
       <li class="client-item">
@@ -394,7 +394,7 @@
   <section class="wrap section" id="about">
     <h2>about.</h2>
 
-    <article class="about-flow">
+    <article class="about-flow" lang="en">
       <figure class="about-photo">
         <img src="/assets/img/music_about.jpg" alt="Jonathan Heart" loading="lazy">
       </figure>
@@ -402,7 +402,7 @@
       <p class="slogan">clarity through distortion.</p>
       <p>Jonathan Heart is a musician, producer and mixing engineer based in Berlin, Germany. His approach is shaped as much by instruments and live playing as by the technical craft of sound.</p>
       <p>In the studio he is less interested in perfection than in presence, keeping the rough edges that carry emotion. Mixing and mastering are ways of listening closely to the stories of others and enhancing them without erasing what makes them human.</p>
-      <p>As part of <em>badbadbad.</em> and in support of <em>Joël João</em>, Jonathan extends this philosophy into collaboration. On stage he is not looking for praise but for resonance, using sound as a way to connect and communicate.</p>
+      <p>As part of <em>badbadbad.</em> and in support of <em>Joël-João</em>, Jonathan extends this philosophy into collaboration. On stage he is not looking for praise but for resonance, using sound as a way to connect and communicate.</p>
       <p>After years in the studio and on stage technical abilities have moved to the background and made way for an understanding of music as a means to evoke emotion.</p>
     
     </article>

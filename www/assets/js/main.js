@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const isMobile = window.matchMedia('(max-width: 900px)').matches;
   document.querySelectorAll('.js-gallery').forEach(gal => {
     const limitedStart = ['#about', '#studio'];
-    const limitedMore = ['#about'];
+    const limitedMore = ['#about', '#studio', '#gallery'];
 
     if (limitedStart.some(sel => gal.closest(sel))) {
       const basePage = parseInt(gal.dataset.page || '3', 10);
