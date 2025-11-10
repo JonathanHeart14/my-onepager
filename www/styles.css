@@ -469,6 +469,7 @@ color: var(--accent);
     width: 100%;
     margin: 0 auto 16px; /* Bild oben, Text darunter */
     shape-outside: none;
+    max-width:100%;
   }
   #about .media-grid {margin: 0;}
 }
