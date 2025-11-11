@@ -515,7 +515,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // warte bis die Tap-Anim fertig ist, dann navigieren
       setTimeout(() => {
         window.location.href = href;
-      }, 500);
+      }, 350);
     }, { passive: false });
   })();
 });

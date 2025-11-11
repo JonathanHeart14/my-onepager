@@ -240,6 +240,12 @@ html.booting .site-toggle > a[aria-current="page"] {
   color: var(--accent);
 }
 
+.site-toggle > a[aria-current="page"].clicked {
+  transform: scale(1);
+  color: var(--accent);   /* bleibt hell statt Accent */
+  transform-origin: center;
+}
+
 /* make the left label grow to the LEFT, the right label to the RIGHT */
 .site-toggle > a:first-child[aria-current="page"]{ transform-origin: center; }
 .site-toggle > a:last-child[aria-current="page"] { transform-origin: center; }
