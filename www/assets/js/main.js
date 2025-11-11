@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // 🔹 Booting-Klasse nach dem ersten Render wieder entfernen:
   setTimeout(() => {
     document.documentElement.classList.remove('booting');
-  }, 50);
+  }, 0);
 });
 
 /* ========= 1) Footer-Jahr ========= */
@@ -118,6 +118,16 @@ document.addEventListener('DOMContentLoaded', function () {
       home.addEventListener('touchend', instantClose, { passive: true });
     }
 
+        // Site-Toggle schließt ggf. Menü sofort
+    const sitetoggles = document.querySelectorAll('.site-toggle a');
+    if (sitetoggles.length) {
+      const instantClose = () => { if (isOpen()) closeMenu(false); };
+      sitetoggles.forEach((a) => {
+        a.addEventListener('click', instantClose);
+        a.addEventListener('touchend', instantClose, { passive: true });
+    });
+  }
+
     syncStateToViewport();
     window.addEventListener('resize', syncStateToViewport, { passive: true });
   })();
@@ -125,24 +135,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 /* ========= 4) Gallery: mobile Page/Chunk anpassen ========= */
-(function () {
-  const isMobile = window.matchMedia('(max-width: 900px)').matches;
-  document.querySelectorAll('.js-gallery').forEach(gal => {
-    const limitedStart = ['#about', '#studio'];
-    const limitedMore = ['#about', '#studio', '#gallery'];
+(function setupResponsiveGalleryControls(){
+  const apply = () => {
+    const isMobile = window.matchMedia('(max-width: 900px)').matches;
+    document.querySelectorAll('.js-gallery').forEach(gal => {
+      const limitedStart = ['#about', '#studio'];
+      const limitedMore  = ['#about', '#studio', '#gallery'];
 
-    if (limitedStart.some(sel => gal.closest(sel))) {
-      const basePage = parseInt(gal.dataset.page || '3', 10);
-      const newPage = isMobile ? Math.max(0, Math.ceil(basePage / 2)) : basePage;
-      gal.dataset.page = String(newPage);
-    }
-    if (limitedMore.some(sel => gal.closest(sel))) {
-      const baseChunk = parseInt(gal.dataset.chunk || '3', 10);
-      const newChunk = isMobile ? Math.max(1, Math.ceil(baseChunk / 3)) : baseChunk;
-      gal.dataset.chunk = String(newChunk);
-    }
-  });
+      if (limitedStart.some(sel => gal.closest(sel))) {
+        const basePage = parseInt(gal.dataset.basePage || gal.dataset.page || '3', 10);
+        gal.dataset.basePage ??= String(basePage);
+        gal.dataset.page = String(isMobile ? Math.max(0, Math.ceil(basePage / 2)) : basePage);
+      }
+      if (limitedMore.some(sel => gal.closest(sel))) {
+        const baseChunk = parseInt(gal.dataset.baseChunk || gal.dataset.chunk || '3', 10);
+        gal.dataset.baseChunk ??= String(baseChunk);
+        gal.dataset.chunk = String(isMobile ? Math.max(1, Math.ceil(baseChunk / 3)) : baseChunk);
+      }
+    });
+  };
+  apply();
+  window.addEventListener('resize', apply, { passive: true });
 })();
+
 
 
 /* ========= 5) Autoposter für Videos (IntersectionObserver) ========= */
@@ -221,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const base = grid.dataset.base || '../assets/img/gallery/Studio%20Bilder/';
       const ext = grid.dataset.ext || 'jpg';
       const page = Math.max(0, parseInt(grid.dataset.page || '3', 10));
-      const chunk = Math.max(1, parseInt(grid.dataset.chunk || '3', 10));
+
 
       const scope = grid.closest('.gallery-layout') || document;
       const btn = scope.querySelector('.js-gallery-more');
@@ -306,6 +321,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (btn) {
         btn.addEventListener('click', (e) => {
           e.preventDefault(); e.stopPropagation();
+          const chunk = Math.max(1, parseInt(grid.dataset.chunk || '3', 10));
           renderNext(chunk);
           btn.blur();
         });
@@ -451,10 +467,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const home = document.querySelector('.home-link');
     if (!home) return;
 
+    const TAP_ANIM_MS = 250; // Dauer der CSS-Animation
+
     const pulseOn = () => {
-      home.classList.add('tapped');
+      home.classList.add('clicked');
       clearTimeout(pulseOn._t);
-      pulseOn._t = setTimeout(() => home.classList.remove('tapped'), 100);
+      pulseOn._t = setTimeout(() => home.classList.remove('clicked'), TAP_ANIM_MS);
     };
 
     function nearHome(touch, expand = 14) {
@@ -473,13 +491,39 @@ document.addEventListener('DOMContentLoaded', function () {
       if (nearHome(t, 10)) pulseOn();
     }, { passive: true });
 
-    home.addEventListener('touchstart', () => pulseOn(), { passive: true });
-    home.addEventListener('mousedown', () => pulseOn());
+    // Puls sofort bei Down
+    home.addEventListener('pointerdown', (e) => {
+      // optional: e.preventDefault() falls du iOS-Highlight komplett killen willst -> dann {passive:false}
+      pulseOn();
+    }, { passive: true });
+
+    // ⬇️ NEU: Navigation nach Anim-Delay
+    home.addEventListener('click', (e) => {
+      const href = home.getAttribute('href');
+      if (!href) return;           // nichts zu tun
+
+      e.preventDefault();          // sofort nicht navigieren
+      // optional: Mobile-Menü schließen
+      try {
+        const overlay = document.querySelector('.nav-overlay');
+        if (overlay && overlay.hasAttribute('data-open')) {
+          overlay.removeAttribute('data-open');
+          document.body.classList.remove('menu-open');
+        }
+      } catch {}
+
+      // warte bis die Tap-Anim fertig ist, dann navigieren
+      setTimeout(() => {
+        window.location.href = href;
+      }, 500);
+    }, { passive: false });
   })();
 });
 
 
 /* ========= 10) Pulse für .site-toggle Links + visited-Hack ========= */
+/* ausgeklammert, weil das ganze eigentlich über die clicked funktion läuft. damit ist auch der double tap bug entfernt, weil halt beides aufgerufen wurde. clicked und tapped klasse
+
 document.addEventListener('DOMContentLoaded', function () {
   const links = document.querySelectorAll('.site-toggle > a');
 
@@ -983,7 +1027,7 @@ linksAll.forEach(a => {
   const links = document.querySelectorAll('.site-toggle a');
   if (!links.length) return;
 
-  const CLICK_ANIM_MS = 180; // Dauer wie in CSS (scale-Down)
+  const CLICK_ANIM_MS = 250; // Dauer wie in CSS (scale-Down)
 
   const triggerClickAnim = (a) => {
     a.classList.add('clicked');
@@ -996,17 +1040,7 @@ linksAll.forEach(a => {
     const href = a.getAttribute('href');
     if (!href) return;
 
-    // Mobile-Menü schließen (falls offen)
-    try {
-      const overlay = document.querySelector('.nav-overlay');
-      if (overlay && overlay.hasAttribute('data-open')) {
-        overlay.removeAttribute('data-open');
-        document.body.classList.remove('menu-open');
-      }
-    } catch {}
-
     // Kurze visuelle Rückmeldung und dann navigieren
-    triggerClickAnim(a);
     setTimeout(() => { window.location.href = href; }, CLICK_ANIM_MS);
   };
 
@@ -1043,9 +1077,6 @@ linksAll.forEach(a => {
     });
   });
 })();
-
-
-
 
 
     window.addEventListener('scroll', () => { requestAnimationFrame(updateActive); }, { passive: true });

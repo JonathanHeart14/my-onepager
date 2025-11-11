@@ -123,9 +123,15 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
   padding: 0;
   color: var(--fg);
   text-decoration: none;
-  transition: color .15s ease;
+  transition: color .25s ease, transform .25s ease;
 }
-.home-link.tapped { color: var(--accent) } /* erbt auf SVG via currentColor */
+
+.home-link.clicked {
+  color: var(--accent);
+  transform: scale(0.80);
+  transform-origin: center;
+ } /* erbt auf SVG via currentColor */
+
 .home-icon { display:block; width:24px; height:24px }
 
 @media (max-width: 900px) {
@@ -150,6 +156,7 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
   .nav-list a.clicked {
   transform: scale(0.92);
   transform-origin: center;
+  color: var(--accent);
 }
 
 /* Auch im Mobile-Overlay */
@@ -205,7 +212,7 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
   line-height: 1;
   font-size: 1.15rem;                /* base size */
   font-weight: 500;
-  transition: color .25s ease, transform .35s ease, font-weight .45s ease;
+  transition: color .20s ease, transform .40s ease, font-weight .40s ease;
   isolation: isolate;
 }
 
@@ -223,22 +230,24 @@ html.booting .site-toggle > a[aria-current="page"] {
 .site-toggle > a[aria-current="page"]{
   color: var(--active);
   font-weight: 500;
-  transform: scale(1.15);
+  transform: scale(1.12);
+  transition: transform 0.30s ease;
 }
 
 .site-toggle a.clicked {
   transform: scale(0.88);
   transform-origin: center;
+  color: var(--accent);
 }
 
 /* make the left label grow to the LEFT, the right label to the RIGHT */
 .site-toggle > a:first-child[aria-current="page"]{ transform-origin: center; }
 .site-toggle > a:last-child[aria-current="page"] { transform-origin: center; }
 
-/* Pulse-Farbe wie beim Home-Icon */
+/* Pulse-Farbe wie beim Home-Icon 
 .site-toggle > a.tapped { 
 color: var(--accent);
-}
+} */
 
 @media (max-width: 900px){
   .site-toggle{ font-size: 1rem; --toggle-gap: 8px; margin-left: 0px; left: 53%; transform: translateX(-50%);}
