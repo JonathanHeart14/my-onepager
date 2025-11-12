@@ -473,7 +473,8 @@ color: var(--accent);
 /* Mobile/Tablet: stacken, Float aufheben */
 @media (max-width: 900px) {
   
-  .slogan{ text-align:center
+  .about-flow .slogan {
+    text-align: center;
   }
   .about-flow { 
     max-width: var(--tile-w);
