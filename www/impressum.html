@@ -82,7 +82,21 @@
       box-shadow: 0 0px 6px 8px rgba(0,0,0,.5);
       z-index: 1000;
     }
-    .legal-topbar a{ color: var(--fg); text-decoration:none; font-weight:600 }
+    .legal-topbar a{
+      color: var(--fg);
+      text-decoration:none;
+      font-weight:600;
+      transition: transform .25s ease, color .25s ease
+    }
+
+    .legal-topbar a.clicked {
+      transform: scale(0.92);
+      transform-origin: center;
+      color: var(--accent);
+    }
+
+    .legal-topbar a:hover{ color: var(--accent) }
+
     main{ margin-top: calc(var(--header-h, 64px) + 56px); } /* Platz für Topbar */
   </style>
 </head>
@@ -233,6 +247,50 @@
 })();
 </script>
 
+<script>
+/* ========= 9) Pulse-Effekt Home-Icon ========= */
+
+document.addEventListener('DOMContentLoaded', function () {
+  (() => {
+    const home = document.querySelector('.legal-topbar a#backLink');
+    if (!home) return;
+
+    const TAP_ANIM_MS = 250; // Dauer der CSS-Animation
+
+    const pulseOn = () => {
+      home.classList.add('clicked');
+      clearTimeout(pulseOn._t);
+      pulseOn._t = setTimeout(() => home.classList.remove('clicked'), TAP_ANIM_MS);
+    };
+
+    window.addEventListener('touchstart', (e) => {
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+      pulseOn();
+    }, { passive: true });
+
+    // Puls sofort bei Down
+    home.addEventListener('pointerdown', (e) => {
+      // optional: e.preventDefault() falls du iOS-Highlight komplett killen willst -> dann {passive:false}
+      pulseOn();
+    }, { passive: true });
+
+    // ⬇️ NEU: Navigation nach Anim-Delay
+    home.addEventListener('click', (e) => {
+      const href = home.getAttribute('href');
+      if (!href) return;           // nichts zu tun
+
+      e.preventDefault();          // sofort nicht navigieren
+
+      // warte bis die Tap-Anim fertig ist, dann navigieren
+      setTimeout(() => {
+        window.location.href = href;
+      }, 400);
+    }, { passive: false });
+  })();
+});
+
+</script>
 
 
 
