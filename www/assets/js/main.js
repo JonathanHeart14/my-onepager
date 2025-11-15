@@ -66,6 +66,29 @@ document.addEventListener('DOMContentLoaded', function () {
     function handleOverlayClick(e) { if (e.target.closest('a')) closeMenu(true); }
     function handleKeydown(e) { if (e.key === 'Escape' && isOpen()) closeMenu(true); }
 
+    //---------------------------------------------------------
+    // 1) Footer-Builder: Holt Hero-Texte oder nutzt Fallback
+    //---------------------------------------------------------
+    function buildFooterText() {
+      const year = new Date().getFullYear();
+
+      // Hero auslesen
+      const heroTitle = document.querySelector('.hero-title');
+      const heroSubtitle = document.querySelector('.hero-subtitle');
+
+      if (heroTitle && heroSubtitle) {
+        const name = heroTitle.textContent.trim();
+        const roles = heroSubtitle.textContent.trim();
+        return `© ${year} ${name}<br>${roles}`;
+      }
+
+      // Fallback
+      return `© ${year} Jonathan Heart / Jonas Röseberg`;
+    }
+
+
+
+
     function initMobile() {
       if (initialized) return;
 
@@ -74,11 +97,14 @@ document.addEventListener('DOMContentLoaded', function () {
         overlay = document.createElement('ul');
         overlay.id = 'mobile-menu';
         overlay.className = 'nav-overlay';
+
+        const footerText = buildFooterText();
+
         overlay.innerHTML = `${srcList.innerHTML}
           <li class="nav-footer">
-            <p>© ${new Date().getFullYear()} Jonathan Heart<br>
-            musician · producer · mixing engineer</p>
+            <p>${footerText}</p>
           </li>`;
+          
         overlay.setAttribute('aria-hidden', 'true');
         document.body.appendChild(overlay);
       }

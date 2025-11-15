@@ -13,7 +13,7 @@
 
 <?php require $_SERVER['DOCUMENT_ROOT'].'/includes/head.php'; ?>
 
-<title>Jonathan Heart — Location Sound & Film Audio</title>
+<title>Jonas Röseberg — Location Sound & Film Audio</title>
 <meta name="description" content="location sound · sound design · composition" />
 <link rel="canonical" href="https://jonasroeseberg.com/film/">
 
