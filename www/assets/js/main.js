@@ -109,6 +109,21 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.appendChild(overlay);
       }
 
+    const TAP_ANIM_MS = 250; // Dauer der CSS-Animation
+
+    const pulseOn = () => {
+      burger.classList.add('clicked');
+      clearTimeout(pulseOn._t);
+      pulseOn._t = setTimeout(() => burger.classList.remove('clicked'), TAP_ANIM_MS);
+    };
+
+    // Puls sofort bei Down
+    burger.addEventListener('pointerdown', (e) => {
+      // optional: e.preventDefault() falls du iOS-Highlight komplett killen willst -> dann {passive:false}
+      pulseOn();
+    }, { passive: true });
+
+
       burger.addEventListener('click', handleBurgerClick);
       overlay.addEventListener('click', handleOverlayClick);
       window.addEventListener('keydown', handleKeydown);
@@ -136,23 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
       else teardownDesktop();
     }
 
-    // Home-Icon schließt ggf. Menü sofort
-    const home = document.querySelector('.home-link');
-    if (home) {
-      const instantClose = () => { if (isOpen()) closeMenu(false); };
-      home.addEventListener('click', instantClose);
-      home.addEventListener('touchend', instantClose, { passive: true });
-    }
 
-        // Site-Toggle schließt ggf. Menü sofort
-    const sitetoggles = document.querySelectorAll('.site-toggle a');
-    if (sitetoggles.length) {
-      const instantClose = () => { if (isOpen()) closeMenu(false); };
-      sitetoggles.forEach((a) => {
-        a.addEventListener('click', instantClose);
-        a.addEventListener('touchend', instantClose, { passive: true });
-    });
-  }
 
     syncStateToViewport();
     window.addEventListener('resize', syncStateToViewport, { passive: true });
@@ -531,12 +530,16 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();          // sofort nicht navigieren
       // optional: Mobile-Menü schließen
       try {
-        const overlay = document.querySelector('.nav-overlay');
+        const overlay = document.getElementById('mobile-menu');
+        const burger = document.querySelector('.burger');
         if (overlay && overlay.hasAttribute('data-open')) {
           overlay.removeAttribute('data-open');
           document.body.classList.remove('menu-open');
+          if (burger) { burger.setAttribute('aria-expanded', 'false'); burger.classList.remove('active'); }
         }
-      } catch {}
+     } catch {}
+
+
 
       // warte bis die Tap-Anim fertig ist, dann navigieren
       setTimeout(() => {
@@ -881,8 +884,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const sections = Array.from(document.querySelectorAll('section[id]'))
       .filter(s => s.id !== HERO_ID);
 
-    const hasSelectedWork = !!document.getElementById('selected-work');
-
     const setActive = (idOrNull) => {
       linksAll.forEach(a => {
         const hit = idOrNull && a.getAttribute('href') === `#${idOrNull}`;
@@ -949,15 +950,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (s.offsetTop <= anchor) cand = s;
       }
 
-      if (cand && hasSelectedWork) {
-        const sw = document.getElementById('selected-work');
-        if (sw) {
-          const center = (window.scrollY || 0) + window.innerHeight * 0.60;
-          const dCand = Math.abs(center - (cand.offsetTop + cand.offsetHeight * 0.5));
-          const dSW = Math.abs(center - (sw.offsetTop + sw.offsetHeight * 0.5));
-          if (dSW < dCand * 0.88) cand = sw;
-        }
-      }
       return cand ? cand.id : null;
     }
 
@@ -1029,7 +1021,7 @@ linksAll.forEach(a => {
   const triggerClickAnim = () => {
     a.classList.add('clicked');
     clearTimeout(a._clickT);
-    a._clickT = setTimeout(() => a.classList.remove('clicked'), 180);
+    a._clickT = setTimeout(() => a.classList.remove('clicked'), 250);
   };
 
   // Sofortiges, knackiges Feedback:
@@ -1065,6 +1057,18 @@ linksAll.forEach(a => {
   const navigateWithAnim = (a) => {
     const href = a.getAttribute('href');
     if (!href) return;
+
+        // optional: Mobile-Menü schließen
+      try {
+        const overlay = document.getElementById('mobile-menu');
+        const burger = document.querySelector('.burger');
+        if (overlay && overlay.hasAttribute('data-open')) {
+          overlay.removeAttribute('data-open');
+          document.body.classList.remove('menu-open');
+          if (burger) { burger.setAttribute('aria-expanded', 'false'); burger.classList.remove('active'); }
+        }
+     } catch {}
+
 
     // Kurze visuelle Rückmeldung und dann navigieren
     setTimeout(() => { window.location.href = href; }, CLICK_ANIM_MS);

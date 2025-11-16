@@ -120,8 +120,8 @@
 
     <p class="impressum-links">
       <strong>Kontakt:</strong>
-      Telefon: +49 178 406 10 20<br>
-      E-Mail: <a href="mailto:j.roeseberg@googlemail.com">j.roeseberg@googlemail.com</a>
+      Telefon: <a href="tel:+491784061020" aria-label="Rufnummer: +49 178 406 10 20">+49 178 406 10 20</a><br>
+      E-Mail: <a href="mailto:info@jonasroeseberg.com">info@jonasroeseberg.com</a>
     </p>
 
     <p><strong>Umsatzsteuer:</strong>
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function () {
       pulseOn._t = setTimeout(() => home.classList.remove('clicked'), TAP_ANIM_MS);
     };
 
-    window.addEventListener('touchstart', (e) => {
+    home.addEventListener('touchstart', (e) => {
       const t = e.touches && e.touches[0];
       if (!t) return;
       pulseOn();

@@ -124,9 +124,11 @@
       Lüningstraße&nbsp;3<br>
       59423&nbsp;Unna<br>
       Deutschland<br><br>
-      Tel.: +49&nbsp;178&nbsp;406&nbsp;10&nbsp;20<br>
       <span class="impressum-links">
-        E-Mail: <a href="mailto:j.roeseberg@googlemail.com">j.roeseberg@googlemail.com</a>
+        Telefon: <a href="tel:+491784061020" aria-label="Rufnummer: +49 178 406 10 20">+49&nbsp;178&nbsp;406&nbsp;10&nbsp;20</a>
+      </span><br>
+      <span class="impressum-links">
+        E-Mail: <a href="mailto:info@jonasroeseberg.com">info@jonasroeseberg.com</a>
       </span><br>
       <span class="impressum-links">
         Website: <a href="https://www.jonasroeseberg.com" target="_blank" rel="noopener">www.jonasroeseberg.com</a>
@@ -291,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function () {
       pulseOn._t = setTimeout(() => home.classList.remove('clicked'), TAP_ANIM_MS);
     };
 
-    window.addEventListener('touchstart', (e) => {
+    home.addEventListener('touchstart', (e) => {
       const t = e.touches && e.touches[0];
       if (!t) return;
       pulseOn();

@@ -123,7 +123,7 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
   padding: 0;
   color: var(--fg);
   text-decoration: none;
-  transition: color .25s ease, transform .25s ease;
+  transition: color .20s ease, transform .25s ease;
 }
 
 .home-link.clicked {
@@ -212,7 +212,7 @@ a:focus, button:focus, .home-link:focus, .burger:focus { outline: none; box-shad
   line-height: 1;
   font-size: 1.15rem;                /* base size */
   font-weight: 500;
-  transition: color .20s ease, transform .40s ease, font-weight .40s ease;
+  transition: color .20s ease, transform .25s ease, font-weight .25s ease;
   isolation: isolate;
 }
 
@@ -231,7 +231,7 @@ html.booting .site-toggle > a[aria-current="page"] {
   color: var(--active);
   font-weight: 500;
   transform: scale(1.12);
-  transition: transform 0.30s ease;
+  transition: transform 0.15s ease;
 }
 
 .site-toggle a.clicked {
@@ -262,8 +262,13 @@ color: var(--accent);
 
 
 /* Burger */
-.burger { display:none; background:none; border:none; font-size:28px; cursor:pointer; color:var(--fg) }
+.burger { display:none; background:none; border:none; font-size:28px; cursor:pointer; color:var(--fg);  transition: color 0.20s ease, transform 0.25s ease; }
 .burger.active { color: var(--accent) }
+.burger.clicked {
+  transform: scale(0.80);
+  transform-origin: center;
+}
+
 
 /* Hover nur auf Geräten mit Maus */
 @media (hover: hover){
